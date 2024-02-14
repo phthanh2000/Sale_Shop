@@ -1,0 +1,17 @@
+/* Common styles */
+html, body {
+    margin: 0;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: inherit;   
+}
+
+.container-center {
+    max-width: 1000px;
+    padding: 0 15px;
+    width: 100%;
+    margin: auto;
+}

@@ -1,0 +1,204 @@
+/* Slide show */
+.slide-show {
+    height: 300px;
+    position: relative;
+}
+
+.slide-show .image-feature {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.6s ease;
+}
+
+.slide-show .control {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffffff;
+    font-size: 50px;
+    color: #000000;
+}
+
+.slide-show .pre {
+    left: 5px;
+}
+
+.slide-show .next {
+    right: 5px;
+}
+
+.slide-show .control .prev-button:hover, .slide-show .control .next-button:hover {
+    background: #f7f7f7;
+}
+
+/* List-image */
+.list-image {
+    display: flex;  
+    height: 100px;
+    width: 100%;
+}
+
+.list-image div {
+    flex: 1;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.list-image div img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.list-image .active, .dot:hover {
+    background: #fffa37;
+}
+
+.list-image .dot {
+    transition: all 0.6s ease;
+}
+
+/* Featured */
+.featured {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.featured .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.featured .col-lg-3 {
+    flex: 0 0 19%;
+    max-width: 19%;
+    padding: 5px 0.2%;
+}
+
+.featured .title {
+    text-align: center;
+}
+
+.featured .title h2{
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.featured .title h2::after{
+    position: absolute;
+    top: 30px;
+    right: 460px;
+    width: 80px;
+    height: 5px;
+    background: #000000;
+    content: "";
+    margin: 0 auto;
+}
+
+.featured .hot-products {
+    position: relative;
+}
+
+.featured .hot-products .control {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    color: #ffffff;
+    font-size: 40px;
+    color: #000000;
+    background: red;
+    height: 100%;
+}
+
+.featured .hot-products .pre {
+    left: 0;
+}
+
+.featured .hot-products .next {
+    right: 0;
+}
+
+.featured .product {
+    background: #f7f7f7;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.featured .product:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.featured .product:hover img {
+    margin-top: 5px !important;
+    transition: all 300ms ease-in-out;
+    max-height: 100%;
+}
+
+.featured .product:hover a {
+    color: blue !important;
+}
+
+.featured .product ul {  
+    display: inline-flex;
+    list-style: none;
+    font-size: 20px;
+    height: 25px;
+}
+
+.featured .product ul li {  
+    margin: 0px 5px;
+}
+
+.featured .product ul li svg:hover {  
+    color: #de0101;
+    font-size: 21px;
+}
+
+.featured .product .product-image {
+    padding: 7px 7px 0 7px;
+    height: 210px;
+}
+
+.featured .product .product-image img {
+    height: 200px;
+    width: 100%;
+}
+
+.featured .product .product-info {
+    padding-bottom: 5px;
+    overflow: hidden;
+}
+
+.featured .product .product-info a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.featured .product .product-name, .featured .product .product-code {
+    margin: 0 8px; 
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+/* Change css component Tab of React */
+.react-tabs {
+    font-size: 15px;
+}
+
+.react-tabs__tab-list {
+    border-bottom: none;
+}   
+
+.react-tabs__tab {
+    border: none;
+}
+
+.react-tabs__tab--selected, .react-tabs__tab:hover {
+    color: #ffffff;
+    background: #000000;
+    border-radius: 5px 5px 5px 5px !important;
+}

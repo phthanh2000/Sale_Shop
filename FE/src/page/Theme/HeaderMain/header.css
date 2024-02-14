@@ -1,0 +1,318 @@
+.header {
+    /* Fixed header when scrolling with code 
+    z-index: 1;
+    position: sticky;
+    top: 0; */
+    z-index: 1;
+    position: sticky;
+    top: 0;
+    max-width: 100%;
+    height: 140px;
+    background: #8e9eab;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(-170deg, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(-170deg, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+} 
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Header link */
+.header-link {
+    max-width: 100%;
+    height: 25px;
+    background-color: #fffa37;
+}
+
+.header-link .connect-link {
+    position: absolute;
+    top: 2px;
+    right: 35px;
+}
+
+.header-link .connect-link .facebook-link {
+    margin-left: 8px;
+    color: #0A68FE;
+    font-size: 20px;
+}
+
+.header-link .connect-link .instagram-link {
+    margin-left: 8px;
+    color: #E95950;
+    font-size: 20px;
+}
+
+.header-link  .connect-link .zalo-link {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    margin-left: 8px;
+    color: #0A68FE;
+    background-color: white;    
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+
+.header-link .connect-link .zalo-link svg{
+    margin: 2px;
+}
+
+/* Header top */
+.header-top-left {
+    flex: 0 0 25%;
+    max-width: 25%;
+    padding-right: 10px;
+    float: left;
+    width: 100%;
+    height: 80px;
+}
+
+.header-top-left .logo {
+    width: 100%;
+    height: 80px;
+}
+
+.header-top-center {
+    flex: 0 0 40%;
+    max-width: 40%;
+    padding-top: 18px;
+}
+
+.header-top-center .react-search-field {
+    width: 100%;
+    border: none !important;
+}
+
+.header-top-center .react-search-field-input {
+    height: 40px !important;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.header-top-center .react-search-field-button {
+    height: 40px !important;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.header-top-right {
+    flex: 0 0 30%;
+    max-width: 30%;
+    display: grid;
+    justify-content: end;
+    padding-top: 20px;
+}
+
+.header-top-right .cart-user{
+    display: flex;
+    column-gap: 40px;
+    list-style: none;
+}
+
+.header-top-right .cart-user li:hover a{
+    color: #fffa37;
+}
+
+.header-top-right .cart-user li:hover span{
+    background-color: #000000;
+}
+
+.header-top-right .cart-user li a{
+    font-size: 17px;
+    display: inline-block;
+    text-decoration: none;
+    color: #000000;
+}
+
+.header-top-right .cart-user li span{
+    background-color: #ffffff;
+    width: 20px;
+    height: 20px;
+    top: 40px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    position: absolute;
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 20px;  
+    margin-left: 2px; 
+}
+
+.header-top-right .cart-user li .cart {
+    margin-left: 18px;
+}
+
+.header-top-right .cart-user li .user-icon {
+    margin-left: 65px;
+}
+
+/* Header bottom  */
+.header-bottom-left {
+    flex: 0 0 25%;
+    max-width: 25%;
+    position: relative;
+}
+
+.header-bottom-left .menu-icon-text {
+    cursor: pointer;
+}
+
+.header-bottom-left .menu-icon-text .menu-icon{
+    float: left;
+    font-size: 30px;
+}
+
+.header-bottom-left .menu-icon-text .menu-text{
+    float: left;
+    font-size: 18px;
+    padding: 5px 0px;
+}
+
+.header-bottom-left .menu-item {
+    padding-top: 28px;
+}
+
+.header-bottom-left .menu-item .menu-item-show {
+    visibility: visible;
+    position: absolute;
+    list-style: none;
+    top: 35px;
+    width: 150px;
+    z-index: 10;
+}
+
+.header-bottom-left .menu-item .menu-item-hidden {
+    visibility: hidden;
+}
+
+.header-bottom-left .menu-item .menu-item-show li{
+    background-color: #000000;
+    list-style: none;
+    height: 30px;
+}
+
+.header-bottom-left .menu-item .menu-item-show li a{
+    color: #ffffff !important;
+    margin: 5px 30px; 
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.header-bottom-left .menu-item .menu-item-show .menu-item-tag-li:hover{
+    background-color: #fffa37 !important;
+}
+
+.header-bottom-left .menu-item .menu-item-show .menu-item-tag-li:hover .menu-item-tag-a {
+    color: #000000 !important;
+}
+
+.header-bottom-left .menu-item .menu-item-show .menu-item-tag-li:hover .menu-item-child {
+    visibility: visible !important;
+}
+
+.header-bottom-left .menu-item-child {
+    visibility: hidden;
+    position: absolute;
+    left: 150px;
+    transition: all, 0.01s;
+    z-index: 10;
+    width: 150px;
+}
+
+.header-bottom-left .menu-item-child li {
+    position: relative;
+    top: -20px;
+}
+
+.header-bottom-left .menu-item .menu-item-show .menu-item-child-tag-li:hover{
+    background-color: #fffa37 !important;
+}
+
+.header-bottom-left .menu-item .menu-item-show .menu-item-child-tag-li:hover a{
+    color: #000000 !important;
+}
+
+.header-bottom-right {
+    flex: 0 0 75%;
+    max-width: 75%;
+    position: relative;
+}
+
+.header-bottom-right .header-menu{
+    display: flex;
+    column-gap: 40px;
+    list-style: none;
+    padding-top: 6px;
+    padding-left: 10px;
+}
+
+.header-bottom-right .header-menu li .dropdown-icon{
+    position: absolute;
+    top: 8px;
+}
+
+.header-bottom-right .header-menu li:hover a{
+    color: #fffa37;
+}
+
+.header-bottom-right .header-menu li a{
+    font-size: 17px;
+    display: inline-block;
+    text-decoration: none;
+    color: #000000;
+}
+
+.header-bottom-right .header-menu li:hover .header-contact-dropdown{
+    visibility: visible;
+}
+
+.header-bottom-right .header-contact-dropdown {
+    visibility: hidden;
+    background-color: #000000;
+    position: absolute;
+    list-style: none;
+    transition: all, 0.1s;
+    z-index: 10;
+    top: 35px;
+}
+
+.header-bottom-right .header-contact-dropdown li {
+    height: 30px;
+}
+
+.header-bottom-right .header-contact-dropdown li a {
+    color: #ffffff !important;
+    margin: 5px 30px;    
+}
+
+.header-bottom-right .header-contact-dropdown li:hover{
+    background-color: #fffa37 !important;
+}
+
+.header-bottom-right .header-contact-dropdown li:hover a{
+    color: #000000 !important;
+}
+
+/* Desktop */
+@media screen and (min-width: 1200px) {
+
+}
+
+/* Laptop */
+@media screen and (min-width: 992px) {
+
+}
+
+/* Tablet */
+@media screen and (min-width: 768px) {
+    
+}
+
+/* Mobile */
+@media screen and (min-width: 600px) {
+    
+}

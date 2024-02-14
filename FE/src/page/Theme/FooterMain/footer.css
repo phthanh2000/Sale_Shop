@@ -1,0 +1,118 @@
+.footer {
+    max-width: 100%;
+    height: 450px;
+    background: #8e9eab;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(-170deg, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(-170deg, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Footer line */
+.footer .footer-line {
+    max-width: 100%;
+    height: 3px;
+    background-color: #000000;
+}
+
+/* Footer top, center */
+.footer-top-left, .footer-top-center {
+    flex: 0 0 25%;
+    max-width: 25%;
+    margin-top: 15px;
+}
+
+.footer-top-left a, .footer-top-center a {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.footer-top-left .account-menu, .footer-top-center .advertising-information {
+    list-style: none;
+}
+
+.footer-top-left .account-menu li a, .footer-top-center .advertising-information li a{
+    font-size: 15px;
+    font-weight: normal;
+    color: #000000;
+    text-decoration: none;
+    margin: 10px 0 0 10px;
+    line-height: 20px;
+}
+
+.footer-top-left .account-menu li a:hover ,.footer-top-center .advertising-information li a:hover{
+    font-size: 15px;
+    font-weight: normal;
+    color: #fffa37;
+    text-decoration: none;
+}
+
+.footer-top-right {
+    flex: 0 0 50%;
+    max-width: 50%;
+    margin-top: 15px;
+}
+
+.footer-top-right .introduce-shop a{
+    font-size: 25px;
+    font-weight: 700;
+    color: #FEF889;
+    margin-left: 10px;
+}
+
+.footer-top-right .logo-introduce{
+    float: left;
+    width: 20%;
+    height: 100%;
+}
+
+.footer-top-right .introduce-shop {
+    width: 80%;
+    float: left;
+}
+
+.footer-top-right .introduce-shop p{
+    margin-left: 20px;
+    line-height: 20px;
+}
+
+/* Footer bottom */
+.footer-bottom-left {
+    flex: 0 0 50%;
+    max-width: 50%;
+    margin-top: 20px;
+}
+
+.footer-bottom-left a {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.footer-bottom-left p {
+    font-size: 15px;
+    margin-left: 10px;
+    line-height: 20px;
+}
+
+.footer-bottom-left .link {
+    font-size: 15px;
+    text-decoration: none;
+    color: #000000;
+    font-weight: 100;
+}
+
+.footer-bottom-left .google-map {
+    border: 1px solid #000000;
+    width: 300px;
+    height: 200px;
+    padding: 5px 0 0 10px;
+}
+
+.footer-bottom-right {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding-top: 20px;
+}
