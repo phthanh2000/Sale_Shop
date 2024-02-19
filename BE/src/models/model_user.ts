@@ -9,7 +9,7 @@ export class Model_User {
   public static getAllUsers = async () => {
     const client = await pool.connect();
     try {
-      let queryOptions = `SELECT * FROM ${Model_User.tableName}`;
+      let queryOptions = `SELECT * FROM ${Model_User.tableName} ORDER BY ${Column_User.id}`;
       const result: QueryResult = await client.query(queryOptions);
       return result.rows;
     } finally {
@@ -45,6 +45,18 @@ export class Model_User {
                                 ${Column_User.updatedAt}= $4 
                             WHERE ${Column_User.email}= $5 RETURNING *`;
       const result: QueryResult = await client.query(queryOptions, [name ,email, pass, ,new Date(), email]);
+      return result.rows[0];
+    } finally {
+      client.release();
+    }
+  };
+
+  public static deleteUser = async (id: number) => {
+    const client = await pool.connect();
+    try {
+      const queryOptions = `DELETE FROM ${Model_User.tableName}
+                            WHERE ${Column_User.id} = $1 RETURNING *`;
+      const result: QueryResult = await client.query(queryOptions, [id]);
       return result.rows[0];
     } finally {
       client.release();

@@ -30,4 +30,14 @@ export class Controller_User {
         return res.status(400).send(`Error updateUser: ${error}`);
       }
     }
+
+    public static deleteUser = async (req: Request, res: Response) => {
+      try {
+        const id = req.body.id;
+        const users = await Model_User.deleteUser(id);
+        return res.status(200).json(users);
+      } catch (error) {
+        return res.status(400).send(`Error deleteUser: ${error}`);
+      }
+    }
 }

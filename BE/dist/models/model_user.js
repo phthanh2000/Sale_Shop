@@ -21,7 +21,7 @@ Model_User.tableName = `public."Users"`;
 Model_User.getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = yield connection_1.pool.connect();
     try {
-        let queryOptions = `SELECT * FROM ${_a.tableName}`;
+        let queryOptions = `SELECT * FROM ${_a.tableName} ORDER BY ${entity_user_1.Column_User.id}`;
         const result = yield client.query(queryOptions);
         return result.rows;
     }
@@ -57,6 +57,18 @@ Model_User.updateUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
                                 ${entity_user_1.Column_User.updatedAt}= $4 
                             WHERE ${entity_user_1.Column_User.email}= $5 RETURNING *`;
         const result = yield client.query(queryOptions, [name, email, pass, , new Date(), email]);
+        return result.rows[0];
+    }
+    finally {
+        client.release();
+    }
+});
+Model_User.deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const client = yield connection_1.pool.connect();
+    try {
+        const queryOptions = `DELETE FROM ${_a.tableName}
+                            WHERE ${entity_user_1.Column_User.id} = $1 RETURNING *`;
+        const result = yield client.query(queryOptions, [id]);
         return result.rows[0];
     }
     finally {
