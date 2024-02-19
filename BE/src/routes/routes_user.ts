@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { Controller_User } from '../controllers/controller_user';
+
+const router_user = Router();
+
+router_user.get('/getAllUsers', Controller_User.getAllUsers);
+router_user.post('/createUser', Controller_User.createUser);
+router_user.put('/updateUser', Controller_User.updateUser);
+
+export default router_user;
