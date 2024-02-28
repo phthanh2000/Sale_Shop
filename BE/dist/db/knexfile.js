@@ -31,7 +31,12 @@ module.exports = {
         host: constants_1.connectPostgres.host,
         user: constants_1.connectPostgres.user,
         password: constants_1.connectPostgres.password,
-        database: constants_1.connectPostgres.database
+        database: constants_1.connectPostgres.database,
+        ssl: { rejectUnauthorized: false }
+    },
+    pool: {
+        min: 2,
+        max: 10
     },
     migrations: {
         tableName: 'knex_migrations',
