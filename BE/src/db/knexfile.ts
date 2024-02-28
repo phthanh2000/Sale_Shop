@@ -6,7 +6,12 @@ module.exports = {
         host: connectPostgres.host,
         user: connectPostgres.user,
         password: connectPostgres.password,
-        database: connectPostgres.database
+        database: connectPostgres.database,
+        ssl: { rejectUnauthorized: false }
+    },
+    pool: {
+        min: 2,
+        max: 10
     },
     migrations: {
         tableName: 'knex_migrations',
