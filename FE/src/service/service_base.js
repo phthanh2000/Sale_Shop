@@ -13,8 +13,7 @@ export class Service_Base {
             if(error.request.status === 400){
                 throw error.response.data;
             }
-            // eslint-disable-next-line
-            throw `MethodGet cannot connect Server !`; 
+            throw error.message; 
         }
     };
 
@@ -28,9 +27,8 @@ export class Service_Base {
         } catch (error) {
             if(error.request.status === 400){
                 throw error.response.data;
-            } 
-            // eslint-disable-next-line
-            throw `MethodPost cannot connect Server !`; 
+            }
+            throw error.message; 
         }
     };
 
@@ -45,8 +43,7 @@ export class Service_Base {
             if(error.request.status === 400){
                 throw error.response.data;
             }
-            // eslint-disable-next-line
-            throw `MethodPut cannot connect Server !`; 
+            throw error.message; 
         }
     };
     
@@ -61,8 +58,7 @@ export class Service_Base {
             if(error.request.status === 400){
                 throw error.response.data;
             }
-            // eslint-disable-next-line
-            throw `MethodDelete cannot connect Server !`; 
+            throw error.message;
         }
     }
 }

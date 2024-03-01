@@ -11,10 +11,10 @@ export class Service_User {
         }
     };
 
-    static DeleteUser = async () => {
+    static DeleteUser = async (id) => {
         const endpoint = '/users/deleteUser';
         try{
-            const data = await Service_Base.MethodDelete(endpoint,400);
+            const data = await Service_Base.MethodDelete(endpoint, id);
             return data;
         } catch (error){
             throw error;
