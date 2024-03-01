@@ -7,7 +7,7 @@ export class Controller_User {
         const users = await Model_User.getAllUsers();
         return res.status(200).json(users);
       } catch (error) {
-        return res.status(400).send(`Error getAllUsers: ${error}`);
+        return res.status(400).send(`API getAllUsers ${error}`);
       }
     }
 
@@ -17,7 +17,7 @@ export class Controller_User {
         const users = await Model_User.createUser(user);
         return res.status(200).json(users);
       } catch (error) {
-        return res.status(400).send(`Error createUser: ${error}`);
+        return res.status(400).send(`API createUser ${error}`);
       }
     }
 
@@ -27,7 +27,7 @@ export class Controller_User {
         const users = await Model_User.updateUser(user);
         return res.status(200).json(users);
       } catch (error) {
-        return res.status(400).send(`Error updateUser: ${error}`);
+        return res.status(400).send(`API updateUser ${error}`);
       }
     }
 
@@ -37,7 +37,7 @@ export class Controller_User {
         const users = await Model_User.deleteUser(id);
         return res.status(200).json(users);
       } catch (error) {
-        return res.status(400).send(`Error deleteUser: ${error}`);
+        return res.status(400).send(`API deleteUser ${error}`);
       }
     }
 }

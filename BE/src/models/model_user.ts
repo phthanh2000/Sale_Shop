@@ -10,7 +10,7 @@ export class Model_User {
     const client = await pool.connect();
     try {
       let queryOptions = `SELECT * FROM ${Model_User.tableName} ORDER BY ${Column_User.id}`;
-      const result: QueryResult = await client.query(queryOptions);
+      const result = await client.query(queryOptions);
       return result.rows;
     } finally {
       client.release();
@@ -27,7 +27,7 @@ export class Model_User {
                             ${Column_User.email}, 
                             ${Column_User.pass}
                           ) VALUES ( $1, $2, $3 ) RETURNING *`;
-      const result: QueryResult = await client.query(queryOptions,[name, email, pass]);
+      const result = await client.query(queryOptions,[name, email, pass]);
       return result.rows[0];
     } finally {
       client.release();
@@ -44,7 +44,7 @@ export class Model_User {
                                 ${Column_User.pass}= $3,
                                 ${Column_User.updatedAt}= $4 
                             WHERE ${Column_User.email}= $5 RETURNING *`;
-      const result: QueryResult = await client.query(queryOptions, [name ,email, pass, ,new Date(), email]);
+      const result = await client.query(queryOptions, [name ,email, pass, ,new Date(), email]);
       return result.rows[0];
     } finally {
       client.release();
@@ -56,7 +56,7 @@ export class Model_User {
     try {
       const queryOptions = `DELETE FROM ${Model_User.tableName}
                             WHERE ${Column_User.id} = $1 RETURNING *`;
-      const result: QueryResult = await client.query(queryOptions, [id]);
+      const result = await client.query(queryOptions, [id]);
       return result.rows[0];
     } finally {
       client.release();
