@@ -47,7 +47,7 @@ Controller_User.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, fun
 });
 Controller_User.deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.body.id;
+        const id = parseInt(req.params.id);
         const users = yield model_user_1.Model_User.deleteUser(id);
         return res.status(200).json(users);
     }

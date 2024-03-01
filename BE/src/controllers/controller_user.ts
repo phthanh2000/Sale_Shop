@@ -33,7 +33,7 @@ export class Controller_User {
 
     public static deleteUser = async (req: Request, res: Response) => {
       try {
-        const id = req.body.id;
+        const id = parseInt(req.params.id);
         const users = await Model_User.deleteUser(id);
         return res.status(200).json(users);
       } catch (error) {
