@@ -16,13 +16,13 @@ class Controller_User {
 }
 exports.Controller_User = Controller_User;
 _a = Controller_User;
-Controller_User.getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+Controller_User.getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield model_user_1.Model_User.getAllUsers();
+        const users = yield model_user_1.Model_User.getUsers();
         return res.status(200).json(users);
     }
     catch (error) {
-        return res.status(400).send(`Error getAllUsers: ${error}`);
+        return res.status(400).send(`API getUsers ${error}`);
     }
 });
 Controller_User.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,7 +32,7 @@ Controller_User.createUser = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json(users);
     }
     catch (error) {
-        return res.status(400).send(`Error createUser: ${error}`);
+        return res.status(400).send(`API createUser ${error}`);
     }
 });
 Controller_User.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -42,7 +42,7 @@ Controller_User.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json(users);
     }
     catch (error) {
-        return res.status(400).send(`Error updateUser: ${error}`);
+        return res.status(400).send(`API updateUser ${error}`);
     }
 });
 Controller_User.deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -52,6 +52,6 @@ Controller_User.deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json(users);
     }
     catch (error) {
-        return res.status(400).send(`Error deleteUser: ${error}`);
+        return res.status(400).send(`API deleteUser ${error}`);
     }
 });

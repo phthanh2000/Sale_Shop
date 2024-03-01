@@ -18,10 +18,10 @@ class Model_User {
 exports.Model_User = Model_User;
 _a = Model_User;
 Model_User.tableName = `public."Users"`;
-Model_User.getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
+Model_User.getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = yield connection_1.pool.connect();
     try {
-        let queryOptions = `SELEC * FROM ${_a.tableName} ORDER BY ${entity_user_1.Column_User.id}`;
+        let queryOptions = `SELECT * FROM ${_a.tableName} ORDER BY ${entity_user_1.Column_User.id}`;
         const result = yield client.query(queryOptions);
         return result.rows;
     }

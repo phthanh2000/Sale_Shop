@@ -6,7 +6,7 @@ import { Entity_User, Column_User } from '../entities/entity_user';
 export class Model_User {
   static tableName : string = `public."Users"`;
 
-  public static getAllUsers = async () => {
+  public static getUsers = async () => {
     const client = await pool.connect();
     try {
       let queryOptions = `SELECT * FROM ${Model_User.tableName} ORDER BY ${Column_User.id}`;

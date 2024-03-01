@@ -2,12 +2,12 @@ import {Request, Response} from 'express';
 import { Model_User } from '../models/model_user';
 
 export class Controller_User {
-    public static getAllUsers = async (req: Request, res: Response) => {
+    public static getUsers = async (req: Request, res: Response) => {
       try {
-        const users = await Model_User.getAllUsers();
+        const users = await Model_User.getUsers();
         return res.status(200).json(users);
       } catch (error) {
-        return res.status(400).send(`API getAllUsers ${error}`);
+        return res.status(400).send(`API getUsers ${error}`);
       }
     }
 
