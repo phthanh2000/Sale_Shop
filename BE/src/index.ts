@@ -1,12 +1,12 @@
 import express from 'express';
+import { json } from 'body-parser';
 import router_user from './routes/routes_user';
 import router_createdb from './routes/routes_createdb';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-var cors = require('cors');
-app.use(cors());
+app.use(json());
 
 app.use('/users', router_user);
 app.use('/db', router_createdb);
