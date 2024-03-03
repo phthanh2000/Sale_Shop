@@ -22,7 +22,7 @@ Model_User.tableName = constants_1.CONST_TABLE_NAME.users;
 Model_User.getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = yield connection_1.pool.connect();
     try {
-        let queryOptions = `SELECT * FROM ${_a.tableName} ORDER BY ${entity_user_1.Column_User.id}`;
+        let queryOptions = `SELECT * FROM ${_a.tableName} ORDER BY ${entity_user_1.Column_User.createdAt}`;
         const result = yield client.query(queryOptions);
         return result.rows;
     }
@@ -72,6 +72,20 @@ Model_User.deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
         const queryOptions = `DELETE FROM ${_a.tableName}
                             WHERE ${entity_user_1.Column_User.id} = $1 RETURNING *`;
         const result = yield client.query(queryOptions, [id]);
+        return result.rows[0];
+    }
+    finally {
+        client.release();
+    }
+});
+Model_User.checkUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    const client = yield connection_1.pool.connect();
+    try {
+        const { name, pass } = user;
+        const queryOptions = `SELECT * FROM ${_a.tableName} 
+                            WHERE ${entity_user_1.Column_User.name} = $1
+                            AND ${entity_user_1.Column_User.pass} = $2`;
+        const result = yield client.query(queryOptions, [name, pass]);
         return result.rows[0];
     }
     finally {
