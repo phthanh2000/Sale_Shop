@@ -1,10 +1,10 @@
 
-import { QueryResult } from 'pg';
 import { pool } from '../db/connection';
 import { Entity_User, Column_User } from '../entities/entity_user';
+import { CONST_TABLE_NAME } from '../constants';
 
 export class Model_User {
-  static tableName : string = `public."Users"`;
+  static tableName : string = CONST_TABLE_NAME.users;
 
   public static getUsers = async () => {
     const client = await pool.connect();
@@ -25,9 +25,11 @@ export class Model_User {
                           (
                             ${Column_User.name}, 
                             ${Column_User.email}, 
-                            ${Column_User.pass}
-                          ) VALUES ( $1, $2, $3 ) RETURNING *`;
-      const result = await client.query(queryOptions,[name, email, pass]);
+                            ${Column_User.pass},
+                            ${Column_User.createdAt},
+                            ${Column_User.updatedAt}
+                          ) VALUES ( $1, $2, $3, $4, $5 ) RETURNING *`;
+      const result = await client.query(queryOptions,[name, email, pass, new Date(), new Date]);
       return result.rows[0];
     } finally {
       client.release();
@@ -51,7 +53,7 @@ export class Model_User {
     }
   };
 
-  public static deleteUser = async (id: number) => {
+  public static deleteUser = async (id: string) => {
     const client = await pool.connect();
     try {
       const queryOptions = `DELETE FROM ${Model_User.tableName}

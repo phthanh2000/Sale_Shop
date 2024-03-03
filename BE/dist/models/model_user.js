@@ -13,11 +13,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Model_User = void 0;
 const connection_1 = require("../db/connection");
 const entity_user_1 = require("../entities/entity_user");
+const constants_1 = require("../constants");
 class Model_User {
 }
 exports.Model_User = Model_User;
 _a = Model_User;
-Model_User.tableName = `public."Users"`;
+Model_User.tableName = constants_1.CONST_TABLE_NAME.users;
 Model_User.getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = yield connection_1.pool.connect();
     try {
@@ -37,9 +38,11 @@ Model_User.createUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
                           (
                             ${entity_user_1.Column_User.name}, 
                             ${entity_user_1.Column_User.email}, 
-                            ${entity_user_1.Column_User.pass}
-                          ) VALUES ( $1, $2, $3 ) RETURNING *`;
-        const result = yield client.query(queryOptions, [name, email, pass]);
+                            ${entity_user_1.Column_User.pass},
+                            ${entity_user_1.Column_User.createdAt},
+                            ${entity_user_1.Column_User.updatedAt}
+                          ) VALUES ( $1, $2, $3, $4, $5 ) RETURNING *`;
+        const result = yield client.query(queryOptions, [name, email, pass, new Date(), new Date]);
         return result.rows[0];
     }
     finally {

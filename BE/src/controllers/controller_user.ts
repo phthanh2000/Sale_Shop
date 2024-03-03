@@ -13,8 +13,8 @@ export class Controller_User {
 
     public static createUser = async (req: Request, res: Response) => {
       try {
-        const user = req.body;
-        const users = await Model_User.createUser(user);
+        const data = req.body;
+        const users = await Model_User.createUser(data);
         return res.status(200).json(users);
       } catch (error) {
         return res.status(400).send(`API createUser ${error}`);
@@ -23,8 +23,8 @@ export class Controller_User {
 
     public static updateUser = async (req: Request, res: Response) => {
       try {
-        const user = req.body;
-        const users = await Model_User.updateUser(user);
+        const newData = req.body;
+        const users = await Model_User.updateUser(newData);
         return res.status(200).json(users);
       } catch (error) {
         return res.status(400).send(`API updateUser ${error}`);
@@ -33,7 +33,7 @@ export class Controller_User {
 
     public static deleteUser = async (req: Request, res: Response) => {
       try {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         const users = await Model_User.deleteUser(id);
         return res.status(200).json(users);
       } catch (error) {

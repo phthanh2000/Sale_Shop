@@ -27,8 +27,8 @@ Controller_User.getUsers = (req, res) => __awaiter(void 0, void 0, void 0, funct
 });
 Controller_User.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = req.body;
-        const users = yield model_user_1.Model_User.createUser(user);
+        const data = req.body;
+        const users = yield model_user_1.Model_User.createUser(data);
         return res.status(200).json(users);
     }
     catch (error) {
@@ -37,8 +37,8 @@ Controller_User.createUser = (req, res) => __awaiter(void 0, void 0, void 0, fun
 });
 Controller_User.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = req.body;
-        const users = yield model_user_1.Model_User.updateUser(user);
+        const newData = req.body;
+        const users = yield model_user_1.Model_User.updateUser(newData);
         return res.status(200).json(users);
     }
     catch (error) {
