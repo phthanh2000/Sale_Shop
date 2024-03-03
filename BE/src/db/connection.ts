@@ -1,19 +1,19 @@
 import { Pool } from 'pg';
-import { connectPostgres } from '../constants';
+import { CONST_CONNECT_POSTGRES } from '../constants';
 
 // Config for create new database
 export const newPool = new Pool({
-    user: connectPostgres.user,
-    host: connectPostgres.host,
-    password: connectPostgres.password,
-    port: connectPostgres.port,
+    user: CONST_CONNECT_POSTGRES.user,
+    host: CONST_CONNECT_POSTGRES.host,
+    password: CONST_CONNECT_POSTGRES.password,
+    port: CONST_CONNECT_POSTGRES.port,
 });
   
   // Config for connect present database
 export const pool = new Pool({
-    user: connectPostgres.user,
-    host: connectPostgres.host,
-    database: connectPostgres.database,
-    password: connectPostgres.password,
-    port: connectPostgres.port,
+    user: CONST_CONNECT_POSTGRES.user,
+    host: CONST_CONNECT_POSTGRES.host,
+    database: CONST_CONNECT_POSTGRES.database,
+    password: CONST_CONNECT_POSTGRES.password,
+    port: CONST_CONNECT_POSTGRES.port,
 });

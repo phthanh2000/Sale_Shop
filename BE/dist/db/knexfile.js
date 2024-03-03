@@ -28,10 +28,10 @@ const constants_1 = require("../constants");
 module.exports = {
     client: 'pg',
     connection: {
-        host: constants_1.connectPostgres.host,
-        user: constants_1.connectPostgres.user,
-        password: constants_1.connectPostgres.password,
-        database: constants_1.connectPostgres.database,
+        host: constants_1.CONST_CONNECT_POSTGRES.host,
+        user: constants_1.CONST_CONNECT_POSTGRES.user,
+        password: constants_1.CONST_CONNECT_POSTGRES.password,
+        database: constants_1.CONST_CONNECT_POSTGRES.database,
         ssl: { rejectUnauthorized: false }
     },
     pool: {

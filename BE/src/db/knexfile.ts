@@ -1,12 +1,12 @@
 import * as path from 'path';
-import { connectPostgres } from '../constants';
+import { CONST_CONNECT_POSTGRES } from '../constants';
 module.exports = {
     client: 'pg',
     connection: {
-        host: connectPostgres.host,
-        user: connectPostgres.user,
-        password: connectPostgres.password,
-        database: connectPostgres.database,
+        host: CONST_CONNECT_POSTGRES.host,
+        user: CONST_CONNECT_POSTGRES.user,
+        password: CONST_CONNECT_POSTGRES.password,
+        database: CONST_CONNECT_POSTGRES.database,
         ssl: { rejectUnauthorized: false }
     },
     pool: {
