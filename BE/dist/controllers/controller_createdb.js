@@ -18,7 +18,7 @@ exports.Controller_CreateDB = Controller_CreateDB;
 _a = Controller_CreateDB;
 Controller_CreateDB.createDatabase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield model_createdb_1.Model_CreateDB.createDatabase();
+        yield model_createdb_1.Model_CreateDB.createDatabase();
         res.status(200).send(`Run createDatabase successfully !`);
     }
     catch (error) {
@@ -27,7 +27,7 @@ Controller_CreateDB.createDatabase = (req, res) => __awaiter(void 0, void 0, voi
 });
 Controller_CreateDB.createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield model_createdb_1.Model_CreateDB.createTable();
+        yield model_createdb_1.Model_CreateDB.createTable();
         res.status(200).send(`Run createTable successfully !`);
     }
     catch (error) {
@@ -36,7 +36,7 @@ Controller_CreateDB.createTable = (req, res) => __awaiter(void 0, void 0, void 0
 });
 Controller_CreateDB.deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield model_createdb_1.Model_CreateDB.deleteTable();
+        yield model_createdb_1.Model_CreateDB.deleteTable();
         res.status(200).send(`Run deleteTable successfully !`);
     }
     catch (error) {
