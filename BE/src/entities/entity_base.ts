@@ -1,5 +1,6 @@
+// Entity base
 export interface Entity_Base {
-    id?: number;
-    createdAt: Date;
-    updatedAt: Date;
+    id: number;
+    createdat: Date;
+    updatedat: Date;
 }
