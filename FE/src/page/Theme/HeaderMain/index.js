@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from "react";
-import { FaFacebook, FaSquareInstagram,  FaUserLarge, FaCartShopping } from "react-icons/fa6";
+import { FaFacebook, FaSquareInstagram, FaUserLarge, FaCartShopping } from "react-icons/fa6";
 import { SiZalo } from "react-icons/si";
 import { FiMenu } from "react-icons/fi";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -8,6 +8,7 @@ import SearchField from "react-search-field";
 import { Link } from "react-router-dom";
 import { urlPages } from "../../../utils/urlPage";
 import "./header.css";
+import { Login } from "../../../components/Login/login";
 
 // Header page  
 const Header = () => {
@@ -19,7 +20,7 @@ const Header = () => {
         },
         {
             name: 'Hàng mới về',
-            path:  urlPages[1].path
+            path: urlPages[1].path
         },
         {
             name: 'Giới thiệu',
@@ -46,7 +47,7 @@ const Header = () => {
             name: 'Khác',
             path: urlPages[4].path
         },
-    ]; 
+    ];
 
     // Item menu
     const Item = [
@@ -106,21 +107,29 @@ const Header = () => {
                 }
             ]
         }
-    ]; 
+    ];
 
     // Value show item menu
     const [menuItem, setMenuItem] = useState(false);
+
+    // Value show form login
+    const [isShowFormLogin, setIsShowFormLogin] = useState(false);
 
     // Event when click on item menu icon
     const onClickMenuAllItems = () => {
         menuItem === true ? setMenuItem(false) : setMenuItem(true);
     }
-    
+
+    // Event open form login when click user icon 
+    const handleClickShowFormLogin = () => {
+        setIsShowFormLogin(!isShowFormLogin);
+    };
+
     return (
         <div className="header">
             <div className="header-link">
                 <div className="connect-link">
-                    <div style={{float:'left', fontWeight:'600'}}>Kết nối với chúng tôi</div>
+                    <div style={{ float: 'left', fontWeight: '600' }}>Kết nối với chúng tôi</div>
                     <Link className="facebook-link" to={"https://www.facebook.com/profile.php?id=61553882820336"}>
                         <FaFacebook />
                     </Link>
@@ -136,7 +145,7 @@ const Header = () => {
                 <div className="row">
                     <div className="header-top-left">
                         <Link to={""}>
-                        <img className="logo" alt="Logo" src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1704562430/logoShop_vr4zyy.png"/>
+                            <img className="logo" alt="Logo" src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1704562430/logoShop_vr4zyy.png" />
                         </Link>
                     </div>
                     <div className="header-top-center">
@@ -148,19 +157,19 @@ const Header = () => {
                         <ul className="cart-user">
                             <li>
                                 <Link to={""}>
-                                        <div className="cart">
-                                            <FaCartShopping className="cart-icon"/>
-                                            <span>9</span>
-                                        </div>
-                                        <div>Giỏ hàng</div>
+                                    <div className="cart">
+                                        <FaCartShopping className="cart-icon" />
+                                        <span>9</span>
+                                    </div>
+                                    <div>Giỏ hàng</div>
                                 </Link>
                             </li>
                             <li>
-                                <Link to={""}>
-                                        <FaUserLarge className="user-icon"/>
-                                        <div>Đăng nhập/ Đăng ký</div>
+                                <Link to={""} onClick={() => handleClickShowFormLogin()}>
+                                    <FaUserLarge className="user-icon" />
+                                    <div>Đăng nhập</div>
                                 </Link>
-                                
+
                             </li>
                         </ul>
                     </div>
@@ -168,11 +177,11 @@ const Header = () => {
                 <div className="row">
                     <div className="header-bottom-left">
                         <div className="menu-icon-text" onClick={() => onClickMenuAllItems()}>
-                            <FiMenu className="menu-icon"/>
+                            <FiMenu className="menu-icon" />
                             <div className="menu-text">Tất cả danh mục</div>
                         </div>
                         <div className="menu-item">
-                            <ul className= {menuItem === true ? "menu-item-show" : "menu-item-hidden"}>
+                            <ul className={menuItem === true ? "menu-item-show" : "menu-item-hidden"}>
                                 {
                                     Item?.map((item, itemKey) => (
                                         <li className="menu-item-tag-li" key={itemKey} onClick={() => setMenuItem(false)}>
@@ -183,14 +192,14 @@ const Header = () => {
                                                 item.child && (
                                                     <ul className="menu-item-child">
                                                         {
-                                                        item.child?.map((itemChild, itemChildKey) => (
-                                                            <li className="menu-item-child-tag-li" key={`${itemChild} - ${itemChildKey}`}>
-                                                                <Link to={itemChild?.path} className="menu-item-child-tag-a">
-                                                                    {itemChild?.name}
-                                                                </Link>
-                                                            </li>
-                                                        ))
-                                                        } 
+                                                            item.child?.map((itemChild, itemChildKey) => (
+                                                                <li className="menu-item-child-tag-li" key={`${itemChild} - ${itemChildKey}`}>
+                                                                    <Link to={itemChild?.path} className="menu-item-child-tag-a">
+                                                                        {itemChild?.name}
+                                                                    </Link>
+                                                                </li>
+                                                            ))
+                                                        }
                                                     </ul>
                                                 )
                                             }
@@ -206,8 +215,8 @@ const Header = () => {
                                 Menu?.map((menu, menuKey) => (
                                     <li key={menuKey}>
                                         <Link to={menu?.path}>
-                                            {menu?.name} 
-                                            {menu.child ? <RiArrowDropDownLine className="dropdown-icon"/>: ''}
+                                            {menu?.name}
+                                            {menu.child ? <RiArrowDropDownLine className="dropdown-icon" /> : ''}
                                         </Link>
                                         {
                                             menu.child && (
@@ -216,7 +225,7 @@ const Header = () => {
                                                         menu.child?.map((menuChild, menuChildKey) => (
                                                             <li key={`${menuKey} - ${menuChildKey}`}>
                                                                 <Link to={menuChild?.link} target={menuChild?.target} rel="noopener noreferrer">
-                                                                    {menuChild?.name} 
+                                                                    {menuChild?.name}
                                                                 </Link>
                                                             </li>
                                                         ))
@@ -231,6 +240,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+            {isShowFormLogin && <Login openModal={isShowFormLogin} />}
         </div>
     );
 };
