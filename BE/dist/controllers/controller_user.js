@@ -20,6 +20,7 @@ class Controller_User {
 }
 exports.Controller_User = Controller_User;
 _a = Controller_User;
+// Requires get list users
 Controller_User.getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield model_user_1.Model_User.getUsers();
@@ -29,6 +30,7 @@ Controller_User.getUsers = (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(400).send(`API getUsers ${error}`);
     }
 });
+// Requires create new user
 Controller_User.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
@@ -39,16 +41,19 @@ Controller_User.createUser = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(400).send(`API createUser ${error}`);
     }
 });
+// Requires update user
 Controller_User.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const id = req.params.id;
         const newData = req.body;
-        const user = yield model_user_1.Model_User.updateUser(newData);
+        const user = yield model_user_1.Model_User.updateUser(id, newData);
         return res.status(200).json(user);
     }
     catch (error) {
         return res.status(400).send(`API updateUser ${error}`);
     }
 });
+// Requires delete user
 Controller_User.deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
@@ -59,22 +64,23 @@ Controller_User.deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(400).send(`API deleteUser ${error}`);
     }
 });
-Controller_User.checkUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Requires user login
+Controller_User.userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const user = yield model_user_1.Model_User.checkUser(data);
+        const user = yield model_user_1.Model_User.getUserForNameAndPassword(data);
         if (typeof (user) !== "undefined") {
             const payload = { userId: user.id };
             const secretKey = 'your_secret_key';
-            const options = { expiresIn: '8h' };
+            const options = { expiresIn: '8H' };
             const token = jsonwebtoken_1.default.sign(payload, secretKey, options);
             return res.status(200).json(token);
         }
         else {
-            return res.status(401).json({ message: 'Authentication failed' });
+            return res.status(400).send('Login failed!');
         }
     }
     catch (error) {
-        return res.status(400).send(`API checkUser ${error}`);
+        return res.status(400).send(`API userLogin ${error}`);
     }
 });

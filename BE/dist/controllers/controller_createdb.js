@@ -16,6 +16,7 @@ class Controller_CreateDB {
 }
 exports.Controller_CreateDB = Controller_CreateDB;
 _a = Controller_CreateDB;
+// Requires create new database
 Controller_CreateDB.createDatabase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield model_createdb_1.Model_CreateDB.createDatabase();
@@ -25,6 +26,7 @@ Controller_CreateDB.createDatabase = (req, res) => __awaiter(void 0, void 0, voi
         res.status(400).send(`Error createDatabase: ${error}`);
     }
 });
+// Requires create new tables
 Controller_CreateDB.createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield model_createdb_1.Model_CreateDB.createTable();
@@ -34,6 +36,7 @@ Controller_CreateDB.createTable = (req, res) => __awaiter(void 0, void 0, void 0
         res.status(400).send(`Error createTable: ${error}`);
     }
 });
+// Requires delete tables
 Controller_CreateDB.deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield model_createdb_1.Model_CreateDB.deleteTable();
