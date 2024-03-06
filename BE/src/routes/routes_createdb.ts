@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { Controller_CreateDB } from '../controllers/controller_createdb';
 
+// Router create database
 const router_createdb = Router();
 
 router_createdb.post('/createDatabase', Controller_CreateDB.createDatabase);
