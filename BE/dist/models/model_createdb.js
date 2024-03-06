@@ -33,11 +33,9 @@ Model_CreateDB.createTable = () => __awaiter(void 0, void 0, void 0, function* (
     const client = yield connection_1.pool.connect();
     try {
         // Execute SQL command to create the table
-        yield client.query(`  
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-            
+        yield client.query(`
             CREATE TABLE "Categories" (
-                "id" UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+                "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "code" VARCHAR(10) NOT NULL UNIQUE,
                 "createdat" TIMESTAMP,
@@ -45,39 +43,57 @@ Model_CreateDB.createTable = () => __awaiter(void 0, void 0, void 0, function* (
             );
 
             CREATE TABLE "Products" (
-                "id" UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+                "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
+                "code" VARCHAR NOT NULL UNIQUE
+                "image" VARCHAR,
                 "price" NUMERIC,
                 "quantity" INT,
                 "description" VARCHAR,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
-                "categoryid" UUID REFERENCES ${constants_1.CONST_TABLE_NAME.categories}(id)
+                "categoryid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.categories}(id)
             );
             
             CREATE TABLE "Users" (
-                "id" UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+                "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "pass" VARCHAR(50) NOT NULL,
                 "email" VARCHAR(100) NOT NULL UNIQUE,
                 "createdat" TIMESTAMP,
-                "updatedat" TIMESTAMP
+                "updatedat" TIMESTAMP,
+                "roleid" INT REFERENCES ${constants_1.CONST_TABLE_NAME.roles}(id)
             );
             
             CREATE TABLE "Orders" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "totalamount" NUMERIC,
-                "date" TIMESTAMP,
-                "userid" UUID REFERENCES ${constants_1.CONST_TABLE_NAME.users}(id) 
+                "createdat" TIMESTAMP,
+                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.users}(id) 
             );
 
             CREATE TABLE "OrderDetails" (
-                "id" UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+                "id" BIGSERIAL PRIMARY KEY,
                 "quantity" INT,
                 "subtotal" NUMERIC,
+                "createdat" TIMESTAMP,
+                "updatedat" TIMESTAMP,
                 "orderid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.orders}(id),
-                "userid" UUID REFERENCES ${constants_1.CONST_TABLE_NAME.users}(id)
+                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.users}(id)
             );
+
+            CREATE TABLE "Tokens" (
+                "token" VARCHAR NOT NULL,
+                "createdat" TIMESTAMP,
+                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.users}(id)
+            );
+
+            CREATE TABLE "Roles" (
+                "id" SERIAL PRIMARY KEY, 
+                "name" VARCHAR(100) NOT NULL,
+                "createdat" TIMESTAMP,
+                "updatedat" TIMESTAMP,
+            )
         `);
     }
     finally {
@@ -93,6 +109,8 @@ Model_CreateDB.deleteTable = () => __awaiter(void 0, void 0, void 0, function* (
         DROP TABLE "Categories";
         DROP TABLE "OrderDetails";
         DROP TABLE "Orders";
+        DROP TABLE "Roles";
+        DROP TABLE "Token";
         DROP TABLE "Users";
         `);
     }
