@@ -106,16 +106,16 @@ Model_User.deleteUser = (valueId) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 // Function to login
-Model_User.getUserForNameAndPassword = (user) => __awaiter(void 0, void 0, void 0, function* () {
+Model_User.getUserForEmailAndPassword = (user) => __awaiter(void 0, void 0, void 0, function* () {
     // Connect postgres database
     const client = yield connection_1.pool.connect();
     try {
-        const { name, pass } = user;
+        const { email, pass } = user;
         const queryOptions = `SELECT * FROM ${_a.tableName} 
-                            WHERE ${entity_user_1.Column_User.name} = $1
+                            WHERE ${entity_user_1.Column_User.email} = $1
                             AND ${entity_user_1.Column_User.pass} = $2`;
         // Perform data queries
-        const result = yield client.query(queryOptions, [name, pass]);
+        const result = yield client.query(queryOptions, [email, pass]);
         return result.rows[0];
     }
     finally {

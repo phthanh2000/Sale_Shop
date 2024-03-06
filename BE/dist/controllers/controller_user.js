@@ -68,7 +68,7 @@ Controller_User.deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, fun
 Controller_User.userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const user = yield model_user_1.Model_User.getUserForNameAndPassword(data);
+        const user = yield model_user_1.Model_User.getUserForEmailAndPassword(data);
         if (typeof (user) !== "undefined") {
             const payload = { userId: user.id };
             const secretKey = 'your_secret_key';

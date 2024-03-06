@@ -51,7 +51,7 @@ export class Controller_User {
   public static userLogin = async (req: Request, res: Response) => {
     try {
       const data = req.body;
-      const user = await Model_User.getUserForNameAndPassword(data);
+      const user = await Model_User.getUserForEmailAndPassword(data);
       if (typeof (user) !== "undefined") {
         const payload = { userId: user.id };
         const secretKey = 'your_secret_key';

@@ -93,16 +93,16 @@ export class Model_User {
   };
 
   // Function to login
-  public static getUserForNameAndPassword = async (user: Entity_User) => {
+  public static getUserForEmailAndPassword = async (user: Entity_User) => {
     // Connect postgres database
     const client = await pool.connect();
     try {
-      const { name, pass } = user;
+      const { email, pass } = user;
       const queryOptions = `SELECT * FROM ${Model_User.tableName} 
-                            WHERE ${Column_User.name} = $1
+                            WHERE ${Column_User.email} = $1
                             AND ${Column_User.pass} = $2`;
       // Perform data queries
-      const result = await client.query(queryOptions, [name, pass]);
+      const result = await client.query(queryOptions, [email, pass]);
       return result.rows[0];
     } finally {
       // Release the connection
