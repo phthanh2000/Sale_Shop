@@ -12,7 +12,6 @@ const MainRouting = () => {
                 <Routes>
                 {/* Display page for URL */}
                 {   
-                    // <Route path= {urlPages.HOMEPAGE.path} element= {urlPages.HOMEPAGE.component}/>
                     urlPages.map((item, itemKey) => (
                         <Route key={itemKey} path= {item.path} element= {item.component}/>
                     ))
