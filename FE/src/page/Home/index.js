@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { AiOutlineEye, AiOutlineShoppingCart } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import "./home.css"
-import { Link } from "react-router-dom";
 
 const Home = () => {
     //List image bottom slide show

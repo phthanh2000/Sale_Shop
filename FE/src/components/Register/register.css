@@ -1,0 +1,142 @@
+.react-responsive-modal-modal{
+    width: 350px;
+    border-radius: 10px;
+}
+
+.react-responsive-modal-closeButton{
+    display: none;
+}
+
+/* Hearder */
+.header-register-form .close-icon{
+    float: right;
+    font-size: 20px;
+    background: linear-gradient(-170deg, #eef2f3, #8e9eab);
+    border-radius: 9999px;
+    border: 2px solid #000000;
+    cursor: pointer;
+}
+
+.header-register-form .close-icon:hover{
+    background: #8e9eab;
+    color: #ffffff;
+}
+
+.header-register-form .image{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.header-register-form .title{
+    font-size: 20px;
+    color:black;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+}
+
+/* Footer */
+.footer-register-form{
+    padding-top: 5px;
+}
+
+.footer-register-form .show{
+    display: block;
+}
+
+.footer-register-form .hidden{
+    display: none;
+}
+
+.footer-register-form label{
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.footer-register-form .input-password, .input-re-enter-password{
+    position: relative;
+}
+
+.footer-register-form input{
+    width: 95%;
+    height: 25px;
+    padding: 0 5px;
+    margin: 5px 0px;
+    border-radius: 5px;
+    border: 1px solid #8e9eab;
+}
+
+.footer-register-form .message-notification{
+    color: #cc3300;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.footer-register-form .input-password svg, .input-re-enter-password svg{
+    font-size: 18px;
+    position: absolute;
+    top: 9px;
+    right: 12px;
+    cursor: pointer;
+}
+
+.footer-register-form .register{
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+.footer-register-form .register .forget-password{
+    font-style: italic;
+}
+
+.footer-register-form .register .button-register{
+    width: 50%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(-170deg, #eef2f3, #8e9eab);
+    border: 2px solid #000000;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    line-height: 35px;
+    margin: 0px 85px;
+}
+
+.footer-register-form .register .button-register:hover{
+    background: #8e9eab;
+    color: #ffffff;
+}
+
+.footer-register-form .line{
+    background: #000000;
+    width: 100%;
+    height: 1px;
+}
+
+.footer-register-form span{
+    padding: 10px 0px;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.footer-register-form .login .button-login{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    border: 2px solid #000000;
+    background: #fffa37;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    line-height: 35px;
+}
+
+.footer-register-form .login .button-login:hover{
+    background: #FFD700;
+    color: #ffffff;
+}

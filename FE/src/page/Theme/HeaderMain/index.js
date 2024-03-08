@@ -7,8 +7,8 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import SearchField from "react-search-field";
 import { Link } from "react-router-dom";
 import { urlPages } from "../../../utils/urlPage";
-import "./header.css";
 import { Login } from "../../../components/Login/login";
+import "./header.css";
 
 // Header page  
 const Header = () => {
@@ -112,17 +112,22 @@ const Header = () => {
     // Value show item menu
     const [menuItem, setMenuItem] = useState(false);
 
-    // Value show form login
-    const [isShowFormLogin, setIsShowFormLogin] = useState(false);
+    // Login form display value
+    const [isShowLoginForm, setIsShowLoginForm] = useState(false);
 
     // Event when click on item menu icon
     const onClickMenuAllItems = () => {
         menuItem === true ? setMenuItem(false) : setMenuItem(true);
     }
 
-    // Event open form login when click user icon 
-    const handleClickShowFormLogin = () => {
-        setIsShowFormLogin(!isShowFormLogin);
+    // Event open login form when click user icon 
+    const onClickUserIconToOpenLoginForm = () => {
+        setIsShowLoginForm(!isShowLoginForm);
+    };
+
+    // Return value when click close button or register button on login form 
+    const returnValueToCloseLoginForm = (data) => {
+        setIsShowLoginForm(data);
     };
 
     return (
@@ -165,7 +170,7 @@ const Header = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to={""} onClick={() => handleClickShowFormLogin()}>
+                                <Link to={""} onClick={() => onClickUserIconToOpenLoginForm()}>
                                     <FaUserLarge className="user-icon" />
                                     <div>Đăng nhập</div>
                                 </Link>
@@ -240,7 +245,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            {isShowFormLogin && <Login openModal={isShowFormLogin} />}
+            <Login showLoginForm={isShowLoginForm} closeLoginForm={(data) => returnValueToCloseLoginForm(data)}/>
         </div>
     );
 };
