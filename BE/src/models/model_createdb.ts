@@ -44,6 +44,7 @@ export class Model_CreateDB {
             CREATE TABLE "Users" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
+                "phone" INT NOT NULL,
                 "pass" VARCHAR(50) NOT NULL,
                 "email" VARCHAR(100) NOT NULL UNIQUE,
                 "createdat" TIMESTAMP,

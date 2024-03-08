@@ -6,6 +6,7 @@ exports.Column_User = {
     id: 'id',
     name: 'name',
     email: 'email',
+    phone: 'phone',
     pass: 'pass',
     createdat: 'createdat',
     updatedat: 'updatedat',
