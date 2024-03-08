@@ -51,15 +51,20 @@ export class Controller_User {
   public static userLogin = async (req: Request, res: Response) => {
     try {
       const data = req.body;
-      const user = await Model_User.getUserForEmailAndPassword(data);
-      if (typeof (user) !== "undefined") {
-        const payload = { userId: user.id };
-        const secretKey = 'your_secret_key';
-        const options = { expiresIn: '8H' };
-        const token = jwt.sign(payload, secretKey, options);
-        return res.status(200).json(token);
+      const checkUserisExist = await Model_User.checkUserIsExists(data);
+      if (typeof (checkUserisExist) !== 'undefined') {
+        const user = await Model_User.getUserForEmailAndPassword(data);
+        if (typeof (user) !== "undefined") {
+          const payload = { userId: user.id };
+          const secretKey = 'your_secret_key';
+          const options = { expiresIn: '8H' };
+          const token = jwt.sign(payload, secretKey, options);
+          return res.status(200).json(token);
+        } else {
+          return res.status(200).send('Login failed');
+        }
       } else {
-        return res.status(400).send('Login failed!');
+        return res.status(200).send('User not exists');
       }
     } catch (error) {
       return res.status(400).send(`API userLogin ${error}`);

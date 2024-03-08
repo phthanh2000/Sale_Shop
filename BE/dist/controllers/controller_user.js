@@ -68,16 +68,22 @@ Controller_User.deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, fun
 Controller_User.userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const user = yield model_user_1.Model_User.getUserForEmailAndPassword(data);
-        if (typeof (user) !== "undefined") {
-            const payload = { userId: user.id };
-            const secretKey = 'your_secret_key';
-            const options = { expiresIn: '8H' };
-            const token = jsonwebtoken_1.default.sign(payload, secretKey, options);
-            return res.status(200).json(token);
+        const checkUserisExist = yield model_user_1.Model_User.checkUserIsExists(data);
+        if (typeof (checkUserisExist) !== 'undefined') {
+            const user = yield model_user_1.Model_User.getUserForEmailAndPassword(data);
+            if (typeof (user) !== "undefined") {
+                const payload = { userId: user.id };
+                const secretKey = 'your_secret_key';
+                const options = { expiresIn: '8H' };
+                const token = jsonwebtoken_1.default.sign(payload, secretKey, options);
+                return res.status(200).json(token);
+            }
+            else {
+                return res.status(200).send('Login failed');
+            }
         }
         else {
-            return res.status(400).send('Login failed!');
+            return res.status(200).send('User not exists');
         }
     }
     catch (error) {

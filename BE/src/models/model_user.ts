@@ -93,7 +93,25 @@ export class Model_User {
     }
   };
 
-  // Function to login
+  // Function check user is exists in list 
+  public static checkUserIsExists = async (user: Entity_User) => {
+    // Connect postgres database
+    const client = await pool.connect();
+    try {
+      const { email } = user;
+      const queryOptions = `SELECT *
+                            FROM ${Model_User.tableName}
+                            WHERE ${Column_User.email} = $1`
+      // Perform data queries
+      const result = await client.query(queryOptions, [email]);
+      return result.rows[0];
+    } finally {
+      // Release the connection
+      client.release();
+    }
+  }
+
+  // Function to get user for email and password
   public static getUserForEmailAndPassword = async (user: Entity_User) => {
     // Connect postgres database
     const client = await pool.connect();

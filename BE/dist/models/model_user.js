@@ -106,7 +106,25 @@ Model_User.deleteUser = (valueId) => __awaiter(void 0, void 0, void 0, function*
         client.release();
     }
 });
-// Function to login
+// Function check user is exists in list 
+Model_User.checkUserIsExists = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    // Connect postgres database
+    const client = yield connection_1.pool.connect();
+    try {
+        const { email } = user;
+        const queryOptions = `SELECT *
+                            FROM ${_a.tableName}
+                            WHERE ${entity_user_1.Column_User.email} = $1`;
+        // Perform data queries
+        const result = yield client.query(queryOptions, [email]);
+        return result.rows[0];
+    }
+    finally {
+        // Release the connection
+        client.release();
+    }
+});
+// Function to get user for email and password
 Model_User.getUserForEmailAndPassword = (user) => __awaiter(void 0, void 0, void 0, function* () {
     // Connect postgres database
     const client = yield connection_1.pool.connect();
