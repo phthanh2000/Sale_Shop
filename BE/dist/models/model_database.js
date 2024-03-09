@@ -10,15 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Model_CreateDB = void 0;
+exports.Model_Database = void 0;
 const connection_1 = require("../db/connection");
 const constants_1 = require("../constants");
-class Model_CreateDB {
+class Model_Database {
 }
-exports.Model_CreateDB = Model_CreateDB;
-_a = Model_CreateDB;
+exports.Model_Database = Model_Database;
+_a = Model_Database;
 // Function to create a database
-Model_CreateDB.createDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
+Model_Database.createDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = yield connection_1.newPool.connect();
     try {
         // Execute SQL command to create the database
@@ -29,7 +29,7 @@ Model_CreateDB.createDatabase = () => __awaiter(void 0, void 0, void 0, function
     }
 });
 // Function to create a table
-Model_CreateDB.createTable = () => __awaiter(void 0, void 0, void 0, function* () {
+Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = yield connection_1.pool.connect();
     try {
         // Execute SQL command to create the table
@@ -102,7 +102,7 @@ Model_CreateDB.createTable = () => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 // Function to delete a table
-Model_CreateDB.deleteTable = () => __awaiter(void 0, void 0, void 0, function* () {
+Model_Database.deleteTable = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = yield connection_1.pool.connect();
     try {
         client.query(`

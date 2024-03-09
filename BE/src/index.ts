@@ -2,7 +2,7 @@ import express from 'express';
 import { json } from 'body-parser';
 import cors from 'cors';
 import router_user from './routes/routes_user';
-import router_createdb from './routes/routes_createdb';
+import router_database from './routes/routes_database';
 
 // Using express
 const app = express();
@@ -17,7 +17,7 @@ app.use(cors());
 
 // Middleware for route routing
 app.use('/users', router_user);
-app.use('/db', router_createdb);
+app.use('/database', router_database);
 
 // Start an HTTP server and start listening for incoming requests from the specified port
 // app.listen(port, [callback]);

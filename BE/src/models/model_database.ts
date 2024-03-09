@@ -1,7 +1,7 @@
 import { newPool, pool } from '../db/connection';
 import { CONST_CONNECT_POSTGRES, CONST_TABLE_NAME } from '../constants';
 
-export class Model_CreateDB {
+export class Model_Database {
 
     // Function to create a database
     public static createDatabase = async () => {
