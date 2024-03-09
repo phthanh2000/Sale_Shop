@@ -114,7 +114,7 @@ Model_Database.deleteTable = () => __awaiter(void 0, void 0, void 0, function* (
     const client = yield connection_1.pool.connect();
     try {
         client.query(`
-        DROP TABLE "Token";
+        DROP TABLE "Tokens";
         DROP TABLE "Images";
         DROP TABLE "Products";
         DROP TABLE "Categories";

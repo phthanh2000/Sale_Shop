@@ -100,7 +100,7 @@ export class Model_Database {
         const client = await pool.connect();
         try {
             client.query(`
-        DROP TABLE "Token";
+        DROP TABLE "Tokens";
         DROP TABLE "Images";
         DROP TABLE "Products";
         DROP TABLE "Categories";
