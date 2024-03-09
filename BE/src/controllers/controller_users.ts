@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { Model_User } from '../models/model_user';
+import { Model_User } from '../models/model_users';
 import jwt from 'jsonwebtoken';
 
-export class Controller_User {
+export class Controller_Users {
   // Requires get list users
   public static getUsers = async (req: Request, res: Response) => {
     try {

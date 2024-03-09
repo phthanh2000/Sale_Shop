@@ -12,7 +12,6 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Model_User = void 0;
 const connection_1 = require("../db/connection");
-const entity_user_1 = require("../entities/entity_user");
 const constants_1 = require("../constants");
 class Model_User {
 }
@@ -26,7 +25,7 @@ Model_User.getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = yield connection_1.pool.connect();
     try {
         // Data query
-        let queryOptions = `SELECT * FROM ${_a.tableName} ORDER BY ${entity_user_1.Column_User.createdat}`;
+        let queryOptions = `SELECT * FROM ${_a.tableName} ORDER BY ${constants_1.CONST_COLUMN_USERS.createdat}`;
         // Perform data queries
         const result = yield client.query(queryOptions);
         return result.rows;
@@ -46,11 +45,11 @@ Model_User.createUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
         // Data query
         const queryOptions = `INSERT INTO ${_a.tableName} 
                           (
-                            ${entity_user_1.Column_User.name}, 
-                            ${entity_user_1.Column_User.email}, 
-                            ${entity_user_1.Column_User.pass},
-                            ${entity_user_1.Column_User.createdat},
-                            ${entity_user_1.Column_User.updatedat}
+                            ${constants_1.CONST_COLUMN_USERS.name}, 
+                            ${constants_1.CONST_COLUMN_USERS.email}, 
+                            ${constants_1.CONST_COLUMN_USERS.pass},
+                            ${constants_1.CONST_COLUMN_USERS.createdat},
+                            ${constants_1.CONST_COLUMN_USERS.updatedat}
                           ) VALUES ( $1, $2, $3, $4, $5 ) RETURNING *`;
         // Perform data queries
         const result = yield client.query(queryOptions, [name, email, pass, new Date(), new Date]);
@@ -72,12 +71,12 @@ Model_User.updateUser = (valueId, user) => __awaiter(void 0, void 0, void 0, fun
         const id = valueId;
         // Data query
         const queryOptions = `UPDATE ${_a.tableName}
-                            SET ${entity_user_1.Column_User.name}= $1, 
-                                ${entity_user_1.Column_User.email}= $2,
-                                ${entity_user_1.Column_User.phone}= $3,
-                                ${entity_user_1.Column_User.pass}= $4,
-                                ${entity_user_1.Column_User.updatedat}= $5
-                            WHERE ${entity_user_1.Column_User.id}= $6 RETURNING *`;
+                            SET ${constants_1.CONST_COLUMN_USERS.name}= $1, 
+                                ${constants_1.CONST_COLUMN_USERS.email}= $2,
+                                ${constants_1.CONST_COLUMN_USERS.phone}= $3,
+                                ${constants_1.CONST_COLUMN_USERS.pass}= $4,
+                                ${constants_1.CONST_COLUMN_USERS.updatedat}= $5
+                            WHERE ${constants_1.CONST_COLUMN_USERS.id}= $6 RETURNING *`;
         // Perform data queries
         const result = yield client.query(queryOptions, [name, email, phone, pass, new Date(), id]);
         return result.rows[0];
@@ -96,7 +95,7 @@ Model_User.deleteUser = (valueId) => __awaiter(void 0, void 0, void 0, function*
         const id = valueId;
         // Data query
         const queryOptions = `DELETE FROM ${_a.tableName}
-                            WHERE ${entity_user_1.Column_User.id} = $1 RETURNING *`;
+                            WHERE ${constants_1.CONST_COLUMN_USERS.id} = $1 RETURNING *`;
         // Perform data queries
         const result = yield client.query(queryOptions, [id]);
         return result.rows[0];
@@ -114,7 +113,7 @@ Model_User.checkUserIsExists = (user) => __awaiter(void 0, void 0, void 0, funct
         const { email } = user;
         const queryOptions = `SELECT *
                             FROM ${_a.tableName}
-                            WHERE ${entity_user_1.Column_User.email} = $1`;
+                            WHERE ${constants_1.CONST_COLUMN_USERS.email} = $1`;
         // Perform data queries
         const result = yield client.query(queryOptions, [email]);
         return result.rows[0];
@@ -131,8 +130,8 @@ Model_User.getUserForEmailAndPassword = (user) => __awaiter(void 0, void 0, void
     try {
         const { email, pass } = user;
         const queryOptions = `SELECT * FROM ${_a.tableName} 
-                            WHERE ${entity_user_1.Column_User.email} = $1
-                            AND ${entity_user_1.Column_User.pass} = $2`;
+                            WHERE ${constants_1.CONST_COLUMN_USERS.email} = $1
+                            AND ${constants_1.CONST_COLUMN_USERS.pass} = $2`;
         // Perform data queries
         const result = yield client.query(queryOptions, [email, pass]);
         return result.rows[0];

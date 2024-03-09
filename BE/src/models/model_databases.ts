@@ -32,7 +32,6 @@ export class Model_Database {
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "code" VARCHAR NOT NULL UNIQUE
-                "image" VARCHAR,
                 "price" NUMERIC,
                 "quantity" INT,
                 "description" VARCHAR,
@@ -40,7 +39,22 @@ export class Model_Database {
                 "updatedat" TIMESTAMP,
                 "categoryid" BIGINT REFERENCES ${CONST_TABLE_NAME.categories}(id)
             );
-            
+
+            CREATE TABLE "Images" (
+                "id" BIGSERIAL PRIMARY KEY,
+                "url" VARCHARL,
+                "createdat" TIMESTAMP,
+                "updatedat" TIMESTAMP,
+                "productid" BIGINT REFERENCES ${CONST_TABLE_NAME.products}(id)
+            )
+
+            CREATE TABLE "Roles" (
+                "id" SERIAL PRIMARY KEY, 
+                "name" VARCHAR(100) NOT NULL,
+                "createdat" TIMESTAMP,
+                "updatedat" TIMESTAMP,
+            )
+
             CREATE TABLE "Users" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
@@ -74,13 +88,6 @@ export class Model_Database {
                 "createdat" TIMESTAMP,
                 "userid" BIGINT REFERENCES ${CONST_TABLE_NAME.users}(id)
             );
-
-            CREATE TABLE "Roles" (
-                "id" SERIAL PRIMARY KEY, 
-                "name" VARCHAR(100) NOT NULL,
-                "createdat" TIMESTAMP,
-                "updatedat" TIMESTAMP,
-            )
         `);
         } finally {
             client.release();
@@ -92,12 +99,13 @@ export class Model_Database {
         const client = await pool.connect();
         try {
             client.query(`
+        DROP TABLE "Token";
+        DROP TABLE "Images";
         DROP TABLE "Products";
         DROP TABLE "Categories";
         DROP TABLE "OrderDetails";
         DROP TABLE "Orders";
         DROP TABLE "Roles";
-        DROP TABLE "Token";
         DROP TABLE "Users";
         `);
         } finally {

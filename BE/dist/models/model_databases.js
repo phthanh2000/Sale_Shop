@@ -46,7 +46,6 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "code" VARCHAR NOT NULL UNIQUE
-                "image" VARCHAR,
                 "price" NUMERIC,
                 "quantity" INT,
                 "description" VARCHAR,
@@ -54,7 +53,22 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
                 "updatedat" TIMESTAMP,
                 "categoryid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.categories}(id)
             );
-            
+
+            CREATE TABLE "Images" (
+                "id" BIGSERIAL PRIMARY KEY,
+                "url" VARCHARL,
+                "createdat" TIMESTAMP,
+                "updatedat" TIMESTAMP,
+                "productid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.products}(id)
+            )
+
+            CREATE TABLE "Roles" (
+                "id" SERIAL PRIMARY KEY, 
+                "name" VARCHAR(100) NOT NULL,
+                "createdat" TIMESTAMP,
+                "updatedat" TIMESTAMP,
+            )
+
             CREATE TABLE "Users" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
@@ -88,13 +102,6 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
                 "createdat" TIMESTAMP,
                 "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.users}(id)
             );
-
-            CREATE TABLE "Roles" (
-                "id" SERIAL PRIMARY KEY, 
-                "name" VARCHAR(100) NOT NULL,
-                "createdat" TIMESTAMP,
-                "updatedat" TIMESTAMP,
-            )
         `);
     }
     finally {
@@ -106,12 +113,13 @@ Model_Database.deleteTable = () => __awaiter(void 0, void 0, void 0, function* (
     const client = yield connection_1.pool.connect();
     try {
         client.query(`
+        DROP TABLE "Token";
+        DROP TABLE "Images";
         DROP TABLE "Products";
         DROP TABLE "Categories";
         DROP TABLE "OrderDetails";
         DROP TABLE "Orders";
         DROP TABLE "Roles";
-        DROP TABLE "Token";
         DROP TABLE "Users";
         `);
     }

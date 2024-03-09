@@ -10,16 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Controller_Database = void 0;
-const model_database_1 = require("../models/model_database");
-class Controller_Database {
+exports.Controller_Databases = void 0;
+const model_databases_1 = require("../models/model_databases");
+class Controller_Databases {
 }
-exports.Controller_Database = Controller_Database;
-_a = Controller_Database;
+exports.Controller_Databases = Controller_Databases;
+_a = Controller_Databases;
 // Requires create new database
-Controller_Database.createDatabase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+Controller_Databases.createDatabase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield model_database_1.Model_Database.createDatabase();
+        yield model_databases_1.Model_Database.createDatabase();
         res.status(200).send(`Run createDatabase successfully !`);
     }
     catch (error) {
@@ -27,9 +27,9 @@ Controller_Database.createDatabase = (req, res) => __awaiter(void 0, void 0, voi
     }
 });
 // Requires create new tables
-Controller_Database.createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+Controller_Databases.createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield model_database_1.Model_Database.createTable();
+        yield model_databases_1.Model_Database.createTable();
         res.status(200).send(`Run createTable successfully !`);
     }
     catch (error) {
@@ -37,9 +37,9 @@ Controller_Database.createTable = (req, res) => __awaiter(void 0, void 0, void 0
     }
 });
 // Requires delete tables
-Controller_Database.deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+Controller_Databases.deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield model_database_1.Model_Database.deleteTable();
+        yield model_databases_1.Model_Database.deleteTable();
         res.status(200).send(`Run deleteTable successfully !`);
     }
     catch (error) {

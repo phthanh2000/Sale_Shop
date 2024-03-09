@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { Model_Database } from '../models/model_database';
+import { Model_Database } from '../models/model_databases';
 
-export class Controller_Database {
+export class Controller_Databases {
   // Requires create new database
   public static createDatabase = async (req: Request, res: Response) => {
     try {
