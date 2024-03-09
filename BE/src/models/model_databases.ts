@@ -1,5 +1,5 @@
 import { newPool, pool } from '../db/connection';
-import { CONST_CONNECT_POSTGRES, CONST_TABLE_NAME } from '../constants';
+import { CONST_COLUMN_ROLES, CONST_CONNECT_POSTGRES, CONST_TABLE_NAME } from '../constants';
 
 export class Model_Database {
 
@@ -32,8 +32,8 @@ export class Model_Database {
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "code" VARCHAR NOT NULL UNIQUE,
-                "price" NUMERIC,
-                "quantity" INT,
+                "price" NUMERIC NOT NULL,
+                "quantity" INT NOT NULL,
                 "description" VARCHAR,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
@@ -42,7 +42,7 @@ export class Model_Database {
 
             CREATE TABLE "Images" (
                 "id" BIGSERIAL PRIMARY KEY,
-                "url" VARCHAR,
+                "url" VARCHAR NOT NULL,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
                 "productid" BIGINT REFERENCES ${CONST_TABLE_NAME.Products}(id)
@@ -50,7 +50,7 @@ export class Model_Database {
 
             CREATE TABLE "Roles" (
                 "id" SERIAL PRIMARY KEY,
-                "name" VARCHAR(100) NOT NULL,
+                "name" VARCHAR(100) NOT NULL UNIQUE,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP
             );
@@ -68,16 +68,16 @@ export class Model_Database {
             
             CREATE TABLE "Orders" (
                 "id" BIGSERIAL PRIMARY KEY,
-                "totalamount" NUMERIC,
+                "totalamount" NUMERIC NOT NULL,
                 "createdat" TIMESTAMP,
                 "userid" BIGINT REFERENCES ${CONST_TABLE_NAME.Users}(id)
             );
 
             CREATE TABLE "OrderDetails" (
                 "id" BIGSERIAL PRIMARY KEY,
-                "quantity" INT,
-                "size" VARCHAR,
-                "subtotal" NUMERIC,
+                "quantity" INT NOT NULL,
+                "size" VARCHAR NOT NULL,
+                "subtotal" NUMERIC NOT NULL,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
                 "orderid" BIGINT REFERENCES ${CONST_TABLE_NAME.Orders}(id),
@@ -95,6 +95,21 @@ export class Model_Database {
         }
     };
 
+    // Function to insert default value for table
+    public static insertDefaultValueForTable = async () => {
+        const client = await pool.connect();
+        try {
+            // Execute SQL command to create the table
+            await client.query(`
+            INSERT INTO ${CONST_TABLE_NAME.Roles} (${CONST_COLUMN_ROLES.name}, ${CONST_COLUMN_ROLES.createdat}, ${CONST_COLUMN_ROLES.updatedat})
+            VALUES ('admin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+                   ('user', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+        `);
+        } finally {
+            client.release();
+        }
+    };
+
     // Function to delete a table
     public static deleteTable = async () => {
         const client = await pool.connect();
@@ -106,8 +121,8 @@ export class Model_Database {
         DROP TABLE "Categories";
         DROP TABLE "OrderDetails";
         DROP TABLE "Orders";
-        DROP TABLE "Roles";
         DROP TABLE "Users";
+        DROP TABLE "Roles";
         `);
         } finally {
             client.release();

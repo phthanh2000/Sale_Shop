@@ -36,6 +36,16 @@ Controller_Databases.createTable = (req, res) => __awaiter(void 0, void 0, void 
         res.status(400).send(`Error createTable: ${error}`);
     }
 });
+// Requires insert default value into tables
+Controller_Databases.insertDefaultValueForTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield model_databases_1.Model_Database.insertDefaultValueForTable();
+        return res.status(200).send(`Run insertDefaulValueForTable successfully !`);
+    }
+    catch (error) {
+        res.status(400).send(`Error insertDefaulValueForTable: ${error}`);
+    }
+});
 // Requires delete tables
 Controller_Databases.deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

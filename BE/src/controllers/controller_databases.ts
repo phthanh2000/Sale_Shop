@@ -22,6 +22,16 @@ export class Controller_Databases {
     }
   }
 
+  // Requires insert default value into tables
+  public static insertDefaultValueForTable = async (req: Request, res: Response) => {
+    try {
+      await Model_Database.insertDefaultValueForTable();
+      return res.status(200).send(`Run insertDefaulValueForTable successfully !`);
+    } catch (error) {
+      res.status(400).send(`Error insertDefaulValueForTable: ${error}`);
+    }
+  }
+
   // Requires delete tables
   public static deleteTable = async (req: Request, res: Response) => {
     try {

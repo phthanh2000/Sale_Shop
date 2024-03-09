@@ -6,6 +6,7 @@ const router_database = Router();
 
 router_database.get('/createDatabase', Controller_Databases.createDatabase);
 router_database.get('/createTable', Controller_Databases.createTable);
+router_database.get('/insertTable',Controller_Databases.insertDefaultValueForTable);
 router_database.delete('/deleteTable', Controller_Databases.deleteTable);
 
 export default router_database;
