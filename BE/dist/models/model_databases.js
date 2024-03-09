@@ -45,29 +45,29 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
             CREATE TABLE "Products" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
-                "code" VARCHAR NOT NULL UNIQUE
+                "code" VARCHAR NOT NULL UNIQUE,
                 "price" NUMERIC,
                 "quantity" INT,
                 "description" VARCHAR,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
-                "categoryid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.categories}(id)
+                "categoryid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Categories}(id)
             );
 
             CREATE TABLE "Images" (
                 "id" BIGSERIAL PRIMARY KEY,
-                "url" VARCHARL,
+                "url" VARCHAR,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
-                "productid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.products}(id)
-            )
+                "productid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Products}(id)
+            );
 
             CREATE TABLE "Roles" (
-                "id" SERIAL PRIMARY KEY, 
+                "id" SERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "createdat" TIMESTAMP,
-                "updatedat" TIMESTAMP,
-            )
+                "updatedat" TIMESTAMP
+            );
 
             CREATE TABLE "Users" (
                 "id" BIGSERIAL PRIMARY KEY,
@@ -77,14 +77,14 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
                 "email" VARCHAR(100) NOT NULL UNIQUE,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
-                "roleid" INT REFERENCES ${constants_1.CONST_TABLE_NAME.roles}(id)
+                "roleid" INT REFERENCES ${constants_1.CONST_TABLE_NAME.Roles}(id)
             );
             
             CREATE TABLE "Orders" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "totalamount" NUMERIC,
                 "createdat" TIMESTAMP,
-                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.users}(id) 
+                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Users}(id)
             );
 
             CREATE TABLE "OrderDetails" (
@@ -94,14 +94,14 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
                 "subtotal" NUMERIC,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
-                "orderid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.orders}(id),
-                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.users}(id)
+                "orderid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Orders}(id),
+                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Users}(id)
             );
 
             CREATE TABLE "Tokens" (
                 "token" VARCHAR NOT NULL,
                 "createdat" TIMESTAMP,
-                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.users}(id)
+                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Users}(id)
             );
         `);
     }

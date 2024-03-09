@@ -5,7 +5,7 @@ import { CONST_TABLE_NAME, CONST_COLUMN_USERS } from '../constants';
 
 export class Model_User {
   // Table name
-  static tableName: string = CONST_TABLE_NAME.users;
+  static tableName: string = CONST_TABLE_NAME.Users;
 
   // Function to get list user
   public static getUsers = async () => {

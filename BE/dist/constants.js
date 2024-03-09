@@ -11,14 +11,14 @@ exports.CONST_CONNECT_POSTGRES = {
 };
 // Constants table name
 exports.CONST_TABLE_NAME = {
-    categories: `public."Categories"`,
-    products: `public."Products"`,
-    images: `public."Images`,
-    users: `public."Users"`,
-    orders: `public."Orders"`,
-    orderDetails: `public."OrderDetails"`,
-    userToken: `public."UserToken"`,
-    roles: `public."Roles"`
+    Categories: `public."Categories"`,
+    Products: `public."Products"`,
+    Images: `public."Images`,
+    Users: `public."Users"`,
+    Orders: `public."Orders"`,
+    OrderDetails: `public."OrderDetails"`,
+    Tokens: `public."Tokens"`,
+    Roles: `public."Roles"`
 };
 // Constants column in table categories
 exports.CONST_COLUMN_CATEGORIES = {

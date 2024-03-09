@@ -18,7 +18,7 @@ class Model_User {
 exports.Model_User = Model_User;
 _a = Model_User;
 // Table name
-Model_User.tableName = constants_1.CONST_TABLE_NAME.users;
+Model_User.tableName = constants_1.CONST_TABLE_NAME.Users;
 // Function to get list user
 Model_User.getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     // Connect postgres database
