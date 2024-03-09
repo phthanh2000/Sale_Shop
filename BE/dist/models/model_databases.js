@@ -90,6 +90,7 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
             CREATE TABLE "OrderDetails" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "quantity" INT,
+                "size" VARCHAR,
                 "subtotal" NUMERIC,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,

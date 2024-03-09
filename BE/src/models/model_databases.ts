@@ -76,6 +76,7 @@ export class Model_Database {
             CREATE TABLE "OrderDetails" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "quantity" INT,
+                "size" VARCHAR,
                 "subtotal" NUMERIC,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
