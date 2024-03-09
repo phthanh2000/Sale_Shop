@@ -78,6 +78,7 @@ exports.CONST_COLUMN_ORDERS = {
 exports.CONST_COLUMN_ORDER_DETAILS = {
     id: 'id',
     quantity: 'quantity',
+    size: 'size',
     subtotal: 'subtotal',
     createdat: 'createdat',
     updatedat: 'updatedat',

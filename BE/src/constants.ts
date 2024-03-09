@@ -83,6 +83,7 @@ export const CONST_COLUMN_ORDERS = {
 export const CONST_COLUMN_ORDER_DETAILS = {
     id: 'id',
     quantity: 'quantity',
+    size: 'size',
     subtotal: 'subtotal',
     createdat: 'createdat',
     updatedat: 'updatedat',
