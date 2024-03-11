@@ -89,17 +89,17 @@ export const Login = (props) => {
         }
         if (password === '') {
             setPasswordMessage('Mật khẩu không được để trống');
-        } 
+        }
         if (email !== '' && password !== '') {
-            const infoLogin = {
+            const dataLogin = {
                 email: email,
                 pass: password,
             }
             try {
-                const result = await Service_User.UserLogin(infoLogin);
+                const result = await Service_User.UserLogin(dataLogin);
                 if (result === 'Login failed') {
                     setLoginMessage('Email hoặc mật khẩu không chính xác');
-                } else if (result === 'User not exists') {
+                } else if (result === 'User does not exists') {
                     setLoginMessage('Tài khoản không tồn tại');
                 } else {
                     localStorage.setItem('TokenUser', result);
@@ -110,6 +110,13 @@ export const Login = (props) => {
             } catch (error) {
                 console.log(error);
             }
+        }
+    }
+
+    // Event on enter email or pass input or login button
+    const onKeyEnter = async (event) => {
+        if (event.key === 'Enter') {
+            onClickLoginButton();
         }
     }
 
@@ -140,7 +147,8 @@ export const Login = (props) => {
                             placeholder="Nhập Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            onClick={() => setEmailMessage('')} />
+                            onClick={() => setEmailMessage('')}
+                            onKeyDown={(e) => onKeyEnter(e)} />
                     </div>
                     <div className={email === '' ? "message-notification show" : "message-notification hidden"}>
                         {emailMessage}
@@ -149,25 +157,16 @@ export const Login = (props) => {
                         Mật khẩu:
                     </label>
                     <div className="input-password">
+                        <input type={isShowPassword ? "text" : "password"}
+                            name="pass"
+                            placeholder="Nhập Mật khẩu"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            onKeyDown={(e) => onKeyEnter(e)} />
                         {isShowPassword ?
-                            <>
-                                <input type="text"
-                                    name="pass"
-                                    placeholder="Nhập Mật khẩu"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)} />
-                                <IoEye onClick={() => onClickIconEyeToPasswordDislay()}></IoEye>
-                            </>
+                            <IoEye onClick={() => onClickIconEyeToPasswordDislay()}></IoEye>
                             :
-                            <>
-                                <input type="password"
-                                    name="pass"
-                                    placeholder="Nhập Mật khẩu"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    onClick={() => setPasswordMessage('')} />
-                                <IoEyeOff onClick={() => onClickIconEyeToPasswordDislay()}></IoEyeOff>
-                            </>
+                            <IoEyeOff onClick={() => onClickIconEyeToPasswordDislay()}></IoEyeOff>
                         }
                     </div>
                     <div className={password === '' ? "message-notification show" : "message-notification hidden"}>
