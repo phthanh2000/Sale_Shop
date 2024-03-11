@@ -16,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Controller_Users = void 0;
 const model_users_1 = require("../models/model_users");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const crypto_js_1 = __importDefault(require("crypto-js"));
 class Controller_Users {
 }
 exports.Controller_Users = Controller_Users;
@@ -34,8 +35,19 @@ Controller_Users.getUsers = (req, res) => __awaiter(void 0, void 0, void 0, func
 Controller_Users.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const user = yield model_users_1.Model_User.createUser(data);
-        return res.status(200).json(user);
+        const checkEmailIsRegister = yield model_users_1.Model_User.checkEmailExists(data);
+        if (typeof (checkEmailIsRegister) === 'undefined') {
+            // Password encryption
+            const ciphertext = data.pass;
+            const secretKey = 'your_secret_key';
+            const encryptedString = crypto_js_1.default.AES.encrypt(ciphertext, secretKey).toString();
+            data.pass = encryptedString;
+            const user = yield model_users_1.Model_User.createUser(data);
+            return res.status(200).json(user);
+        }
+        else {
+            return res.status(200).send('Email is used');
+        }
     }
     catch (error) {
         return res.status(400).send(`API createUser ${error}`);
@@ -68,22 +80,30 @@ Controller_Users.deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, fu
 Controller_Users.userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const checkUserisExist = yield model_users_1.Model_User.checkUserIsExists(data);
-        if (typeof (checkUserisExist) !== 'undefined') {
-            const user = yield model_users_1.Model_User.getUserForEmailAndPassword(data);
-            if (typeof (user) !== "undefined") {
-                const payload = { userId: user.id };
+        const checkUserIsExist = yield model_users_1.Model_User.checkEmailExists(data);
+        if (typeof (checkUserIsExist) !== 'undefined') {
+            // Password decryption
+            const encryptedString = checkUserIsExist.pass;
+            const secretKey = 'your_secret_key';
+            const decryptedBytes = crypto_js_1.default.AES.decrypt(encryptedString, secretKey);
+            const decryptedString = decryptedBytes.toString(crypto_js_1.default.enc.Utf8);
+            // Check the email and password entered are the same as the saved data
+            const emailInputFromLoginForm = data.email;
+            const passInputFromLoginForm = data.pass;
+            const emailOfUserIsExistInDatabase = checkUserIsExist.email;
+            const passOfUserIsExistInDatabase = decryptedString;
+            if (emailInputFromLoginForm === emailOfUserIsExistInDatabase && passInputFromLoginForm === passOfUserIsExistInDatabase) {
+                // Create token
+                const payload = { userId: checkUserIsExist.id };
                 const secretKey = 'your_secret_key';
                 const options = { expiresIn: '8H' };
                 const token = jsonwebtoken_1.default.sign(payload, secretKey, options);
                 return res.status(200).json(token);
             }
-            else {
-                return res.status(200).send('Login failed');
-            }
+            return res.status(200).send('Login failed');
         }
         else {
-            return res.status(200).send('User not exists');
+            return res.status(200).send('User does not exists');
         }
     }
     catch (error) {

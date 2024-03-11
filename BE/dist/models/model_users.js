@@ -41,18 +41,20 @@ Model_User.createUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
     const client = yield connection_1.pool.connect();
     try {
         // Data
-        const { name, email, pass } = user;
+        const { name, email, phone, pass, roleid } = user;
         // Data query
         const queryOptions = `INSERT INTO ${_a.tableName} 
                           (
                             ${constants_1.CONST_COLUMN_USERS.name}, 
-                            ${constants_1.CONST_COLUMN_USERS.email}, 
+                            ${constants_1.CONST_COLUMN_USERS.email},
+                            ${constants_1.CONST_COLUMN_USERS.phone}, 
                             ${constants_1.CONST_COLUMN_USERS.pass},
                             ${constants_1.CONST_COLUMN_USERS.createdat},
-                            ${constants_1.CONST_COLUMN_USERS.updatedat}
-                          ) VALUES ( $1, $2, $3, $4, $5 ) RETURNING *`;
+                            ${constants_1.CONST_COLUMN_USERS.updatedat},
+                            ${constants_1.CONST_COLUMN_USERS.roleid}
+                          ) VALUES ( $1, $2, $3, $4, $5, $6, $7 ) RETURNING *`;
         // Perform data queries
-        const result = yield client.query(queryOptions, [name, email, pass, new Date(), new Date]);
+        const result = yield client.query(queryOptions, [name, email, phone, pass, new Date(), new Date, roleid]);
         return result.rows[0];
     }
     finally {
@@ -105,35 +107,19 @@ Model_User.deleteUser = (valueId) => __awaiter(void 0, void 0, void 0, function*
         client.release();
     }
 });
-// Function check user is exists in list 
-Model_User.checkUserIsExists = (user) => __awaiter(void 0, void 0, void 0, function* () {
+// Function check email exists
+Model_User.checkEmailExists = (user) => __awaiter(void 0, void 0, void 0, function* () {
     // Connect postgres database
     const client = yield connection_1.pool.connect();
     try {
+        // Email
         const { email } = user;
+        // Data query
         const queryOptions = `SELECT *
                             FROM ${_a.tableName}
                             WHERE ${constants_1.CONST_COLUMN_USERS.email} = $1`;
         // Perform data queries
         const result = yield client.query(queryOptions, [email]);
-        return result.rows[0];
-    }
-    finally {
-        // Release the connection
-        client.release();
-    }
-});
-// Function to get user for email and password
-Model_User.getUserForEmailAndPassword = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    // Connect postgres database
-    const client = yield connection_1.pool.connect();
-    try {
-        const { email, pass } = user;
-        const queryOptions = `SELECT * FROM ${_a.tableName} 
-                            WHERE ${constants_1.CONST_COLUMN_USERS.email} = $1
-                            AND ${constants_1.CONST_COLUMN_USERS.pass} = $2`;
-        // Perform data queries
-        const result = yield client.query(queryOptions, [email, pass]);
         return result.rows[0];
     }
     finally {

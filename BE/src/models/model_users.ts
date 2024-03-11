@@ -2,6 +2,7 @@
 import { pool } from '../db/connection';
 import { Entity_Users } from '../entities/entity_users';
 import { CONST_TABLE_NAME, CONST_COLUMN_USERS } from '../constants';
+import { Controller_Users } from '../controllers/controller_users';
 
 export class Model_User {
   // Table name
@@ -29,18 +30,20 @@ export class Model_User {
     const client = await pool.connect();
     try {
       // Data
-      const { name, email, pass } = user;
+      const { name, email, phone, pass, roleid } = user;
       // Data query
       const queryOptions = `INSERT INTO ${Model_User.tableName} 
                           (
                             ${CONST_COLUMN_USERS.name}, 
-                            ${CONST_COLUMN_USERS.email}, 
+                            ${CONST_COLUMN_USERS.email},
+                            ${CONST_COLUMN_USERS.phone}, 
                             ${CONST_COLUMN_USERS.pass},
                             ${CONST_COLUMN_USERS.createdat},
-                            ${CONST_COLUMN_USERS.updatedat}
-                          ) VALUES ( $1, $2, $3, $4, $5 ) RETURNING *`;
+                            ${CONST_COLUMN_USERS.updatedat},
+                            ${CONST_COLUMN_USERS.roleid}
+                          ) VALUES ( $1, $2, $3, $4, $5, $6, $7 ) RETURNING *`;
       // Perform data queries
-      const result = await client.query(queryOptions, [name, email, pass, new Date(), new Date]);
+      const result = await client.query(queryOptions, [name, email, phone, pass, new Date(), new Date, roleid]);
       return result.rows[0];
     } finally {
       // Release the connection
@@ -49,7 +52,7 @@ export class Model_User {
   };
 
   // Function to update user
-  public static updateUser = async (valueId: string, user: Entity_Users) => {
+  public static updateUser = async (valueId: any, user: Entity_Users) => {
     // Connect postgres database
     const client = await pool.connect();
     try {
@@ -75,7 +78,7 @@ export class Model_User {
   };
 
   // Function to delete user
-  public static deleteUser = async (valueId: string) => {
+  public static deleteUser = async (valueId: any) => {
     // Connect postgres database
     const client = await pool.connect();
     try {
@@ -93,12 +96,14 @@ export class Model_User {
     }
   };
 
-  // Function check user is exists in list 
-  public static checkUserIsExists = async (user: Entity_Users) => {
+  // Function check email exists
+  public static checkEmailExists = async (user: Entity_Users) => {
     // Connect postgres database
     const client = await pool.connect();
     try {
+      // Email
       const { email } = user;
+      // Data query
       const queryOptions = `SELECT *
                             FROM ${Model_User.tableName}
                             WHERE ${CONST_COLUMN_USERS.email} = $1`
@@ -110,22 +115,4 @@ export class Model_User {
       client.release();
     }
   }
-
-  // Function to get user for email and password
-  public static getUserForEmailAndPassword = async (user: Entity_Users) => {
-    // Connect postgres database
-    const client = await pool.connect();
-    try {
-      const { email, pass } = user;
-      const queryOptions = `SELECT * FROM ${Model_User.tableName} 
-                            WHERE ${CONST_COLUMN_USERS.email} = $1
-                            AND ${CONST_COLUMN_USERS.pass} = $2`;
-      // Perform data queries
-      const result = await client.query(queryOptions, [email, pass]);
-      return result.rows[0];
-    } finally {
-      // Release the connection
-      client.release();
-    }
-  };
 }
