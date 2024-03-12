@@ -10,4 +10,5 @@ router_user.post('/login', controller_users_1.Controller_Users.userLogin);
 router_user.post('/createUser', controller_users_1.Controller_Users.createUser);
 router_user.put('/updateUser/:id', controller_base_1.Controller_Base.authenticateToken, controller_users_1.Controller_Users.updateUser);
 router_user.delete('/deleteUser/:id', controller_base_1.Controller_Base.authenticateToken, controller_users_1.Controller_Users.deleteUser);
+router_user.get('/resetPasswordUser', controller_base_1.Controller_Base.sendMailToResetPassword);
 exports.default = router_user;
