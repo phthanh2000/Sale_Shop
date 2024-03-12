@@ -1,6 +1,11 @@
+import imageNotFound from "../../assets/image-not-found.gif";
+import "./notfound.css";
+
 const NotFound = () => {
     return (
-        <h1>Không tồn tại</h1>
+        <div className="not-found">
+            <img className="image" alt="not-found" src={imageNotFound}></img>
+        </div>
     );
 };
 

@@ -1,14 +1,14 @@
-.react-responsive-modal-modal{
+.react-responsive-modal-modal {
     width: 350px;
     border-radius: 10px;
 }
 
-.react-responsive-modal-closeButton{
+.react-responsive-modal-closeButton {
     display: none;
 }
 
 /* Hearder */
-.header-forget-form .close-icon{
+.header-forget-form .close-icon {
     float: right;
     font-size: 20px;
     background: linear-gradient(-170deg, #eef2f3, #8e9eab);
@@ -17,40 +17,40 @@
     cursor: pointer;
 }
 
-.header-forget-form .close-icon:hover{
+.header-forget-form .close-icon:hover {
     background: #8e9eab;
     color: #ffffff;
 }
 
-.header-forget-form .image{
+.header-forget-form .image {
     width: 100%;
     height: 50px;
     display: flex;
     justify-content: center;
 }
 
-.header-forget-form .title{
+.header-forget-form .title {
     font-size: 20px;
-    color:black;
+    color: black;
     display: flex;
     justify-content: center;
     font-weight: 600;
 }
 
 /* Footer */
-.footer-forget-form{
+.footer-forget-form {
     padding-top: 5px;
 }
 
-.footer-forget-form .show{
+.footer-forget-form .show {
     display: block;
 }
 
-.footer-forget-form .hidden{
+.footer-forget-form .hidden {
     display: none;
 }
 
-.footer-forget-form .info-warning{
+.footer-forget-form .info-warning {
     border: 1px solid #ff9966;
     border-radius: 5px;
     padding: 2px;
@@ -59,17 +59,17 @@
     font-style: italic;
 }
 
-.footer-forget-form .info-notification{
+.footer-forget-form .info-notification {
     color: #cc3300;
     padding-bottom: 30px;
 }
 
-.footer-forget-form label{
+.footer-forget-form label {
     font-size: 15px;
     font-weight: 600;
 }
 
-.footer-forget-form input{
+.footer-forget-form input {
     width: 95%;
     height: 25px;
     padding: 0 5px;
@@ -78,18 +78,18 @@
     border: 1px solid #8e9eab;
 }
 
-.footer-forget-form .message-notification{
+.footer-forget-form .message-notification {
     color: #cc3300;
     margin-bottom: 5px;
     font-size: 13px;
 }
 
-.footer-forget-form .reset{
+.footer-forget-form .reset {
     padding-top: 10px;
     padding-bottom: 30px;
 }
 
-.footer-forget-form .reset .button-reset{
+.footer-forget-form .reset .button-reset {
     width: 50%;
     height: 40px;
     display: flex;
@@ -103,18 +103,18 @@
     margin: 0px 85px;
 }
 
-.footer-forget-form .reset .button-reset:hover{
+.footer-forget-form .reset .button-reset:hover {
     background: #8e9eab;
     color: #ffffff;
 }
 
-.footer-forget-form .line{
+.footer-forget-form .line {
     background: #000000;
     width: 100%;
     height: 1px;
 }
 
-.footer-forget-form .login .button-login{
+.footer-forget-form .login .button-login {
     margin-top: 30px;
     width: 100%;
     height: 40px;
@@ -128,12 +128,12 @@
     line-height: 35px;
 }
 
-.footer-forget-form .login .button-login:hover{
+.footer-forget-form .login .button-login:hover {
     background: #FFD700;
     color: #ffffff;
 }
 
-.footer-forget-form .close .button-close{
+.footer-forget-form .close .button-close {
     width: 100%;
     height: 40px;
     display: flex;
@@ -146,7 +146,7 @@
     line-height: 35px;
 }
 
-.footer-forget-form .close .button-close:hover{
+.footer-forget-form .close .button-close:hover {
     background: #FFD700;
     color: #ffffff;
 }

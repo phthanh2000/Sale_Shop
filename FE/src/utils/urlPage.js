@@ -6,7 +6,7 @@ export const urlPages = [
     // Home page (0)
     {
         path: '',
-        component: <Home/>
+        component: <Home />
     },
 
     // New products page (1)
@@ -33,27 +33,15 @@ export const urlPages = [
         component: ''
     },
 
-    // Sign in (5)
-    {
-        path: 'login',
-        component: ''
-    },
-
-    // Sign out (6)
-    {
-        path: 'logout',
-        component: ''
-    },
-
-    // Cart (7)
+    // Cart (5)
     {
         path: 'cart',
         component: ''
     },
 
     // Not found URL page
-    { 
+    {
         path: '*',
-        component: <NotFound/>
+        component: <NotFound />
     }
 ];

@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import MainLayout from '../page/Theme/MainLayout';
 import { urlPages } from './urlPage';
 
@@ -10,12 +10,12 @@ const MainRouting = () => {
         <BrowserRouter>
             <MainLayout>
                 <Routes>
-                {/* Display page for URL */}
-                {   
-                    urlPages.map((item, itemKey) => (
-                        <Route key={itemKey} path= {item.path} element= {item.component}/>
-                    ))
-                }
+                    {/* Display page for URL */}
+                    {
+                        urlPages.map((item, itemKey) => (
+                            <Route key={itemKey} path={item.path} element={item.component} />
+                        ))
+                    }
                 </Routes>
             </MainLayout>
         </BrowserRouter>

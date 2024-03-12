@@ -4,10 +4,10 @@ import Footer from "../FooterMain";
 // Layout include header, body, footer
 const MainLayout = ({ children, ...props }) => {
     return (
-        <div className="container" {... props}>
-            <Header/>
+        <div className="container" {...props}>
+            <Header />
             {children}
-            <Footer/>
+            <Footer />
         </div>
     );
 };

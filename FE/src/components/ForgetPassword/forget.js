@@ -21,7 +21,7 @@ export const ForgetPassWord = (props) => {
 
     // Event on click reset password button
     const onClickResetPassWordButton = () => {
-        if(emailReset === ''){
+        if (emailReset === '') {
             setEmailResetMessage("Email không được để trống");
         } else {
             setIsSubmitResetPassWord(!isSubmitResetPassWord);
@@ -90,13 +90,13 @@ export const ForgetPassWord = (props) => {
                             <div className="input-email">
                                 <input type="email"
                                     name="email"
-                                    placeholder="Nhập Email" 
+                                    placeholder="Nhập Email"
                                     value={emailReset}
-                                    onChange={(e) => {setEmailReset(e.target.value)}}
-                                    onClick={() => {setEmailResetMessage('')}}
-                                    />
+                                    onChange={(e) => { setEmailReset(e.target.value) }}
+                                    onClick={() => { setEmailResetMessage('') }}
+                                />
                             </div>
-                            <div className={emailReset === ''? "message-notification show" : "message-notification hide"}>
+                            <div className={emailReset === '' ? "message-notification show" : "message-notification hide"}>
                                 {emailResetMessage}
                             </div>
                             <div className="reset">

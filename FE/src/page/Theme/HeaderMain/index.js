@@ -245,7 +245,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <Login showLoginForm={isShowLoginForm} closeLoginForm={(data) => returnValueToCloseLoginForm(data)}/>
+            <Login showLoginForm={isShowLoginForm} closeLoginForm={(data) => returnValueToCloseLoginForm(data)} />
         </div>
     );
 };
