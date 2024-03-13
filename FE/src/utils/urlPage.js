@@ -1,4 +1,7 @@
 import Home from "../page/Home";
+import Login from "../page/Login/login";
+import Register from "../page/Register/register";
+import ForgetPassword from "../page/ForgetPassword/forget";
 import NotFound from "../page/NotFound";
 
 // Url pages in website
@@ -33,10 +36,34 @@ export const urlPages = [
         component: ''
     },
 
-    // Cart (5)
+    // Sign in (5)
+    {
+        path: 'login',
+        component: <Login />
+    },
+
+    // Sign out (6)
+    {
+        path: 'logout',
+        component: ''
+    },
+
+    // Cart (7)
     {
         path: 'cart',
         component: ''
+    },
+
+    // Sign up (8)
+    {
+        path: 'register',
+        component: <Register/>
+    },
+
+    // Reset password (9)
+    {
+        path: 'reset-password',
+        component: <ForgetPassword/>
     },
 
     // Not found URL page
