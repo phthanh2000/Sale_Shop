@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { IoClose } from "react-icons/io5";
-import { Modal } from 'react-responsive-modal';
-import 'react-responsive-modal/styles.css';
 import './forget.css';
+import { Service_User } from "../../service/service_user";
 
-export const ForgetPassWord = (props) => {
+const ForgetPassword = () => {
     // Value from email input
     const [emailReset, setEmailReset] = useState('');
 
@@ -14,64 +12,60 @@ export const ForgetPassWord = (props) => {
     // Display notifications form reset password successful
     const [isSubmitResetPassWord, setIsSubmitResetPassWord] = useState(false);
 
-    // Event on click close icon on forget form 
-    const onClickCloseIcon = () => {
-        props.closeForgetForm(!props.showForgetPasswordForm, 'close');
-    }
-
     // Event on click reset password button
-    const onClickResetPassWordButton = () => {
+    const onClickResetPassWordButton = async () => {
+        setEmailResetMessage('');
         if (emailReset === '') {
             setEmailResetMessage("Email không được để trống");
         } else {
-            setIsSubmitResetPassWord(!isSubmitResetPassWord);
-            // Reset password API
+            try {
+                // Reset password API
+                const result = await Service_User.ResetPasswordUser({email: emailReset});
+                if(result === "User does not exists") {
+                    setEmailResetMessage('Tài khoản không tồn tại');
+                } else {
+                    setIsSubmitResetPassWord(!isSubmitResetPassWord);
+                }
+            } catch (error) {
+                console.log(error);
+            };
         }
     }
 
-    // Event on click return login form button on forget form
-    const onClickReturnLoginFormButton = () => {
-        props.closeForgetForm(!props.showForgetPasswordForm, 'return');
-    }
+        // Event on enter input form
+        const onKeyEnter = async (event) => {
+            if (event.key === 'Enter') {
+                onClickResetPassWordButton();
+            }
+        }
 
     return (
         <div className="forget-form">
-            <Modal
-                open={props.showForgetPasswordForm}
-                onClose={() => { }}
-                center>
+            <div className="container-center">
                 {isSubmitResetPassWord ?
                     <>
                         <div className="header-forget-form">
-                            <IoClose className="close-icon"
-                                onClick={() => onClickCloseIcon('reset-password-success')} />
                             <div className="image">
                                 <img alt="tag"
                                     src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1709791944/iiqijmt0v6fgccbvehqy.webp" />
                             </div>
                             <div className="title">
-                                Đặt lại mật khẩu thành công
+                                Chúc mừng bạn đặt lại mật khẩu thành công
                             </div>
                         </div>
                         <div className="footer-forget-form">
                             <div className="info-notification">
-                                Email khôi phục lại mật khẩu đã được gửi lại thành công đến <strong>{emailReset}</strong>
+                                <i>Yêu cầu khôi phục lại mật khẩu đã được gửi đến email</i>
                                 <br></br>
-                                Vui lòng kiểm tra email của bạn.
-                            </div>
-                            <div className="close">
-                                <button className="button-close"
-                                    type="button"
-                                    name="close"
-                                    onClick={() => onClickCloseIcon('reset-password-success')}>Đóng</button>
+                                <strong>{emailReset}</strong>
+                                <br></br>
+                                <i>Vui lòng kiểm tra email của bạn.</i>
                             </div>
                         </div>
                     </>
                     :
                     <>
                         <div className="header-forget-form">
-                            <IoClose className="close-icon"
-                                onClick={() => onClickCloseIcon()} />
                             <div className="image">
                                 <img alt="tag"
                                     src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1709791944/iiqijmt0v6fgccbvehqy.webp" />
@@ -82,7 +76,7 @@ export const ForgetPassWord = (props) => {
                         </div>
                         <div className="footer-forget-form">
                             <div className="info-warning">
-                                Vui lòng cung cấp email đăng nhập, chúng tôi sẽ gửi cho bạn một email để kích hoạt việc đặt lại mật khẩu.
+                                <strong>Vui lòng cung cấp email đăng nhập, chúng tôi sẽ gửi cho bạn một email để kích hoạt lại mật khẩu mới.</strong>
                             </div>
                             <label>
                                 Email:
@@ -91,9 +85,11 @@ export const ForgetPassWord = (props) => {
                                 <input type="email"
                                     name="email"
                                     placeholder="Nhập Email"
+                                    maxLength={50}
                                     value={emailReset}
                                     onChange={(e) => { setEmailReset(e.target.value) }}
                                     onClick={() => { setEmailResetMessage('') }}
+                                    onKeyDown={(e) => onKeyEnter(e)}
                                 />
                             </div>
                             <div className={emailReset === '' ? "message-notification show" : "message-notification hide"}>
@@ -107,18 +103,11 @@ export const ForgetPassWord = (props) => {
                                     Đặt lại mật khẩu
                                 </button>
                             </div>
-                            <div className="line" />
-                            <div className="login">
-                                <button className="button-login"
-                                    type="button"
-                                    name="login"
-                                    onClick={() => onClickReturnLoginFormButton()}>
-                                    Quay về trang đăng nhập
-                                </button>
-                            </div>
                         </div>
                     </>}
-            </Modal>
+            </div>
         </div>
     )
 }
+
+export default ForgetPassword;

@@ -1,19 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { IoClose, IoEye, IoEyeOff } from "react-icons/io5";
-import { Modal } from 'react-responsive-modal';
-import { Register } from "../Register/register";
-import 'react-responsive-modal/styles.css';
-import './login.css';
-import { ForgetPassWord } from "../ForgetPassword/forget";
+import { useNavigate } from "react-router-dom";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 import { Service_User } from "../../service/service_user";
+import { urlPages } from "../../utils/urlPage";
+import './login.css';
 
-export const Login = (props) => {
+const Login = () => {
+    const navigate = useNavigate();
+
     // Value from email input
     const [email, setEmail] = useState('');
 
     // Value from password input
     const [password, setPassword] = useState('');
+    
+    // Display password
+    const [isShowPassword, setIsShowPassword] = useState(false);
 
     // Display message when error email input
     const [emailMessage, setEmailMessage] = useState('');
@@ -24,62 +26,15 @@ export const Login = (props) => {
     // Display message when error user not exists or login failed
     const [loginMessage, setLoginMessage] = useState('');
 
-    // Display password
-    const [isShowPassword, setIsShowPassword] = useState(false);
-
-    // Registration form display value
-    const [isShowRegisterForm, setIsShowRegisterForm] = useState(false);
-
-    // Forget password form display value
-    const [isShowForgetPasswordForm, setIsShowForgetPasswordForm] = useState(false);
-
     // Event on click eye icon to password display 
     const onClickIconEyeToPasswordDislay = () => {
         setIsShowPassword(!isShowPassword);
     }
 
-    // Event on click close icon on login form 
-    const onClickCloseIcon = () => {
-        props.closeLoginForm(!props.showLoginForm);
-        setEmail('');
-        setPassword('');
-        setLoginMessage('');
-    }
-
-
-    // Event on click forget password link on login form
+    // Event on click forget password link
     const onClickForgetPasswordLink = () => {
-        props.closeLoginForm(!props.showLoginForm);
-        setIsShowForgetPasswordForm(!isShowForgetPasswordForm);
+        navigate(`/${urlPages[9].path}`);
     }
-
-    // Return value when click close button or return login form button on register form 
-    const returnValueToForgetPasswordLink = (data, event) => {
-        if (event === 'close') {
-            setIsShowForgetPasswordForm(data);
-        }
-        else {
-            setIsShowForgetPasswordForm(data);
-            props.closeLoginForm(!props.showLoginForm);
-        }
-    };
-
-    // Event on click register button on login form
-    const onClickRegisterButton = () => {
-        props.closeLoginForm(!props.showLoginForm);
-        setIsShowRegisterForm(!isShowRegisterForm);
-    }
-
-    // Return value when click close button or return login form button on register form 
-    const returnValueToCloseRegisterForm = (data, event) => {
-        if (event === 'close') {
-            setIsShowRegisterForm(data);
-        }
-        else {
-            setIsShowRegisterForm(data);
-            props.closeLoginForm(!props.showLoginForm);
-        }
-    };
 
     // Event on click login button
     const onClickLoginButton = async () => {
@@ -103,9 +58,7 @@ export const Login = (props) => {
                     setLoginMessage('Tài khoản không tồn tại');
                 } else {
                     localStorage.setItem('TokenUser', result);
-                    props.closeLoginForm(!props.showLoginForm);
-                    setEmail('');
-                    setPassword('');
+                    navigate(`/${urlPages[0].path}`);
                 }
             } catch (error) {
                 console.log(error);
@@ -113,7 +66,12 @@ export const Login = (props) => {
         }
     }
 
-    // Event on enter email or pass input or login button
+    // Event on click register button
+    const onClickRegisterButton = () => {
+        navigate(`/${urlPages[8].path}`);
+    }
+
+    // Event on enter input form
     const onKeyEnter = async (event) => {
         if (event.key === 'Enter') {
             onClickLoginButton();
@@ -122,13 +80,8 @@ export const Login = (props) => {
 
     return (
         <div className="login-form">
-            <Modal
-                open={props.showLoginForm}
-                onClose={() => { }}
-                center>
+            <div className="container-center">
                 <div className="header-login-form">
-                    <IoClose className="close-icon"
-                        onClick={() => onClickCloseIcon()} />
                     <div className="image">
                         <img alt="tag"
                             src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1709791944/iiqijmt0v6fgccbvehqy.webp" />
@@ -145,6 +98,7 @@ export const Login = (props) => {
                         <input type="email"
                             name="email"
                             placeholder="Nhập Email"
+                            maxLength={50}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             onClick={() => setEmailMessage('')}
@@ -160,8 +114,10 @@ export const Login = (props) => {
                         <input type={isShowPassword ? "text" : "password"}
                             name="pass"
                             placeholder="Nhập Mật khẩu"
+                            maxLength={50}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            onClick={() => setPasswordMessage('')}
                             onKeyDown={(e) => onKeyEnter(e)} />
                         {isShowPassword ?
                             <IoEye onClick={() => onClickIconEyeToPasswordDislay()}></IoEye>
@@ -176,11 +132,10 @@ export const Login = (props) => {
                         {loginMessage}
                     </div>
                     <div className="login-forget">
-                        <Link className="forget-password"
-                            title="forget"
+                        <u className="forget-password"
                             onClick={() => onClickForgetPasswordLink()}>
                             Quên mật khẩu?
-                        </Link>
+                        </u>
                         <button className="button-login"
                             type="button"
                             name="login"
@@ -195,15 +150,13 @@ export const Login = (props) => {
                             type="button"
                             name="register"
                             onClick={() => onClickRegisterButton()}>
-                            Đăng ký
+                            Đăng ký ngay
                         </button>
                     </div>
                 </div>
-            </Modal>
-            {isShowForgetPasswordForm && <ForgetPassWord showForgetPasswordForm={isShowForgetPasswordForm}
-                closeForgetForm={(data, event) => returnValueToForgetPasswordLink(data, event)} />}
-            {isShowRegisterForm && <Register showRegisterForm={isShowRegisterForm}
-                closeRegisterForm={(data, event) => returnValueToCloseRegisterForm(data, event)} />}
+            </div>
         </div>
     )
 }
+
+export default Login
