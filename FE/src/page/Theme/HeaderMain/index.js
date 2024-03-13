@@ -7,7 +7,6 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import SearchField from "react-search-field";
 import { Link } from "react-router-dom";
 import { urlPages } from "../../../utils/urlPage";
-import { Login } from "../../../components/Login/login";
 import "./header.css";
 
 // Header page  
@@ -112,23 +111,10 @@ const Header = () => {
     // Value show item menu
     const [menuItem, setMenuItem] = useState(false);
 
-    // Login form display value
-    const [isShowLoginForm, setIsShowLoginForm] = useState(false);
-
     // Event when click on item menu icon
     const onClickMenuAllItems = () => {
         menuItem === true ? setMenuItem(false) : setMenuItem(true);
     }
-
-    // Event open login form when click user icon 
-    const onClickUserIconToOpenLoginForm = () => {
-        setIsShowLoginForm(!isShowLoginForm);
-    };
-
-    // Return value when click close button or register button on login form 
-    const returnValueToCloseLoginForm = (data) => {
-        setIsShowLoginForm(data);
-    };
 
     return (
         <div className="header">
@@ -149,7 +135,7 @@ const Header = () => {
             <div className="container-center">
                 <div className="row">
                     <div className="header-top-left">
-                        <Link to={""}>
+                        <Link to={urlPages[0].path}>
                             <img className="logo" alt="Logo" src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1704562430/logoShop_vr4zyy.png" />
                         </Link>
                     </div>
@@ -170,7 +156,7 @@ const Header = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to={""} onClick={() => onClickUserIconToOpenLoginForm()}>
+                                <Link to={urlPages[5].path}>
                                     <FaUserLarge className="user-icon" />
                                     <div>Đăng nhập</div>
                                 </Link>
@@ -245,7 +231,6 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <Login showLoginForm={isShowLoginForm} closeLoginForm={(data) => returnValueToCloseLoginForm(data)} />
         </div>
     );
 };

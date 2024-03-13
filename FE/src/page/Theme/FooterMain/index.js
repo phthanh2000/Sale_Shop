@@ -5,6 +5,22 @@ import "./footer.css";
 
 // Footer page
 const Footer = () => {
+    // Footer menu 
+    const Menu = [
+        {
+            name: 'Đăng nhập',
+            path: urlPages[5].path
+        },
+        {
+            name: 'Đăng ký',
+            path:  urlPages[6].path
+        },
+        {
+            name: 'Giỏ hàng',
+            path: urlPages[7].path
+        },
+    ]; 
+
     // Footer advertising information 
     const advertisingInformation = [
         {
@@ -23,6 +39,20 @@ const Footer = () => {
             <div className="container-center">
                 <div className="row">
                         <div className="footer-top-left">
+                            <a>Tài khoản</a>
+                            <ul className="account-menu">
+                                {
+                                    Menu?.map((menu, menuKey) => (
+                                        <li key={menuKey}>
+                                            <Link to={menu?.path}>
+                                                {menu?.name}
+                                                </Link>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                        <div className="footer-top-center">
                             <a>Thông tin quảng cáo</a>
                             <ul className="advertising-information">
                                 {
