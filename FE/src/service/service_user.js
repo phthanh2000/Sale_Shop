@@ -14,9 +14,9 @@ export class Service_User {
         }
     };
 
-    // HTTP create user (register)
-    static CreateUser = async (token, value) => {
-        const endpoint = '/users/createUser';
+    // HTTP register user
+    static RegisterUser = async (token, value) => {
+        const endpoint = '/users/registerUser';
         try {
             const data = await Service_Base.MethodPost(endpoint, token, value);
             return data;
@@ -25,9 +25,9 @@ export class Service_User {
         }
     }
 
-    // HTTP update user
+    // HTTP edit user
     static UpdateUser = async (token, id, newValue) => {
-        const endpoint = '/users/updateUser';
+        const endpoint = '/users/editUser';
         try {
             const data = await Service_Base.MethodPut(endpoint, token, id, newValue);
             return data;
@@ -50,6 +50,22 @@ export class Service_User {
     // HTTP login user
     static UserLogin = async (data) => {
         const endpoint = '/users/login';
+        try {
+            const url = CONST_URL + endpoint;
+            const response = await axios.post(url, data);
+            if (response.status === 200)
+                return response.data;
+        } catch (error) {
+            if (error.request.status === 400) {
+                throw error.response.data;
+            }
+            throw error.message;
+        }
+    }
+
+    // HTTP reset password user
+    static ResetPasswordUser = async (data) => {
+        const endpoint = '/users/resetpassword';
         try {
             const url = CONST_URL + endpoint;
             const response = await axios.post(url, data);
