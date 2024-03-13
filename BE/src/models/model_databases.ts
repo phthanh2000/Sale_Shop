@@ -59,7 +59,7 @@ export class Model_Database {
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "phone" INT NOT NULL,
-                "pass" VARCHAR(50) NOT NULL,
+                "pass" VARCHAR NOT NULL,
                 "email" VARCHAR(100) NOT NULL UNIQUE,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,

@@ -73,7 +73,7 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "phone" INT NOT NULL,
-                "pass" VARCHAR(50) NOT NULL,
+                "pass" VARCHAR NOT NULL,
                 "email" VARCHAR(100) NOT NULL UNIQUE,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,

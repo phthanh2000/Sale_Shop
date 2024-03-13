@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { decode } from 'jsonwebtoken';
-import * as nodemailer from 'nodemailer';
 
 export class Controller_Base {
   // Requires token authentication
@@ -24,37 +23,5 @@ export class Controller_Base {
     // } catch (error) {
     //   return res.status(400).send(`API authenticateToken ${error}`);
     // };
-  }
-
-  // Requires send mail to reset password
-  public static sendMailToResetPassword = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // Define your email account information
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'thanhcamera1601@gmail.com',
-          pass: 'qoldgnxdqaeyujrl'
-        }
-      });
-      // Define email information
-      const mailOptions = {
-        from: 'thanhcamera1601@gmail.com',
-        to: 'phucthanh.work@gmail.com',
-        subject: 'Đặt lại mật khẩu',
-        text: '',
-        html: `<p>Xin chào ABC,</p>
-               <p>Theo yêu cầu của bạn, chúng tôi đã gửi lại bạn thông tin mật mã tài khoản</p>
-               <span>Password: </span ><strong>123456789</strong>
-               <p>Cám ơn bạn và chúc bạn một ngày tốt lành.</p>
-               <p>Kapi Store! </p>`
-      };
-      // Send mail
-      const info = await transporter.sendMail(mailOptions);
-      res.status(200).json(info);
-    }
-    catch (error) {
-      res.status(400).send(`API senMailToResetPassword ${error}`);
-    }
   }
 }

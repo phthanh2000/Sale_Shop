@@ -31,6 +31,8 @@ export class Model_User {
     try {
       // Data
       const { name, email, phone, pass, roleid } = user;
+      // new Date
+      const newDate = new Date().toISOString();
       // Data query
       const queryOptions = `INSERT INTO ${Model_User.tableName} 
                           (
@@ -41,9 +43,9 @@ export class Model_User {
                             ${CONST_COLUMN_USERS.createdat},
                             ${CONST_COLUMN_USERS.updatedat},
                             ${CONST_COLUMN_USERS.roleid}
-                          ) VALUES ( $1, $2, $3, $4, $5, $6, $7 ) RETURNING *`;
+                          ) VALUES ( '${name}', '${email}', ${phone}, '${pass}', '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
       // Perform data queries
-      const result = await client.query(queryOptions, [name, email, phone, pass, new Date(), new Date, roleid]);
+      const result = await client.query(queryOptions);
       return result.rows[0];
     } finally {
       // Release the connection
@@ -60,16 +62,26 @@ export class Model_User {
       const { name, email, phone, pass } = user;
       // User id
       const id = valueId;
+      // new Date
+      const newDate = new Date().toISOString();
       // Data query
-      const queryOptions = `UPDATE ${Model_User.tableName}
-                            SET ${CONST_COLUMN_USERS.name}= $1, 
-                                ${CONST_COLUMN_USERS.email}= $2,
-                                ${CONST_COLUMN_USERS.phone}= $3,
-                                ${CONST_COLUMN_USERS.pass}= $4,
-                                ${CONST_COLUMN_USERS.updatedat}= $5
-                            WHERE ${CONST_COLUMN_USERS.id}= $6 RETURNING *`;
+      let queryOptions = `UPDATE ${Model_User.tableName} SET `;
+      if (name !== undefined) {
+        queryOptions += `${CONST_COLUMN_USERS.name}= '${name}', `
+      }
+      if (email !== undefined) {
+        queryOptions += `${CONST_COLUMN_USERS.email}= '${email}', `
+      }
+      if (phone !== undefined) {
+        queryOptions += `${CONST_COLUMN_USERS.phone}= ${phone}, `
+      }
+      if (pass !== undefined) {
+        queryOptions += `${CONST_COLUMN_USERS.pass}= '${pass}', `
+      }
+      queryOptions += `${CONST_COLUMN_USERS.updatedat}= '${newDate}' WHERE ${CONST_COLUMN_USERS.id}= ${id} RETURNING *`;
+
       // Perform data queries
-      const result = await client.query(queryOptions, [name, email, phone, pass, new Date(), id]);
+      const result = await client.query(queryOptions);
       return result.rows[0];
     } finally {
       // Release the connection
@@ -86,9 +98,9 @@ export class Model_User {
       const id = valueId;
       // Data query
       const queryOptions = `DELETE FROM ${Model_User.tableName}
-                            WHERE ${CONST_COLUMN_USERS.id} = $1 RETURNING *`;
+                            WHERE ${CONST_COLUMN_USERS.id} = ${id} RETURNING *`;
       // Perform data queries
-      const result = await client.query(queryOptions, [id]);
+      const result = await client.query(queryOptions);
       return result.rows[0];
     } finally {
       // Release the connection
@@ -106,9 +118,9 @@ export class Model_User {
       // Data query
       const queryOptions = `SELECT *
                             FROM ${Model_User.tableName}
-                            WHERE ${CONST_COLUMN_USERS.email} = $1`
+                            WHERE ${CONST_COLUMN_USERS.email} = '${email}'`
       // Perform data queries
-      const result = await client.query(queryOptions, [email]);
+      const result = await client.query(queryOptions);
       return result.rows[0];
     } finally {
       // Release the connection

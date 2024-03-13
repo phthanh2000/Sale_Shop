@@ -42,6 +42,8 @@ Model_User.createUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         // Data
         const { name, email, phone, pass, roleid } = user;
+        // new Date
+        const newDate = new Date().toISOString();
         // Data query
         const queryOptions = `INSERT INTO ${_a.tableName} 
                           (
@@ -52,9 +54,9 @@ Model_User.createUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
                             ${constants_1.CONST_COLUMN_USERS.createdat},
                             ${constants_1.CONST_COLUMN_USERS.updatedat},
                             ${constants_1.CONST_COLUMN_USERS.roleid}
-                          ) VALUES ( $1, $2, $3, $4, $5, $6, $7 ) RETURNING *`;
+                          ) VALUES ( '${name}', '${email}', ${phone}, '${pass}', '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
         // Perform data queries
-        const result = yield client.query(queryOptions, [name, email, phone, pass, new Date(), new Date, roleid]);
+        const result = yield client.query(queryOptions);
         return result.rows[0];
     }
     finally {
@@ -71,16 +73,25 @@ Model_User.updateUser = (valueId, user) => __awaiter(void 0, void 0, void 0, fun
         const { name, email, phone, pass } = user;
         // User id
         const id = valueId;
+        // new Date
+        const newDate = new Date().toISOString();
         // Data query
-        const queryOptions = `UPDATE ${_a.tableName}
-                            SET ${constants_1.CONST_COLUMN_USERS.name}= $1, 
-                                ${constants_1.CONST_COLUMN_USERS.email}= $2,
-                                ${constants_1.CONST_COLUMN_USERS.phone}= $3,
-                                ${constants_1.CONST_COLUMN_USERS.pass}= $4,
-                                ${constants_1.CONST_COLUMN_USERS.updatedat}= $5
-                            WHERE ${constants_1.CONST_COLUMN_USERS.id}= $6 RETURNING *`;
+        let queryOptions = `UPDATE ${_a.tableName} SET `;
+        if (name !== undefined) {
+            queryOptions += `${constants_1.CONST_COLUMN_USERS.name}= '${name}', `;
+        }
+        if (email !== undefined) {
+            queryOptions += `${constants_1.CONST_COLUMN_USERS.email}= '${email}', `;
+        }
+        if (phone !== undefined) {
+            queryOptions += `${constants_1.CONST_COLUMN_USERS.phone}= ${phone}, `;
+        }
+        if (pass !== undefined) {
+            queryOptions += `${constants_1.CONST_COLUMN_USERS.pass}= '${pass}', `;
+        }
+        queryOptions += `${constants_1.CONST_COLUMN_USERS.updatedat}= '${newDate}' WHERE ${constants_1.CONST_COLUMN_USERS.id}= ${id} RETURNING *`;
         // Perform data queries
-        const result = yield client.query(queryOptions, [name, email, phone, pass, new Date(), id]);
+        const result = yield client.query(queryOptions);
         return result.rows[0];
     }
     finally {
@@ -97,9 +108,9 @@ Model_User.deleteUser = (valueId) => __awaiter(void 0, void 0, void 0, function*
         const id = valueId;
         // Data query
         const queryOptions = `DELETE FROM ${_a.tableName}
-                            WHERE ${constants_1.CONST_COLUMN_USERS.id} = $1 RETURNING *`;
+                            WHERE ${constants_1.CONST_COLUMN_USERS.id} = ${id} RETURNING *`;
         // Perform data queries
-        const result = yield client.query(queryOptions, [id]);
+        const result = yield client.query(queryOptions);
         return result.rows[0];
     }
     finally {
@@ -117,9 +128,9 @@ Model_User.checkEmailExists = (user) => __awaiter(void 0, void 0, void 0, functi
         // Data query
         const queryOptions = `SELECT *
                             FROM ${_a.tableName}
-                            WHERE ${constants_1.CONST_COLUMN_USERS.email} = $1`;
+                            WHERE ${constants_1.CONST_COLUMN_USERS.email} = '${email}'`;
         // Perform data queries
-        const result = yield client.query(queryOptions, [email]);
+        const result = yield client.query(queryOptions);
         return result.rows[0];
     }
     finally {

@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -16,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Controller_Users = void 0;
 const model_users_1 = require("../models/model_users");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const nodemailer = __importStar(require("nodemailer"));
 const crypto_js_1 = __importDefault(require("crypto-js"));
 class Controller_Users {
 }
@@ -92,6 +116,7 @@ Controller_Users.userLogin = (req, res) => __awaiter(void 0, void 0, void 0, fun
             const passInputFromLoginForm = data.pass;
             const emailOfUserIsExistInDatabase = checkUserIsExist.email;
             const passOfUserIsExistInDatabase = decryptedString;
+            // Check email and password from login form is correct with value in database
             if (emailInputFromLoginForm === emailOfUserIsExistInDatabase && passInputFromLoginForm === passOfUserIsExistInDatabase) {
                 // Create token
                 const payload = { userId: checkUserIsExist.id };
@@ -108,5 +133,64 @@ Controller_Users.userLogin = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
     catch (error) {
         return res.status(400).send(`API userLogin ${error}`);
+    }
+});
+// Requires send mail to reset password
+Controller_Users.sendMailToResetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = req.body;
+        const checkUserIsExist = yield model_users_1.Model_User.checkEmailExists(data);
+        if (typeof (checkUserIsExist) !== 'undefined') {
+            // Create password random 
+            const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let newPassword = '';
+            for (let i = 0; i < 10; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                newPassword += charset[randomIndex];
+            }
+            // New password encryption
+            const ciphertext = newPassword;
+            const secretKey = 'your_secret_key';
+            const encryptedString = crypto_js_1.default.AES.encrypt(ciphertext, secretKey).toString();
+            const id = checkUserIsExist.id;
+            const name = checkUserIsExist.name;
+            const email = checkUserIsExist.email;
+            const newPasswordAfterEncode = encryptedString;
+            const newData = {
+                pass: newPasswordAfterEncode
+            };
+            // API update password of user
+            yield model_users_1.Model_User.updateUser(id, newData);
+            // Define your email account information
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'thanhcamera1601@gmail.com',
+                    pass: 'qoldgnxdqaeyujrl'
+                }
+            });
+            // Define email information
+            const mailOptions = {
+                from: 'thanhcamera1601@gmail.com',
+                to: `${email}`,
+                subject: 'Đặt lại mật khẩu',
+                text: '',
+                html: `<p>Xin chào ${name},</p>
+                 <p>Theo yêu cầu của bạn, chúng tôi đã tạo mật khẩu mặc định cho tài khoản.</p>
+                 <span>Mật khẩu hiện tại: </span ><strong>${newPassword}</strong>.
+                 <p>Vui lòng đăng nhập để thay đổi lại mật khẩu.</p>
+                 <p>Cám ơn và chúc bạn một ngày tốt lành.</p>
+                 <p>Kapi Store!</p>`
+            };
+            // Send mail
+            yield transporter.sendMail(mailOptions);
+            res.status(200).json('Send mail successful');
+        }
+        else {
+            return res.status(200).send('User does not exists');
+        }
+    }
+    catch (error) {
+        res.status(400).send(`API senMailToResetPassword ${error}`);
     }
 });
