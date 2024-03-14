@@ -179,7 +179,7 @@
 }
 
 .header-bottom-left .menu-item .menu-item-show {
-    visibility: visible;
+    display: block;
     position: absolute;
     list-style: none;
     top: 35px;
@@ -188,7 +188,7 @@
 }
 
 .header-bottom-left .menu-item .menu-item-hidden {
-    visibility: hidden;
+    display: none;
 }
 
 .header-bottom-left .menu-item .menu-item-show li {
@@ -214,11 +214,11 @@
 }
 
 .header-bottom-left .menu-item .menu-item-show .menu-item-tag-li:hover .menu-item-child {
-    visibility: visible !important;
+    display: block !important;
 }
 
 .header-bottom-left .menu-item-child {
-    visibility: hidden;
+    display: none;
     position: absolute;
     left: 150px;
     transition: all, 0.01s;
@@ -270,11 +270,11 @@
 }
 
 .header-bottom-right .header-menu li:hover .header-contact-dropdown {
-    visibility: visible;
+    display: block;
 }
 
 .header-bottom-right .header-contact-dropdown {
-    visibility: hidden;
+    display: none;
     background-color: #000000;
     position: absolute;
     list-style: none;

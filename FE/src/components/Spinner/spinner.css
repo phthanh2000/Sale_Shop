@@ -1,0 +1,14 @@
+.react-responsive-modal-modal {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent;
+}
+
+.react-responsive-modal-closeButton {
+    display: none;
+}
+
+.spinner-image {
+    width: 150px;
+    height: 150px;
+}

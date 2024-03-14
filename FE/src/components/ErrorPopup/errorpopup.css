@@ -1,0 +1,62 @@
+.react-responsive-modal-modal {
+    width: 350px;
+    border-radius: 10px;
+}
+
+.react-responsive-modal-closeButton {
+    display: none;
+}
+
+.popup-error-form .close-icon {
+    float: right;
+    font-size: 25px;
+    color: #000000;
+    background: #ffffff;   
+    cursor: pointer;
+}
+
+.popup-error-form .close-icon:hover {
+    color: #cc3300;
+}
+
+.popup-error-form .content {
+    display: flex;
+    align-items: center;
+}
+
+.popup-error-form .content .error-icon svg {
+    width: 50px;
+    height: 46px;   
+    color: #cc3300;
+}   
+
+.popup-error-form .content .message {
+    padding-left: 5px;
+    font-size: 15px;
+    color: black;
+    word-break: break-all;
+}
+
+.popup-error-form .button {
+    display: flex;
+    justify-content: end;
+}
+
+.popup-error-form .button .close-button {
+    width: 100px;
+    height: 30px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.popup-error-form .button .close-button {
+    background: #cc3300;
+}
+
+.popup-error-form .button .close-button:hover{
+    color: #000000;
+    background: #ff9966;
+}
