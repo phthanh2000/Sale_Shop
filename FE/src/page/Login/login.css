@@ -95,6 +95,10 @@
     color: #000000;
 }
 
+.footer-login-form .login-forget .button-login .spinner-image {
+    height: 38px;
+}
+
 .footer-login-form .line {
     background: #000000;
     width: 100%;

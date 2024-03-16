@@ -33,7 +33,7 @@
 }
 
 .footer-register-form .info-notification {
-    color:blue;
+    color: blue;
     display: flex;
     justify-content: center;
     text-align: center;
@@ -105,4 +105,8 @@
 .footer-register-form .register .button-register:hover {
     background: #fffa37;
     color: #000000;
+}
+
+.footer-register-form .register .button-register .spinner-image {
+    height: 38px;
 }

@@ -84,3 +84,7 @@
     background: #fffa37;
     color: #000000;
 }
+
+.footer-forget-form .reset .button-reset .spinner-image {
+    height: 38px;
+}

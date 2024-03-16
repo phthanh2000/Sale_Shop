@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import Spinner from "../../assets/spinner.gif"
+import Overlay from "../../components/Overlay/overlay";
+import ErrorPopup from "../../components/ErrorPopup/errorpopup";
 import { Service_User } from "../../service/service_user";
 import './register.css';
 
@@ -43,6 +46,15 @@ const Register = () => {
     // Display notifications form register successful
     const [isSubmitRegister, setIsSubmitRegister] = useState(false);
 
+    // Hide/ Show overlay or loading when handler on click register button
+    const [isShowOverlay, setIsShowOverlay] = useState(false);
+
+    // Hide/ Show error message when handler on click register button error
+    const [isShowErrorPopup, setIsShowErrorPopup] = useState({
+        show: false,
+        message: ''
+    });
+
     // Event on click eye icon to password display 
     const onClickIconEyeToPasswordDislay = (name) => {
         if (name === 'pass') {
@@ -54,7 +66,6 @@ const Register = () => {
 
     // Event on click register button on register form
     const onClickRegisterButton = async () => {
-        setReEnterPasswordMessage('');
         if (name === '') {
             setNameMessage('Tên người dùng không được để trống');
         }
@@ -86,6 +97,7 @@ const Register = () => {
         if (name !== '' && email !== '' && emailRegex.test(email) && phone !== '' && phoneRegex.test(phone) && password !== '' && reEnterPassword !== '') {
             // Login API create user
             try {
+                setIsShowOverlay(true);
                 const dataRegister = {
                     name: name,
                     email: email,
@@ -100,8 +112,12 @@ const Register = () => {
                     setIsSubmitRegister(!isSubmitRegister);
                 }
             } catch (error) {
-                console.log(error);
+                setIsShowErrorPopup({
+                    show: true,
+                    message: error
+                });
             }
+            setIsShowOverlay(false);
         }
     }
 
@@ -156,7 +172,7 @@ const Register = () => {
                                     maxLength={100}
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    onClick={() => setNameMessage('')}
+                                    onClick={() => { setNameMessage(''); setReEnterPasswordMessage('') }}
                                     onKeyDown={(e) => onKeyEnter(e)} />
                             </div>
                             <div className={name === '' ? "message-notification show" : "message-notification hide"}>
@@ -172,7 +188,7 @@ const Register = () => {
                                     maxLength={50}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    onClick={() => setEmailMessage('')}
+                                    onClick={() => { setEmailMessage(''); setReEnterPasswordMessage('') }}
                                     onKeyDown={(e) => onKeyEnter(e)} />
                             </div>
                             <div className={email === '' ? "message-notification show" : "message-notification hide"}>
@@ -189,7 +205,7 @@ const Register = () => {
                                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
-                                    onClick={() => setPhoneMessage('')}
+                                    onClick={() => { setPhoneMessage(''); setReEnterPasswordMessage('') }}
                                     onKeyDown={(e) => onKeyEnter(e)} />
                             </div>
                             <div className={phone === '' ? "message-notification show" : "message-notification hide"}>
@@ -204,7 +220,7 @@ const Register = () => {
                                     placeholder="Nhập Mật khẩu"
                                     maxLength={50}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    onClick={() => setPasswordMessage('')}
+                                    onClick={() => { setPasswordMessage(''); setReEnterPasswordMessage('') }}
                                     onKeyDown={(e) => onKeyEnter(e)} />
                                 {isShowPassword ?
                                     <IoEye onClick={() => onClickIconEyeToPasswordDislay('pass')}></IoEye>
@@ -224,7 +240,7 @@ const Register = () => {
                                     placeholder="Nhập lại mật khẩu"
                                     maxLength={50}
                                     onChange={(e) => setReEnterPassword(e.target.value)}
-                                    onClick={() => setReEnterPasswordMessage('')}
+                                    onClick={() => { setReEnterPasswordMessage(''); setReEnterPasswordMessage('') }}
                                     onKeyDown={(e) => onKeyEnter(e)} />
                                 {isShowRePassword ?
                                     <IoEye onClick={() => onClickIconEyeToPasswordDislay('re-pass')}></IoEye>
@@ -240,13 +256,19 @@ const Register = () => {
                                     type="button"
                                     name="register"
                                     onClick={() => onClickRegisterButton()}>
-                                    Đăng ký
+                                    {isShowOverlay ?
+                                        <img className="spinner-image" src={Spinner} alt="spinner" />
+                                        :
+                                        <>Đăng ký</>
+                                    }
                                 </button>
                             </div>
                         </div>
                     </>
                 }
             </div>
+            {isShowOverlay && <Overlay />}
+            <ErrorPopup open={isShowErrorPopup} close={(e) => setIsShowErrorPopup(e)} />
         </div>
     )
 }

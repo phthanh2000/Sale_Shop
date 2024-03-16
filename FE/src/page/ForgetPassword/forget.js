@@ -1,6 +1,9 @@
 import { useState } from "react";
-import './forget.css';
+import Spinner from "../../assets/spinner.gif"
+import Overlay from "../../components/Overlay/overlay";
+import ErrorPopup from "../../components/ErrorPopup/errorpopup";
 import { Service_User } from "../../service/service_user";
+import './forget.css';
 
 const ForgetPassword = () => {
     // Value from email input
@@ -12,32 +15,45 @@ const ForgetPassword = () => {
     // Display notifications form reset password successful
     const [isSubmitResetPassWord, setIsSubmitResetPassWord] = useState(false);
 
+    // Hide/ Show overlay or loading when handler on click reset password button
+    const [isShowOverlay, setIsShowOverlay] = useState(false);
+
+    // Hide/ Show error message when handler on click reset password button error
+    const [isShowErrorPopup, setIsShowErrorPopup] = useState({
+        show: false,
+        message: ''
+    });
+
     // Event on click reset password button
     const onClickResetPassWordButton = async () => {
-        setEmailResetMessage('');
         if (emailReset === '') {
             setEmailResetMessage("Email không được để trống");
         } else {
             try {
+                setIsShowOverlay(true);
                 // Reset password API
-                const result = await Service_User.ResetPasswordUser({email: emailReset});
-                if(result === "User does not exists") {
+                const result = await Service_User.ResetPasswordUser({ email: emailReset });
+                if (result === "User does not exists") {
                     setEmailResetMessage('Tài khoản không tồn tại');
                 } else {
                     setIsSubmitResetPassWord(!isSubmitResetPassWord);
                 }
             } catch (error) {
-                console.log(error);
+                setIsShowErrorPopup({
+                    show: true,
+                    message: error
+                })
             };
+            setIsShowOverlay(false);
         }
     }
 
-        // Event on enter input form
-        const onKeyEnter = async (event) => {
-            if (event.key === 'Enter') {
-                onClickResetPassWordButton();
-            }
+    // Event on enter input form
+    const onKeyEnter = async (event) => {
+        if (event.key === 'Enter') {
+            onClickResetPassWordButton();
         }
+    }
 
     return (
         <div className="forget-form">
@@ -88,7 +104,7 @@ const ForgetPassword = () => {
                                     maxLength={50}
                                     value={emailReset}
                                     onChange={(e) => { setEmailReset(e.target.value) }}
-                                    onClick={() => { setEmailResetMessage('') }}
+                                    onClick={() => { setEmailResetMessage(''); setEmailResetMessage('') }}
                                     onKeyDown={(e) => onKeyEnter(e)}
                                 />
                             </div>
@@ -100,12 +116,18 @@ const ForgetPassword = () => {
                                     type="button"
                                     name="reset"
                                     onClick={() => onClickResetPassWordButton()} >
-                                    Đặt lại mật khẩu
+                                    {isShowOverlay ?
+                                        <img className="spinner-image" src={Spinner} alt="spinner" />
+                                        :
+                                        <>Đặt lại mật khẩu</>
+                                    }
                                 </button>
                             </div>
                         </div>
                     </>}
             </div>
+            {isShowOverlay && <Overlay />}
+            <ErrorPopup open={isShowErrorPopup} close={(e) => setIsShowErrorPopup(e)} />
         </div>
     )
 }

@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { Service_User } from "../../service/service_user";
 import { urlPages } from "../../utils/urlPage";
+import Spinner from "../../assets/spinner.gif"
+import Overlay from "../../components/Overlay/overlay";
+import ErrorPopup from "../../components/ErrorPopup/errorpopup";
 import './login.css';
 
 const Login = () => {
@@ -13,7 +16,7 @@ const Login = () => {
 
     // Value from password input
     const [password, setPassword] = useState('');
-    
+
     // Display password
     const [isShowPassword, setIsShowPassword] = useState(false);
 
@@ -25,6 +28,15 @@ const Login = () => {
 
     // Display message when error user not exists or login failed
     const [loginMessage, setLoginMessage] = useState('');
+
+    // Hide/ Show overlay or loading when handler on click login button
+    const [isShowOverlay, setIsShowOverlay] = useState(false);
+
+    // Hide/ Show error message when handler on click login button error
+    const [isShowErrorPopup, setIsShowErrorPopup] = useState({
+        show: false,
+        message: ''
+    });
 
     // Event on click eye icon to password display 
     const onClickIconEyeToPasswordDislay = () => {
@@ -38,7 +50,6 @@ const Login = () => {
 
     // Event on click login button
     const onClickLoginButton = async () => {
-        setLoginMessage('');
         if (email === '') {
             setEmailMessage('Email không được để trống');
         }
@@ -51,6 +62,7 @@ const Login = () => {
                 pass: password,
             }
             try {
+                setIsShowOverlay(true);
                 const result = await Service_User.UserLogin(dataLogin);
                 if (result === 'Login failed') {
                     setLoginMessage('Email hoặc mật khẩu không chính xác');
@@ -61,8 +73,12 @@ const Login = () => {
                     navigate(`/${urlPages[0].path}`);
                 }
             } catch (error) {
-                console.log(error);
+                setIsShowErrorPopup({
+                    show: true,
+                    message: error
+                });
             }
+            setIsShowOverlay(false);
         }
     }
 
@@ -101,7 +117,7 @@ const Login = () => {
                             maxLength={50}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            onClick={() => setEmailMessage('')}
+                            onClick={() => { setEmailMessage(''); setLoginMessage('') }}
                             onKeyDown={(e) => onKeyEnter(e)} />
                     </div>
                     <div className={email === '' ? "message-notification show" : "message-notification hidden"}>
@@ -117,7 +133,7 @@ const Login = () => {
                             maxLength={50}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            onClick={() => setPasswordMessage('')}
+                            onClick={() => { setPasswordMessage(''); setLoginMessage('') }}
                             onKeyDown={(e) => onKeyEnter(e)} />
                         {isShowPassword ?
                             <IoEye onClick={() => onClickIconEyeToPasswordDislay()}></IoEye>
@@ -140,7 +156,11 @@ const Login = () => {
                             type="button"
                             name="login"
                             onClick={() => onClickLoginButton()}>
-                            Đăng nhập
+                            {isShowOverlay ?
+                                <img className="spinner-image" src={Spinner} alt="spinner" />
+                                :
+                                <>Đăng nhập</>
+                            }
                         </button>
                     </div>
                     <div className="line" />
@@ -155,6 +175,8 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+            {isShowOverlay && <Overlay />}
+            <ErrorPopup open={isShowErrorPopup} close={(e) => setIsShowErrorPopup(e)} />
         </div>
     )
 }
