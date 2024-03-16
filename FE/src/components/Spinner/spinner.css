@@ -1,14 +1,17 @@
-.react-responsive-modal-modal {
-    margin: 0 !important;
-    padding: 0 !important;
-    background: transparent;
+.spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
 }
 
-.react-responsive-modal-closeButton {
-    display: none;
-}
-
-.spinner-image {
+.spinner .spinner-image {
     width: 150px;
     height: 150px;
 }

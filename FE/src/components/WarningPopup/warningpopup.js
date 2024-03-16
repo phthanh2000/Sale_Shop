@@ -1,32 +1,42 @@
-import { useState } from "react";
 import { IoWarning } from "react-icons/io5";
 import { IoIosClose } from "react-icons/io";
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import './warningpopup.css';
 
-export const WarningPopup = () => {
-    const [isOpen, setIsOpen] = useState(false);
+const WarningPopup = (props) => {
     return (
         <Modal
-            open={true}
+            open={props.open.show}
             onClose={() => { }}
             center>
             <div className="popup-warning-form">
-                <IoIosClose className="close-icon" onClick={() => {setIsOpen(!isOpen)}}/>
+                <IoIosClose className="close-icon"
+                    onClick={() => props.close({
+                        show: false,
+                        message: ''
+                    })
+                    } />
                 <div className="content">
                     <div className="warning-icon" >
-                    <IoWarning />
+                        <IoWarning />
                     </div>
                     <div className="message">
-                        Thông báo cảnh báo hiển thị ở đây
+                        {props.open.message}
                     </div>
                 </div>
                 <div className="button">
-                    <button className="cancel-button">Hủy bỏ</button>
+                    <button className="cancel-button"
+                        onClick={() => props.close({
+                            show: false,
+                            message: ''
+                        })
+                        } >Hủy bỏ</button>
                     <button className="ok-button">Đồng ý</button>
                 </div>
             </div>
         </Modal>
     )
 }
+
+export default WarningPopup;
