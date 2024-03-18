@@ -95,8 +95,8 @@ export class Controller_Users {
     }
   }
 
-  // Requires send mail to reset password
-  public static sendMailToResetPassword = async (req: Request, res: Response) => {
+  // Requires forget password
+  public static forgetPasswordUser = async (req: Request, res: Response) => {
     try {
       const data = req.body;
       const checkUserIsExist = await Model_User.checkEmailExists(data);

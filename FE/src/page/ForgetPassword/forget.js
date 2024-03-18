@@ -32,7 +32,7 @@ const ForgetPassword = () => {
             try {
                 setIsShowOverlay(true);
                 // Reset password API
-                const result = await Service_User.ResetPasswordUser({ email: emailReset });
+                const result = await Service_User.ForgetPasswordUser({ email: emailReset });
                 if (result === "User does not exists") {
                     setEmailResetMessage('Tài khoản không tồn tại');
                 } else {

@@ -60,9 +60,9 @@ export const urlPages = [
         component: <Register/>
     },
 
-    // Reset password (9)
+    // Forget password (9)
     {
-        path: 'reset-password',
+        path: 'forget-password',
         component: <ForgetPassword/>
     },
 

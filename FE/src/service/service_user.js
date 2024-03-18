@@ -63,9 +63,9 @@ export class Service_User {
         }
     }
 
-    // HTTP reset password user
-    static ResetPasswordUser = async (data) => {
-        const endpoint = '/users/resetpassword';
+    // HTTP forget password user
+    static ForgetPasswordUser = async (data) => {
+        const endpoint = '/users/forgetPasswordUser';
         try {
             const url = CONST_URL + endpoint;
             const response = await axios.post(url, data);
