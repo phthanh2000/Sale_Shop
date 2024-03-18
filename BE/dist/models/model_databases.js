@@ -83,6 +83,7 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
             CREATE TABLE "Orders" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "totalamount" NUMERIC NOT NULL,
+                "status" INT,
                 "createdat" TIMESTAMP,
                 "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Users}(id)
             );

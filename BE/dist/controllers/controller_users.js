@@ -135,8 +135,8 @@ Controller_Users.userLogin = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(400).send(`API userLogin ${error}`);
     }
 });
-// Requires send mail to reset password
-Controller_Users.sendMailToResetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Requires forget password
+Controller_Users.forgetPasswordUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         const checkUserIsExist = yield model_users_1.Model_User.checkEmailExists(data);

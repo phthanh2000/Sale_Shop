@@ -71,6 +71,7 @@ exports.CONST_COLUMN_USERS = {
 exports.CONST_COLUMN_ORDERS = {
     id: 'id',
     totalamount: 'totalamount',
+    status: 'status',
     createdat: 'createdat',
     userid: 'userid',
 };
