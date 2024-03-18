@@ -3,7 +3,7 @@ import Spinner from "../../assets/spinner.gif"
 import Overlay from "../../components/Overlay/overlay";
 import ErrorPopup from "../../components/ErrorPopup/errorpopup";
 import { Service_User } from "../../service/service_user";
-import './forget.css';
+import './forgetPassword.css';
 
 const ForgetPassword = () => {
     // Value from email input

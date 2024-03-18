@@ -1,7 +1,7 @@
 import Home from "../page/Home";
 import Login from "../page/Login/login";
 import Register from "../page/Register/register";
-import ForgetPassword from "../page/ForgetPassword/forget";
+import ForgetPassword from "../page/ForgetPassword/forgetPassword";
 import NotFound from "../page/NotFound";
 
 // Url pages in website
