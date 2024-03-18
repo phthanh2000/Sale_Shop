@@ -2,6 +2,7 @@ import Home from "../page/Home";
 import Login from "../page/Login/login";
 import Register from "../page/Register/register";
 import ForgetPassword from "../page/ForgetPassword/forgetPassword";
+import ResetPassword from "../page/ResetPassword/resetPassword";
 import NotFound from "../page/NotFound";
 
 // Url pages in website
@@ -64,6 +65,12 @@ export const urlPages = [
     {
         path: 'forget-password',
         component: <ForgetPassword/>
+    },
+
+    // Reset password (9)
+    {
+        path: 'reset-password/:token',
+        component: <ResetPassword/>
     },
 
     // Not found URL page
