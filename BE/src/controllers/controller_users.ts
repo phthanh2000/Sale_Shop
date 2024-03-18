@@ -101,29 +101,15 @@ export class Controller_Users {
       const data = req.body;
       const checkUserIsExist = await Model_User.checkEmailExists(data);
       if (typeof (checkUserIsExist) !== 'undefined') {
-        // Create password random 
-        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let newPassword = '';
-        for (let i = 0; i < 10; i++) {
-          const randomIndex = Math.floor(Math.random() * charset.length);
-          newPassword += charset[randomIndex];
-        }
-
-        // New password encryption
-        const ciphertext = newPassword;
+        // Create token
+        const payload = { userId: checkUserIsExist.id };
         const secretKey = 'your_secret_key';
-        const encryptedString = CryptoJS.AES.encrypt(ciphertext, secretKey).toString();
+        const options = { expiresIn: '1m' };
+        const token = await jwt.sign(payload, secretKey, options);
+        const link = `http://localhost:3000/reset-password/${token}`;
 
-        const id = checkUserIsExist.id;
         const name = checkUserIsExist.name;
         const email = checkUserIsExist.email;
-        const newPasswordAfterEncode = encryptedString;
-        const newData: any = {
-          pass: newPasswordAfterEncode
-        };
-
-        // API update password of user
-        await Model_User.updateUser(id, newData);
 
         // Define your email account information
         const transporter = nodemailer.createTransport({
@@ -140,12 +126,37 @@ export class Controller_Users {
           to: `${email}`,
           subject: 'Đặt lại mật khẩu',
           text: '',
-          html: `<p>Xin chào ${name},</p>
-                 <p>Theo yêu cầu của bạn, chúng tôi đã tạo mật khẩu mặc định cho tài khoản.</p>
-                 <span>Mật khẩu hiện tại: </span ><strong>${newPassword}</strong>.
-                 <p>Vui lòng đăng nhập để thay đổi lại mật khẩu.</p>
-                 <p>Cám ơn và chúc bạn một ngày tốt lành.</p>
-                 <p>Kapi Store!</p>`
+          html: `
+          <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <style>
+                    .button {
+                      font-family: Arial, sans-serif;
+                      display: inline-block;
+                      padding: 10px 20px;
+                      background-color: #007bff;
+                      color: #ffffff !important;
+                      text-decoration: none;
+                      border-radius: 10px;
+                    }
+                    
+                    .button:hover {
+                      background-color: #0056b3;
+                    }
+                  </style>
+                  <body>
+                    <p>Xin chào ${name},</p>
+                    <p>Gần đây bạn đã yêu cầu đặt lại mật khẩu cho tài khoản. Nhấp vào nút bên dưới để tiếp tục:</p>
+                    <a class="button" href="${link}"  target="_blank">Đặt lại mật khẩu</a>
+                    <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này hoặc trả lời để cho chúng tôi biết. Liên kết đặt lại mật khẩu này chỉ có hiệu lực trong 30 phút tiếp theo.</p>
+                    <p>Vui lòng đăng nhập để thay đổi lại mật khẩu.</p>
+                    <p>Cám ơn và chúc bạn một ngày tốt lành.</p>
+                    <p>Kapi Store!</p>
+                  </body>
+                </html>`
         };
         
         // Send mail
