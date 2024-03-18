@@ -69,6 +69,7 @@ export class Model_Database {
             CREATE TABLE "Orders" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "totalamount" NUMERIC NOT NULL,
+                "status" INT,
                 "createdat" TIMESTAMP,
                 "userid" BIGINT REFERENCES ${CONST_TABLE_NAME.Users}(id)
             );
