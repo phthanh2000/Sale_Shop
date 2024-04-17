@@ -141,6 +141,11 @@ Controller_Users.forgetPasswordUser = (req, res) => __awaiter(void 0, void 0, vo
         const data = req.body;
         const checkUserIsExist = yield model_users_1.Model_User.checkEmailExists(data);
         if (typeof (checkUserIsExist) !== 'undefined') {
+            const newData = {
+                resetpass: true
+            };
+            // Change status required reset password of user to true
+            yield model_users_1.Model_User.updateUser(checkUserIsExist.id, newData);
             // Create token
             const payload = { userId: checkUserIsExist.id };
             const secretKey = 'your_secret_key';
@@ -178,6 +183,7 @@ Controller_Users.forgetPasswordUser = (req, res) => __awaiter(void 0, void 0, vo
                       color: #ffffff !important;
                       text-decoration: none;
                       border-radius: 10px;
+                      cursor: pointer;
                     }
                     
                     .button:hover {
@@ -188,6 +194,7 @@ Controller_Users.forgetPasswordUser = (req, res) => __awaiter(void 0, void 0, vo
                     <p>Xin chào ${name},</p>
                     <p>Gần đây bạn đã yêu cầu đặt lại mật khẩu cho tài khoản. Nhấp vào nút bên dưới để tiếp tục:</p>
                     <a class="button" href="${link}"  target="_blank">Đặt lại mật khẩu</a>
+                    <p> Hoặc nhấp vào đường dẫn <a href="${link}">${link}</a><p/>
                     <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này hoặc trả lời để cho chúng tôi biết. Liên kết đặt lại mật khẩu này chỉ có hiệu lực trong 30 phút tiếp theo.</p>
                     <p>Vui lòng đăng nhập để thay đổi lại mật khẩu.</p>
                     <p>Cám ơn và chúc bạn một ngày tốt lành.</p>
@@ -205,6 +212,17 @@ Controller_Users.forgetPasswordUser = (req, res) => __awaiter(void 0, void 0, vo
     }
     catch (error) {
         res.status(400).send(`API forgetPasswordUser ${error}`);
+    }
+});
+// Required check status reset password of user 
+Controller_Users.checkStatusResetPasswordOfUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.body.id;
+        const user = yield model_users_1.Model_User.checkUserForId(id);
+        res.status(200).json(user.resetpass);
+    }
+    catch (error) {
+        res.status(400).send(`API checkStatusResetPasswordOfUser ${error}`);
     }
 });
 // Requires check token expired
@@ -246,7 +264,8 @@ Controller_Users.resetPasswordUser = (req, res) => __awaiter(void 0, void 0, voi
             const secretKey = 'your_secret_key';
             const encryptedString = crypto_js_1.default.AES.encrypt(ciphertext, secretKey).toString();
             const newData = {
-                pass: encryptedString
+                pass: encryptedString,
+                resetpass: false
             };
             const user = yield model_users_1.Model_User.updateUser(checkUserExist.id, newData);
             return res.status(200).json(user);

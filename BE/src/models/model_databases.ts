@@ -61,6 +61,7 @@ export class Model_Database {
                 "phone" INT NOT NULL,
                 "pass" VARCHAR NOT NULL,
                 "email" VARCHAR(100) NOT NULL UNIQUE,
+                "resetpass" BOOLEAN,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
                 "roleid" INT REFERENCES ${CONST_TABLE_NAME.Roles}(id)

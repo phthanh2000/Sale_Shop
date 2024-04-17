@@ -11,7 +11,7 @@ export const CONST_CONNECT_POSTGRES = {
 export const CONST_TABLE_NAME = {
     Categories: `public."Categories"`,
     Products: `public."Products"`,
-    Images: `public."Images`,
+    Images: `public."Images"`,
     Users: `public."Users"`,
     Orders: `public."Orders"`,
     OrderDetails: `public."OrderDetails"`,
@@ -66,6 +66,7 @@ export const CONST_COLUMN_USERS = {
     email: 'email',
     phone: 'phone',
     pass: 'pass',
+    resetpass: 'resetpass',
     createdat: 'createdat',
     updatedat: 'updatedat',
     roleid: 'roleid'

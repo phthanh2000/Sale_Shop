@@ -51,10 +51,11 @@ Model_User.createUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
                             ${constants_1.CONST_COLUMN_USERS.email},
                             ${constants_1.CONST_COLUMN_USERS.phone}, 
                             ${constants_1.CONST_COLUMN_USERS.pass},
+                            ${constants_1.CONST_COLUMN_USERS.resetpass},
                             ${constants_1.CONST_COLUMN_USERS.createdat},
                             ${constants_1.CONST_COLUMN_USERS.updatedat},
                             ${constants_1.CONST_COLUMN_USERS.roleid}
-                          ) VALUES ( '${name}', '${email}', ${phone}, '${pass}', '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
+                          ) VALUES ( '${name}', '${email}', ${phone}, '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
         // Perform data queries
         const result = yield client.query(queryOptions);
         return result.rows[0];
@@ -70,7 +71,7 @@ Model_User.updateUser = (valueId, user) => __awaiter(void 0, void 0, void 0, fun
     const client = yield connection_1.pool.connect();
     try {
         // New data
-        const { name, email, phone, pass } = user;
+        const { name, email, phone, pass, resetpass } = user;
         // User id
         const id = valueId;
         // new Date
@@ -88,6 +89,9 @@ Model_User.updateUser = (valueId, user) => __awaiter(void 0, void 0, void 0, fun
         }
         if (pass !== undefined) {
             queryOptions += `${constants_1.CONST_COLUMN_USERS.pass}= '${pass}', `;
+        }
+        if (resetpass !== undefined) {
+            queryOptions += `${constants_1.CONST_COLUMN_USERS.resetpass}= ${resetpass}, `;
         }
         queryOptions += `${constants_1.CONST_COLUMN_USERS.updatedat}= '${newDate}' WHERE ${constants_1.CONST_COLUMN_USERS.id}= ${id} RETURNING *`;
         // Perform data queries

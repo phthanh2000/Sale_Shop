@@ -75,6 +75,7 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
                 "phone" INT NOT NULL,
                 "pass" VARCHAR NOT NULL,
                 "email" VARCHAR(100) NOT NULL UNIQUE,
+                "resetpass" BOOLEAN,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
                 "roleid" INT REFERENCES ${constants_1.CONST_TABLE_NAME.Roles}(id)

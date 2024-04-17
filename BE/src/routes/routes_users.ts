@@ -12,5 +12,6 @@ router_user.put('/editUser/:id', Controller_Base.authenticateToken, Controller_U
 router_user.delete('/deleteUser/:id', Controller_Base.authenticateToken, Controller_Users.deleteUser);
 router_user.post('/forgetPasswordUser', Controller_Users.forgetPasswordUser);
 router_user.post('/checkTokenExpired', Controller_Users.checkTokenExpired);
+router_user.post('/checkStatusResetPasswordOfUser', Controller_Users.checkStatusResetPasswordOfUser);
 router_user.post('/resetPasswordUser', Controller_Users.resetPasswordUser);
 export default router_user;

@@ -40,10 +40,11 @@ export class Model_User {
                             ${CONST_COLUMN_USERS.email},
                             ${CONST_COLUMN_USERS.phone}, 
                             ${CONST_COLUMN_USERS.pass},
+                            ${CONST_COLUMN_USERS.resetpass},
                             ${CONST_COLUMN_USERS.createdat},
                             ${CONST_COLUMN_USERS.updatedat},
                             ${CONST_COLUMN_USERS.roleid}
-                          ) VALUES ( '${name}', '${email}', ${phone}, '${pass}', '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
+                          ) VALUES ( '${name}', '${email}', ${phone}, '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
       // Perform data queries
       const result = await client.query(queryOptions);
       return result.rows[0];
@@ -59,7 +60,7 @@ export class Model_User {
     const client = await pool.connect();
     try {
       // New data
-      const { name, email, phone, pass } = user;
+      const { name, email, phone, pass, resetpass } = user;
       // User id
       const id = valueId;
       // new Date
@@ -77,6 +78,9 @@ export class Model_User {
       }
       if (pass !== undefined) {
         queryOptions += `${CONST_COLUMN_USERS.pass}= '${pass}', `
+      }
+      if (resetpass !== undefined) {
+        queryOptions += `${CONST_COLUMN_USERS.resetpass}= ${resetpass}, `
       }
       queryOptions += `${CONST_COLUMN_USERS.updatedat}= '${newDate}' WHERE ${CONST_COLUMN_USERS.id}= ${id} RETURNING *`;
 
