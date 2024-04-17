@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { MdError } from "react-icons/md";
 import { IoIosClose } from "react-icons/io";
 import { Modal } from 'react-responsive-modal';
