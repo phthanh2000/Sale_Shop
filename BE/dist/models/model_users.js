@@ -138,3 +138,21 @@ Model_User.checkEmailExists = (user) => __awaiter(void 0, void 0, void 0, functi
         client.release();
     }
 });
+// Function check user for id
+Model_User.checkUserForId = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // Connect postgres database
+    const client = yield connection_1.pool.connect();
+    try {
+        // Data query
+        const queryOptions = `SELECT *
+                            FROM ${_a.tableName}
+                            WHERE ${constants_1.CONST_COLUMN_USERS.id}= ${id}`;
+        // Perform data queries             
+        const result = yield client.query(queryOptions);
+        return result.rows[0];
+    }
+    finally {
+        // Release the connection
+        client.release();
+    }
+});

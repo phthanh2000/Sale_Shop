@@ -144,7 +144,7 @@ Controller_Users.forgetPasswordUser = (req, res) => __awaiter(void 0, void 0, vo
             // Create token
             const payload = { userId: checkUserIsExist.id };
             const secretKey = 'your_secret_key';
-            const options = { expiresIn: '1m' };
+            const options = { expiresIn: '30m' };
             const token = yield jsonwebtoken_1.default.sign(payload, secretKey, options);
             const link = `http://localhost:3000/reset-password/${token}`;
             const name = checkUserIsExist.name;
@@ -204,6 +204,58 @@ Controller_Users.forgetPasswordUser = (req, res) => __awaiter(void 0, void 0, vo
         }
     }
     catch (error) {
-        res.status(400).send(`API senMailToResetPassword ${error}`);
+        res.status(400).send(`API forgetPasswordUser ${error}`);
+    }
+});
+// Requires check token expired
+Controller_Users.checkTokenExpired = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Get token from url reset password
+        const data = req.body;
+        // Decode token
+        const decodedToken = jsonwebtoken_1.default.decode(data.token);
+        // Check token after decode is valuable
+        if (typeof decodedToken === 'object' && decodedToken !== null && 'exp' in decodedToken) {
+            // Get expired time 
+            const tokenExpiration = decodedToken.exp;
+            // Get current time
+            const currentTime = Math.floor(Date.now() / 1000); // Convert mili to s time
+            // Compare time 
+            if (tokenExpiration && tokenExpiration < currentTime) {
+                return res.status(200).send('Token has expired');
+            }
+            else {
+                return res.status(200).json(decodedToken.userId);
+            }
+        }
+    }
+    catch (error) {
+        res.status(400).send(`API resetPasswordUser ${error}`);
+    }
+});
+// Requires reset password
+Controller_Users.resetPasswordUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Get data
+        const data = req.body;
+        // Check user exist in database
+        const checkUserExist = yield model_users_1.Model_User.checkUserForId(data.id);
+        if (checkUserExist !== undefined) {
+            // Password encryption
+            const ciphertext = data.pass;
+            const secretKey = 'your_secret_key';
+            const encryptedString = crypto_js_1.default.AES.encrypt(ciphertext, secretKey).toString();
+            const newData = {
+                pass: encryptedString
+            };
+            const user = yield model_users_1.Model_User.updateUser(checkUserExist.id, newData);
+            return res.status(200).json(user);
+        }
+        else {
+            return res.status(200).send('User not exists');
+        }
+    }
+    catch (error) {
+        res.status(400).send(`API resetPasswordUser ${error}`);
     }
 });

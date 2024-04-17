@@ -127,4 +127,22 @@ export class Model_User {
       client.release();
     }
   }
+
+  // Function check user for id
+  public static checkUserForId = async (id: any) => {
+    // Connect postgres database
+    const client = await pool.connect();
+    try {
+      // Data query
+      const queryOptions = `SELECT *
+                            FROM ${Model_User.tableName}
+                            WHERE ${CONST_COLUMN_USERS.id}= ${id}`
+      // Perform data queries             
+      const result = await client.query(queryOptions);
+      return result.rows[0];
+    } finally {
+      // Release the connection
+      client.release();
+    }
+  }
 }
