@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import Spinner from "../../assets/spinner.gif"
 import Overlay from "../../components/Overlay/overlay";
@@ -7,6 +7,10 @@ import { Service_User } from "../../service/service_user";
 import './resetPassword.css';
 
 const ResetPassword = () => {
+
+    // User id 
+    const [userId, setUserId] = useState();
+
     // Value from new password input
     const [newPassword, setNewPassword] = useState('');
 
@@ -14,10 +18,10 @@ const ResetPassword = () => {
     const [reEnterNewPassword, setReEnterNewPassword] = useState('');
 
     // Display message when error password input
-    const [passwordMessage, setPasswordMessage] = useState('');
+    const [newPasswordMessage, setNewPasswordMessage] = useState('');
 
     // Display message when error re-enter password input
-    const [reEnterPasswordMessage, setReEnterPasswordMessage] = useState('');
+    const [reEnterNewPasswordMessage, setReEnterNewPasswordMessage] = useState('');
 
     // Display new password
     const [isShowNewPassword, setIsShowNewPassword] = useState(false);
@@ -28,6 +32,9 @@ const ResetPassword = () => {
     // Display notifications form confirm successful
     const [isSubmitConfirm, setIsSubmitConfirm] = useState(false);
 
+    // Display notifications form token expired
+    const [isTokenExpired, setIsTokenExpired] = useState(false);
+
     // Hide/ Show overlay or loading when handler on click confirm button
     const [isShowOverlay, setIsShowOverlay] = useState(false);
 
@@ -36,6 +43,35 @@ const ResetPassword = () => {
         show: false,
         message: ''
     });
+
+    useEffect(() => {
+        // Async/ await
+        async function fetchData() {
+            try {
+                // Token value
+                const token = window.location.pathname.split('/')[2];
+
+                // Data
+                const data = {
+                    token: token
+                }
+
+                // Check token expried or still valid
+                const checkTokenExpired = await Service_User.CheckTokenExpired(data);
+                if (checkTokenExpired === 'Token has expired')
+                    setIsTokenExpired(true);
+                else {
+                    setUserId(checkTokenExpired);
+                }
+            } catch (error) {
+                setIsShowErrorPopup({
+                    show: true,
+                    message: error
+                });
+            }
+        }
+        fetchData();
+    }, []);
 
     // Event on click eye icon to password display 
     const onClickIconEyeToPasswordDislay = (name) => {
@@ -47,21 +83,31 @@ const ResetPassword = () => {
     }
 
     // Event on click confirm button on reset pasword form
-    const onClickRegisterButton = async () => {
+    const onClickConfirmButton = async () => {
         if (newPassword === '') {
-            setPasswordMessage('Mật khẩu không được để trống');
+            setNewPasswordMessage('Mật khẩu không được để trống');
         }
         if (reEnterNewPassword === '') {
-            setReEnterPasswordMessage('Nhập lại mật khẩu không được đê trống')
+            setReEnterNewPasswordMessage('Nhập lại mật khẩu không được đê trống')
         }
         if (newPassword !== '' && reEnterNewPassword !== '' && newPassword !== reEnterNewPassword) {
-            setReEnterPasswordMessage('Mật khẩu không khớp');
+            setReEnterNewPasswordMessage('Mật khẩu không khớp');
         }
         if (newPassword !== '' && reEnterNewPassword !== '' && newPassword === reEnterNewPassword) {
-            // Login API create user
+            // API reset password
             try {
                 setIsShowOverlay(true);
-
+                const data = {
+                    id: userId,
+                    pass: newPassword
+                }
+                const user = await Service_User.ResetPasswordUser(data);
+                if (user === 'User not exists') {
+                    setReEnterNewPasswordMessage('Tài khoản không tồn tại');
+                }
+                if (user !== undefined) {
+                    setIsSubmitConfirm(true);
+                }
             } catch (error) {
                 setIsShowErrorPopup({
                     show: true,
@@ -75,14 +121,14 @@ const ResetPassword = () => {
     // Event on enter input form
     const onKeyEnter = async (event) => {
         if (event.key === 'Enter') {
-            onClickRegisterButton();
+            onClickConfirmButton();
         }
     }
 
     return (
         <div className="reset-password-form">
             <div className="container-center">
-                {isSubmitConfirm ?
+                {isTokenExpired ?
                     <>
                         <div className="header-reset-password-form">
                             <div className="image">
@@ -90,80 +136,101 @@ const ResetPassword = () => {
                                     src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1709791944/iiqijmt0v6fgccbvehqy.webp" />
                             </div>
                             <div className="title">
-                                Chúc mừng bạn thay đổi mật khẩu thành công
+                                Liên kết đặt lại mật khẩu của đã hết hạn
                             </div>
                         </div>
                         <div className="footer-reset-password-form">
                             <div className="info-notification">
-                                <a href="/login">Click vào đây</a>&nbsp;để quay về trang đăng nhập.
+                                Vui lòng bạn quay về trang <a href="/forget-password">Quên mật khẩu</a> để thực hiện lại yêu cầu.
                             </div>
                         </div>
                     </>
                     :
                     <>
-                        <div className="header-reset-password-form">
-                            <div className="image">
-                                <img alt="tag"
-                                    src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1709791944/iiqijmt0v6fgccbvehqy.webp" />
-                            </div>
-                            <div className="title">
-                                Thay Đổi Mật Khẩu
-                            </div>
-                        </div>
-                        <div className="footer-reset-password-form">
-                            <label>
-                                Mật khẩu mới:
-                            </label>
-                            <div className="input-password">
-                                <input type={isShowNewPassword ? 'text' : 'password'}
-                                    name="pass"
-                                    placeholder="Nhập Mật khẩu mới"
-                                    maxLength={50}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    onClick={() => { setPasswordMessage(''); setReEnterPasswordMessage('') }}
-                                    onKeyDown={(e) => onKeyEnter(e)} />
-                                {isShowNewPassword ?
-                                    <IoEye onClick={() => onClickIconEyeToPasswordDislay('pass')}></IoEye>
-                                    :
-                                    <IoEyeOff onClick={() => onClickIconEyeToPasswordDislay('pass')}></IoEyeOff>
-                                }
-                            </div>
-                            <div className={newPassword === '' ? "message-notification show" : "message-notification hide"}>
-                                {passwordMessage}
-                            </div>
-                            <label>
-                                Nhập lại mật khẩu mới:
-                            </label>
-                            <div className="input-re-enter-password">
-                                <input type={isShowReNewPassword ? 'text' : 'password'}
-                                    name="re-enter-password"
-                                    placeholder="Nhập lại mật khẩu mới"
-                                    maxLength={50}
-                                    onChange={(e) => setReEnterNewPassword(e.target.value)}
-                                    onClick={() => { setReEnterPasswordMessage(''); setReEnterPasswordMessage('') }}
-                                    onKeyDown={(e) => onKeyEnter(e)} />
-                                {isShowReNewPassword ?
-                                    <IoEye onClick={() => onClickIconEyeToPasswordDislay('re-pass')}></IoEye>
-                                    :
-                                    <IoEyeOff onClick={() => onClickIconEyeToPasswordDislay('re-pass')}></IoEyeOff>
-                                }
-                            </div>
-                            <div className={reEnterNewPassword === '' ? "message-notification show" : "message-notification hide"}>
-                                {reEnterPasswordMessage}
-                            </div>
-                            <div className="change-passwor">
-                                <button className="button-change-passwor"
-                                    type="button"
-                                    name="change-passwor"
-                                    onClick={() => onClickRegisterButton()}>
-                                    {isShowOverlay ?
-                                        <img className="spinner-image" src={Spinner} alt="spinner" />
-                                        :
-                                        <>Xác nhận</>
-                                    }
-                                </button>
-                            </div>
-                        </div>
+                        {isSubmitConfirm ?
+                            <>
+                                <div className="header-reset-password-form">
+                                    <div className="image">
+                                        <img alt="tag"
+                                            src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1709791944/iiqijmt0v6fgccbvehqy.webp" />
+                                    </div>
+                                    <div className="title">
+                                        Chúc mừng bạn thay đổi mật khẩu thành công
+                                    </div>
+                                </div>
+                                <div className="footer-reset-password-form">
+                                    <div className="info-notification">
+                                        <a href="/login">Nhấp vào đây</a>&nbsp;để quay về trang Đăng nhập.
+                                    </div>
+                                </div>
+                            </>
+                            :
+                            <>
+                                <div className="header-reset-password-form">
+                                    <div className="image">
+                                        <img alt="tag"
+                                            src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1709791944/iiqijmt0v6fgccbvehqy.webp" />
+                                    </div>
+                                    <div className="title">
+                                        Thay Đổi Mật Khẩu
+                                    </div>
+                                </div>
+                                <div className="footer-reset-password-form">
+                                    <label>
+                                        Mật khẩu mới:
+                                    </label>
+                                    <div className="input-password">
+                                        <input type={isShowNewPassword ? 'text' : 'password'}
+                                            name="pass"
+                                            placeholder="Nhập Mật khẩu mới"
+                                            maxLength={50}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            onClick={() => { setNewPasswordMessage(''); setReEnterNewPasswordMessage('') }}
+                                            onKeyDown={(e) => onKeyEnter(e)} />
+                                        {isShowNewPassword ?
+                                            <IoEye onClick={() => onClickIconEyeToPasswordDislay('pass')}></IoEye>
+                                            :
+                                            <IoEyeOff onClick={() => onClickIconEyeToPasswordDislay('pass')}></IoEyeOff>
+                                        }
+                                    </div>
+                                    <div className={newPassword === '' ? "message-notification show" : "message-notification hide"}>
+                                        {newPasswordMessage}
+                                    </div>
+                                    <label>
+                                        Nhập lại mật khẩu mới:
+                                    </label>
+                                    <div className="input-re-enter-password">
+                                        <input type={isShowReNewPassword ? 'text' : 'password'}
+                                            name="re-enter-password"
+                                            placeholder="Nhập lại mật khẩu mới"
+                                            maxLength={50}
+                                            onChange={(e) => setReEnterNewPassword(e.target.value)}
+                                            onClick={() => { setReEnterNewPasswordMessage(''); setReEnterNewPasswordMessage('') }}
+                                            onKeyDown={(e) => onKeyEnter(e)} />
+                                        {isShowReNewPassword ?
+                                            <IoEye onClick={() => onClickIconEyeToPasswordDislay('re-pass')}></IoEye>
+                                            :
+                                            <IoEyeOff onClick={() => onClickIconEyeToPasswordDislay('re-pass')}></IoEyeOff>
+                                        }
+                                    </div>
+                                    <div className={reEnterNewPassword === '' ? "message-notification show" : "message-notification hide"}>
+                                        {reEnterNewPasswordMessage}
+                                    </div>
+                                    <div className="confirm-password">
+                                        <button className="button-confirm-password"
+                                            type="button"
+                                            name="confirm-password"
+                                            onClick={() => onClickConfirmButton()}>
+                                            {isShowOverlay ?
+                                                <img className="spinner-image" src={Spinner} alt="spinner" />
+                                                :
+                                                <>Xác nhận</>
+                                            }
+                                        </button>
+                                    </div>
+                                </div>
+                            </>
+                        }
                     </>
                 }
             </div>
