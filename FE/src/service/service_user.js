@@ -95,6 +95,22 @@ export class Service_User {
         }
     }
 
+    // HTTP check status reset password of user 
+    static CheckStatusResetPasswordOfUser = async (data) => {
+        const endpoint = '/users/checkStatusResetPasswordOfUser';
+        try {
+            const url = CONST_URL + endpoint;
+            const response = await axios.post(url, data);
+            if(response.status === 200 )
+            return response.data; 
+        } catch (error) {
+            if (error.request.status === 400) {
+                throw error.response.data;
+            }
+            throw error.message;
+        }
+    }
+
     // HTTP reset password user 
     static ResetPasswordUser = async (data) => {
         const endpoint = '/users/resetPasswordUser';
