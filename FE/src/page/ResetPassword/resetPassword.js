@@ -32,8 +32,11 @@ const ResetPassword = () => {
     // Display notifications form confirm successful
     const [isSubmitConfirm, setIsSubmitConfirm] = useState(false);
 
-    // Display notifications form token expired
-    const [isTokenExpired, setIsTokenExpired] = useState(false);
+    // Display notifications form token expired or link reset password used
+    const [isTokenExpiredOrUsed, setIsTokenExpiredOrUsed] = useState({
+        display: false,
+        message: ''
+    });
 
     // Hide/ Show overlay or loading when handler on click confirm button
     const [isShowOverlay, setIsShowOverlay] = useState(false);
@@ -59,9 +62,21 @@ const ResetPassword = () => {
                 // Check token expried or still valid
                 const checkTokenExpired = await Service_User.CheckTokenExpired(data);
                 if (checkTokenExpired === 'Token has expired')
-                    setIsTokenExpired(true);
+                    setIsTokenExpiredOrUsed({
+                        status: true,
+                        message: 'Liên kết đặt lại mật khẩu đã hết hạn'
+                    });
                 else {
-                    setUserId(checkTokenExpired);
+                    // Check status reset password of user
+                    const checkStatusResetPassword = await Service_User.CheckStatusResetPasswordOfUser({ id: checkTokenExpired });
+                    if (checkStatusResetPassword) {
+                        setUserId(checkTokenExpired);
+                    } else {
+                        setIsTokenExpiredOrUsed({
+                            status: true,
+                            message: 'Liên kết đặt lại mật khẩu đã được sử dụng'
+                        });
+                    }
                 }
             } catch (error) {
                 setIsShowErrorPopup({
@@ -128,7 +143,7 @@ const ResetPassword = () => {
     return (
         <div className="reset-password-form">
             <div className="container-center">
-                {isTokenExpired ?
+                {isTokenExpiredOrUsed.status ?
                     <>
                         <div className="header-reset-password-form">
                             <div className="image">
@@ -136,7 +151,7 @@ const ResetPassword = () => {
                                     src="https://res.cloudinary.com/doh8xw3s5/image/upload/v1709791944/iiqijmt0v6fgccbvehqy.webp" />
                             </div>
                             <div className="title">
-                                Liên kết đặt lại mật khẩu của đã hết hạn
+                                {isTokenExpiredOrUsed.message}
                             </div>
                         </div>
                         <div className="footer-reset-password-form">
