@@ -14,6 +14,26 @@ export class Controller_Users {
       return res.status(400).send(`API getUsers ${error}`);
     }
   }
+  
+  // Requires get user info 
+  public static getUserInfo = async (req: Request, res: Response) => {
+    try {
+      // Get data
+      const data = req.body;
+      // Decode token
+      const decodedToken = jwt.decode(data.token);
+      if (typeof decodedToken === 'object' && decodedToken !== null) {
+        const user = await Model_User.checkUserForId(decodedToken.userId);
+        res.status(200).json({id: user.id, 
+          name: user.name
+        });
+      } else {
+        res.status(200).send(`Token not exists`);
+      }
+    } catch (error) {
+      res.status(400).send(`API getUserInfo ${error}`);
+    }
+  }
 
   // Requires create new user
   public static createUser = async (req: Request, res: Response) => {

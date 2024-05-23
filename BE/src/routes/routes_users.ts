@@ -6,6 +6,7 @@ import { Controller_Users } from '../controllers/controller_users';
 const router_user = Router();
 
 router_user.get('/getUsers', Controller_Users.getUsers);
+router_user.post('/getUserInfo', Controller_Users.getUserInfo);
 router_user.post('/login', Controller_Users.userLogin);
 router_user.post('/registerUser', Controller_Users.createUser);
 router_user.put('/editUser/:id', Controller_Base.authenticateToken, Controller_Users.updateUser);

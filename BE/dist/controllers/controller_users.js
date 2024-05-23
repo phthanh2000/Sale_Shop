@@ -55,6 +55,27 @@ Controller_Users.getUsers = (req, res) => __awaiter(void 0, void 0, void 0, func
         return res.status(400).send(`API getUsers ${error}`);
     }
 });
+// Requires get user info 
+Controller_Users.getUserInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Get data
+        const data = req.body;
+        // Decode token
+        const decodedToken = jsonwebtoken_1.default.decode(data.token);
+        if (typeof decodedToken === 'object' && decodedToken !== null) {
+            const user = yield model_users_1.Model_User.checkUserForId(decodedToken.userId);
+            res.status(200).json({ id: user.id,
+                name: user.name
+            });
+        }
+        else {
+            res.status(200).send(`Token not exists`);
+        }
+    }
+    catch (error) {
+        res.status(400).send(`API getUserInfo ${error}`);
+    }
+});
 // Requires create new user
 Controller_Users.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

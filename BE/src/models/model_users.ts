@@ -2,7 +2,6 @@
 import { pool } from '../db/connection';
 import { Entity_Users } from '../entities/entity_users';
 import { CONST_TABLE_NAME, CONST_COLUMN_USERS } from '../constants';
-import { Controller_Users } from '../controllers/controller_users';
 
 export class Model_User {
   // Table name

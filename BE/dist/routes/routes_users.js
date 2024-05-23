@@ -6,6 +6,7 @@ const controller_users_1 = require("../controllers/controller_users");
 // Router user
 const router_user = (0, express_1.Router)();
 router_user.get('/getUsers', controller_users_1.Controller_Users.getUsers);
+router_user.post('/getUserInfo', controller_users_1.Controller_Users.getUserInfo);
 router_user.post('/login', controller_users_1.Controller_Users.userLogin);
 router_user.post('/registerUser', controller_users_1.Controller_Users.createUser);
 router_user.put('/editUser/:id', controller_base_1.Controller_Base.authenticateToken, controller_users_1.Controller_Users.updateUser);
