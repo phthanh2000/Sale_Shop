@@ -67,10 +67,16 @@ export const urlPages = [
         component: <ForgetPassword/>
     },
 
-    // Reset password (9)
+    // Reset password (10)
     {
         path: 'reset-password/:token',
         component: <ResetPassword/>
+    },
+
+    // User information (11)
+    { 
+        path: 'info-user',
+        component: <NotFound/>
     },
 
     // Not found URL page

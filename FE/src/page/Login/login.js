@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { Service_User } from "../../service/service_user";
@@ -38,6 +38,16 @@ const Login = () => {
         message: ''
     });
 
+    useEffect(() => {
+        // Get token value to check whether you are logged in or not 
+        const userToken = localStorage.getItem('TokenUser');
+        if (userToken) {
+            // If user logged will return home page
+            navigate(`/${urlPages[0].path}`);
+            window.location.reload();
+        }
+    }, []);
+
     // Event on click eye icon to password display 
     const onClickIconEyeToPasswordDislay = () => {
         setIsShowPassword(!isShowPassword);
@@ -69,8 +79,12 @@ const Login = () => {
                 } else if (result === 'User does not exists') {
                     setLoginMessage('Tài khoản không tồn tại');
                 } else {
-                    localStorage.setItem('TokenUser', result);
+                    // Set expiration time token login is 8 hours 
+                    const now = new Date().getTime();
+                    const expirationTime = now + 8 * 60 * 60 * 1000;
+                    localStorage.setItem('TokenUser', JSON.stringify({ result, expirationTime }));
                     navigate(`/${urlPages[0].path}`);
+                    window.location.reload();
                 }
             } catch (error) {
                 setIsShowErrorPopup({

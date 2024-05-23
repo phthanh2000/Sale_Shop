@@ -82,10 +82,10 @@ export class Service_User {
     // HTTP check token expired
     static CheckTokenExpired = async (data) => {
         const endpoint = '/users/checkTokenExpired';
-        try {   
+        try {
             const url = CONST_URL + endpoint;
             const response = await axios.post(url, data);
-            if(response.status === 200 )
+            if (response.status === 200)
                 return response.data;
         } catch (error) {
             if (error.request.status === 400) {
@@ -101,8 +101,8 @@ export class Service_User {
         try {
             const url = CONST_URL + endpoint;
             const response = await axios.post(url, data);
-            if(response.status === 200 )
-            return response.data; 
+            if (response.status === 200)
+                return response.data;
         } catch (error) {
             if (error.request.status === 400) {
                 throw error.response.data;
@@ -114,10 +114,26 @@ export class Service_User {
     // HTTP reset password user 
     static ResetPasswordUser = async (data) => {
         const endpoint = '/users/resetPasswordUser';
-        try {   
+        try {
             const url = CONST_URL + endpoint;
             const response = await axios.post(url, data);
-            if(response.status === 200 )
+            if (response.status === 200)
+                return response.data;
+        } catch (error) {
+            if (error.request.status === 400) {
+                throw error.response.data;
+            }
+            throw error.message;
+        }
+    }
+
+    // HTTP get user info 
+    static GetUserInfo = async (data) => {
+        const endpoint = '/users/getUserInfo';
+        try {
+            const url = CONST_URL + endpoint;
+            const response = await axios.post(url, data);
+            if (response.status === 200)
                 return response.data;
         } catch (error) {
             if (error.request.status === 400) {

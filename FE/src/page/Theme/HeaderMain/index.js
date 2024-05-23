@@ -1,16 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaFacebook, FaSquareInstagram, FaUserLarge, FaCartShopping } from "react-icons/fa6";
 import { SiZalo } from "react-icons/si";
 import { FiMenu } from "react-icons/fi";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { FaHouseUser } from "react-icons/fa";
+import { CiLogout } from "react-icons/ci";
 import SearchField from "react-search-field";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { urlPages } from "../../../utils/urlPage";
+import ErrorPopup from "../../../components/ErrorPopup/errorpopup";
+import { Service_User } from "../../../service/service_user";
 import "./header.css";
 
 // Header page  
 const Header = () => {
+    //
+    const navigate = useNavigate();
+
     // Header menu
     const Menu = [
         {
@@ -108,12 +115,73 @@ const Header = () => {
         }
     ];
 
+    // Hide/ Show error message when handler on click confirm button error
+    const [isShowErrorPopup, setIsShowErrorPopup] = useState({
+        show: false,
+        message: ''
+    });
+
+    // Login status of user
+    const [loginStatus, setLoginStatus] = useState(false);
+
+    // User info
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        // Async/ await
+        async function fetchData() {
+            try {
+                // Get token value to check whether you are logged in or not 
+                const userToken = localStorage.getItem('TokenUser');
+                if (userToken) {
+                    // Check expiration time of localtorage tokenUser
+                    const data = JSON.parse(userToken);
+                    const now = new Date().getTime();
+                    if (now > data.expirationTime) {
+                        // If token expiration will remove TokenUser key
+                        localStorage.removeItem('TokenUser');
+                        window.location.reload();
+                    }
+                    // Get user info logged
+                    const userInfo = await Service_User.GetUserInfo({ token: data.result });
+                    if (userInfo) {
+                        // Set user info
+                        setUser(userInfo);
+                        // Convert status login to true
+                        setLoginStatus(!loginStatus);
+                    }
+                }
+            } catch (error) {
+                setIsShowErrorPopup({
+                    show: true,
+                    message: error
+                });
+            }
+        }
+        fetchData();
+    }, []);
+
     // Value show item menu
     const [menuItem, setMenuItem] = useState(false);
 
     // Event when click on item menu icon
     const onClickMenuAllItems = () => {
         menuItem === true ? setMenuItem(false) : setMenuItem(true);
+    }
+
+    // On click scroll to top
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
+    // On click log out 
+    const logOut = () => {
+        localStorage.removeItem('TokenUser',);
+        navigate(`/${urlPages[0].path}`);
+        window.location.reload();
     }
 
     return (
@@ -146,7 +214,7 @@ const Header = () => {
                     </div>
                     <div className="header-top-right">
                         <ul className="cart-user">
-                            <li>
+                            <li className="li">
                                 <Link to={""}>
                                     <div className="cart">
                                         <FaCartShopping className="cart-icon" />
@@ -155,12 +223,44 @@ const Header = () => {
                                     <div>Giỏ hàng</div>
                                 </Link>
                             </li>
-                            <li>
-                                <Link to={urlPages[5].path}>
-                                    <FaUserLarge className="user-icon" />
-                                    <div>Đăng nhập</div>
-                                </Link>
-
+                            <li className="li">
+                                {loginStatus ?
+                                    <>
+                                        <Link className="user">
+                                            <FaUserLarge className="user-icon" />
+                                            <p className="overflow">
+                                                {user.name}
+                                            </p>
+                                        </Link>
+                                        <ul className="user-dropdown ">
+                                            <li>
+                                                <Link to={urlPages[11].path}>
+                                                    <div>
+                                                        <FaHouseUser className="icon" />
+                                                        <div className="text">Thông tin cá nhân</div>
+                                                    </div>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to={urlPages[0].path} onClick={logOut}>
+                                                    <div>
+                                                        <CiLogout className="icon" />
+                                                        <div className="text">Đăng xuất</div>
+                                                    </div>
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </>
+                                    :
+                                    <>
+                                        <Link className="user" to={urlPages[5].path} onClick={scrollToTop}>
+                                            <FaUserLarge className="user-icon" />
+                                            <p className="overflow">
+                                                Đăng nhập
+                                            </p>
+                                        </Link>
+                                    </>
+                                }
                             </li>
                         </ul>
                     </div>
@@ -231,6 +331,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+            <ErrorPopup open={isShowErrorPopup} close={(e) => setIsShowErrorPopup(e)} />
         </div>
     );
 };
