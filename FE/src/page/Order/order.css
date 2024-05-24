@@ -1,0 +1,58 @@
+.order-form .container-center {
+    padding: 30px 0px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* order left */
+.order-left {
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+.order-left .title {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.order-left .order-list {
+    padding: 15px 0 0 15px;
+    font-size: 20px;
+}
+
+.order-left .order-list li{
+    height: 20px;
+    list-style: none;
+    padding: 8px 0;
+}
+
+.order-left .order-list li:nth-child(2){
+    font-size: 22px;
+}
+
+.order-left .order-list li:nth-child(2) a{
+    font-weight: 600;
+}
+
+.order-left .order-list li:hover{
+    font-size: 22px;
+}
+
+.order-left .order-list li svg{
+    height: 15px;
+}
+
+.order-left .order-list li a{
+    text-decoration: none;
+    color: #000000;
+}
+
+
+/* order right */
+.order-right {
+    flex: 0 0 75%;
+    max-width: 75%;
+}
