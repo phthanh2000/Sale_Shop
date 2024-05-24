@@ -237,7 +237,7 @@ const Header = () => {
                                                 <Link to={urlPages[11].path}>
                                                     <div>
                                                         <FaHouseUser className="icon" />
-                                                        <div className="text">Thông tin cá nhân</div>
+                                                        <div className="text">Tài khoản</div>
                                                     </div>
                                                 </Link>
                                             </li>
