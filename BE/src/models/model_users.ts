@@ -59,7 +59,7 @@ export class Model_User {
     const client = await pool.connect();
     try {
       // New data
-      const { name, email, phone, pass, resetpass } = user;
+      const { name, email, address, phone, pass, resetpass } = user;
       // User id
       const id = valueId;
       // new Date
@@ -71,6 +71,9 @@ export class Model_User {
       }
       if (email !== undefined) {
         queryOptions += `${CONST_COLUMN_USERS.email}= '${email}', `
+      }
+      if (address !== undefined) {
+        queryOptions += `${CONST_COLUMN_USERS.address}= '${address}', `
       }
       if (phone !== undefined) {
         queryOptions += `${CONST_COLUMN_USERS.phone}= ${phone}, `

@@ -58,6 +58,7 @@ export class Model_Database {
             CREATE TABLE "Users" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
+                "address" VARCHAR,
                 "phone" INT NOT NULL,
                 "pass" VARCHAR NOT NULL,
                 "email" VARCHAR(100) NOT NULL UNIQUE,

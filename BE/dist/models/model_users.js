@@ -71,7 +71,7 @@ Model_User.updateUser = (valueId, user) => __awaiter(void 0, void 0, void 0, fun
     const client = yield connection_1.pool.connect();
     try {
         // New data
-        const { name, email, phone, pass, resetpass } = user;
+        const { name, email, address, phone, pass, resetpass } = user;
         // User id
         const id = valueId;
         // new Date
@@ -83,6 +83,9 @@ Model_User.updateUser = (valueId, user) => __awaiter(void 0, void 0, void 0, fun
         }
         if (email !== undefined) {
             queryOptions += `${constants_1.CONST_COLUMN_USERS.email}= '${email}', `;
+        }
+        if (address !== undefined) {
+            queryOptions += `${constants_1.CONST_COLUMN_USERS.address}= '${address}', `;
         }
         if (phone !== undefined) {
             queryOptions += `${constants_1.CONST_COLUMN_USERS.phone}= ${phone}, `;

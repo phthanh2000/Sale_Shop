@@ -64,6 +64,7 @@ export const CONST_COLUMN_USERS = {
     id: 'id',
     name: 'name',
     email: 'email',
+    address: 'address',
     phone: 'phone',
     pass: 'pass',
     resetpass: 'resetpass',

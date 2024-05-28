@@ -4,6 +4,7 @@ import { Entity_Base } from './entity_base';
 export interface Entity_Users extends Entity_Base {
     name?: string;
     email?: string;
+    address?: string;
     phone?: number;
     pass?: string;
     resetpass?: boolean;
