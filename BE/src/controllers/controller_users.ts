@@ -179,8 +179,8 @@ export class Controller_Users {
                     <p>Xin chào ${name},</p>
                     <p>Gần đây bạn đã yêu cầu đặt lại mật khẩu cho tài khoản. Nhấp vào nút bên dưới để tiếp tục:</p>
                     <a class="button" href="${link}"  target="_blank">Đặt lại mật khẩu</a>
-                    <p> Hoặc nhấp vào đường dẫn <a href="${link}">${link}</a><p/>
-                    <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này hoặc trả lời để cho chúng tôi biết. Liên kết đặt lại mật khẩu này chỉ có hiệu lực trong 30 phút tiếp theo.</p>
+                    <p>Hoặc nhấp vào đường dẫn <a href="${link}">${link}</a><p/>
+                    <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này. Liên kết đặt lại mật khẩu này chỉ có hiệu lực trong 30 phút tiếp theo.</p>
                     <p>Vui lòng đăng nhập để thay đổi lại mật khẩu.</p>
                     <p>Cám ơn và chúc bạn một ngày tốt lành.</p>
                     <p>Kapi Store!</p>
@@ -234,6 +234,8 @@ export class Controller_Users {
         } else {
           return res.status(200).json(decodedToken.userId);
         }
+      } else {
+        return res.status(200).send('Token is null');
       }
     } catch (error) {
       res.status(400).send(`API resetPasswordUser ${error}`);
