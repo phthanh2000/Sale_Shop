@@ -65,7 +65,10 @@ Controller_Users.getUserInfo = (req, res) => __awaiter(void 0, void 0, void 0, f
         if (typeof decodedToken === 'object' && decodedToken !== null) {
             const user = yield model_users_1.Model_User.checkUserForId(decodedToken.userId);
             res.status(200).json({ id: user.id,
-                name: user.name
+                name: user.name,
+                address: user.address,
+                phone: user.phone,
+                email: user.email
             });
         }
         else {

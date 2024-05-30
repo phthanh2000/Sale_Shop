@@ -25,7 +25,10 @@ export class Controller_Users {
       if (typeof decodedToken === 'object' && decodedToken !== null) {
         const user = await Model_User.checkUserForId(decodedToken.userId);
         res.status(200).json({id: user.id, 
-          name: user.name
+          name: user.name,
+          address: user.address,
+          phone: user.phone,
+          email: user.email
         });
       } else {
         res.status(200).send(`Token not exists`);
