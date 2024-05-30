@@ -42,7 +42,7 @@ export class Model_Database {
 
             CREATE TABLE "Images" (
                 "id" BIGSERIAL PRIMARY KEY,
-                "url" VARCHAR NOT NULL,
+                "url" VARCHAR,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
                 "productid" BIGINT REFERENCES ${CONST_TABLE_NAME.Products}(id)
@@ -79,11 +79,11 @@ export class Model_Database {
             CREATE TABLE "OrderDetails" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "quantity" INT NOT NULL,
-                "size" VARCHAR NOT NULL,
                 "subtotal" NUMERIC NOT NULL,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
-                "orderid" BIGINT REFERENCES ${CONST_TABLE_NAME.Orders}(id)
+                "orderid" BIGINT REFERENCES ${CONST_TABLE_NAME.Orders}(id),
+                "productid" BIGINT REFERENCES ${CONST_TABLE_NAME.Products}(id)
             );
 
             CREATE TABLE "Tokens" (
