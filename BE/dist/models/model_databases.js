@@ -56,7 +56,7 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
 
             CREATE TABLE "Images" (
                 "id" BIGSERIAL PRIMARY KEY,
-                "url" VARCHAR NOT NULL,
+                "url" VARCHAR,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
                 "productid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Products}(id)
@@ -93,11 +93,11 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
             CREATE TABLE "OrderDetails" (
                 "id" BIGSERIAL PRIMARY KEY,
                 "quantity" INT NOT NULL,
-                "size" VARCHAR NOT NULL,
                 "subtotal" NUMERIC NOT NULL,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
-                "orderid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Orders}(id)
+                "orderid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Orders}(id),
+                "productid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Products}(id)
             );
 
             CREATE TABLE "Tokens" (
