@@ -6,5 +6,4 @@ export interface Entity_Order_Details extends Entity_Base {
     size?: string;
     subtotal?: number;
     orderid?: number;
-    userid?: number;
 }

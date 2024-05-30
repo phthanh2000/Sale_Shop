@@ -83,8 +83,7 @@ export class Model_Database {
                 "subtotal" NUMERIC NOT NULL,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
-                "orderid" BIGINT REFERENCES ${CONST_TABLE_NAME.Orders}(id),
-                "userid" BIGINT REFERENCES ${CONST_TABLE_NAME.Users}(id)
+                "orderid" BIGINT REFERENCES ${CONST_TABLE_NAME.Orders}(id)
             );
 
             CREATE TABLE "Tokens" (

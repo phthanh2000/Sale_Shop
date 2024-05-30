@@ -97,8 +97,7 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
                 "subtotal" NUMERIC NOT NULL,
                 "createdat" TIMESTAMP,
                 "updatedat" TIMESTAMP,
-                "orderid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Orders}(id),
-                "userid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Users}(id)
+                "orderid" BIGINT REFERENCES ${constants_1.CONST_TABLE_NAME.Orders}(id)
             );
 
             CREATE TABLE "Tokens" (
