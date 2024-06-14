@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import { Service_User } from "../../service/service_user";
 import Spinner from "../../assets/spinner.gif"
 import Overlay from "../../components/Overlay/overlay";
 import ErrorPopup from "../../components/ErrorPopup/errorpopup";
-import { Service_User } from "../../service/service_user";
 import './resetPassword.css';
 
 const ResetPassword = () => {
@@ -61,10 +61,10 @@ const ResetPassword = () => {
 
                 // Check token expried or still valid
                 const checkTokenExpired = await Service_User.CheckTokenExpired(data);
-                if (checkTokenExpired === 'Token has expired')
+                if (checkTokenExpired === 'Token has expired' || checkTokenExpired === 'Token is null')
                     setIsTokenExpiredOrUsed({
                         status: true,
-                        message: 'Liên kết đặt lại mật khẩu đã hết hạn'
+                        message: checkTokenExpired === 'Token has expired' ? 'Liên kết đặt lại mật khẩu đã hết hạn' : 'Liên kết không tồn tại'
                     });
                 else {
                     // Check status reset password of user
