@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import { Service_User } from "../../service/service_user";
+import { urlPages } from "../../utils/urlPage";
 import Spinner from "../../assets/spinner.gif"
 import Overlay from "../../components/Overlay/overlay";
 import ErrorPopup from "../../components/ErrorPopup/errorpopup";
-import { Service_User } from "../../service/service_user";
 import './register.css';
 
 const Register = () => {
+    const navigate = useNavigate();
+
     // Value from name input
     const [name, setName] = useState('');
 
@@ -55,6 +59,16 @@ const Register = () => {
         message: ''
     });
 
+    useEffect   (() => {
+        // Get token value to check whether you are logged in or not 
+        const userToken = localStorage.getItem('TokenUser');
+        if (userToken) {
+            // If user logged will return home page
+            navigate(`/${urlPages[0].path}`);
+            window.location.reload();
+        }
+    }, [])
+
     // Event on click eye icon to password display 
     const onClickIconEyeToPasswordDislay = (name) => {
         if (name === 'pass') {
@@ -82,8 +96,8 @@ const Register = () => {
         }
         // Check for a string with 10 digits with regular expression
         const phoneRegex = /^\d{10}$/;
-        if (!phoneRegex.test(phone)) {
-            setPhoneMessage('Số điện thoại không đúng định dạng là số điện thoại');
+        if (!phoneRegex.test(phone)  || phone.length < 10) {
+            setPhoneMessage('Số điện thoại không đúng định dạng (chỉ gồm số và có 10 số)');
         }
         if (password === '') {
             setPasswordMessage('Mật khẩu không được để trống');
@@ -179,7 +193,7 @@ const Register = () => {
                                 {nameMessage}
                             </div>
                             <label>
-                                Email:
+                                Thư điện tử:
                             </label>
                             <div className="input-email">
                                 <input type="email"

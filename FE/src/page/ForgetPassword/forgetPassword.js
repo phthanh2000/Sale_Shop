@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Service_User } from "../../service/service_user"
+import { urlPages } from "../../utils/urlPage";
 import Spinner from "../../assets/spinner.gif"
 import Overlay from "../../components/Overlay/overlay";
 import ErrorPopup from "../../components/ErrorPopup/errorpopup";
-import { Service_User } from "../../service/service_user";
 import './forgetPassword.css';
 
 const ForgetPassword = () => {
+    const navigate = useNavigate();
+
     // Value from email input
     const [emailReset, setEmailReset] = useState('');
 
@@ -23,6 +27,16 @@ const ForgetPassword = () => {
         show: false,
         message: ''
     });
+
+    useEffect(() => {
+        // Get token value to check whether you are logged in or not 
+        const userToken = localStorage.getItem('TokenUser');
+        if (!userToken) {
+            // If user logged will return home page
+            navigate(`/${urlPages[0].path}`);
+            window.location.reload();
+        }
+    }, [])
 
     // Event on click reset password button
     const onClickResetPassWordButton = async () => {
