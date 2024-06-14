@@ -106,8 +106,14 @@ Controller_Users.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         const id = req.params.id;
         const newData = req.body;
-        const user = yield model_users_1.Model_User.updateUser(id, newData);
-        return res.status(200).json(user);
+        const checkPhoneRegisteredWithAnotherUser = yield model_users_1.Model_User.checkPhoneRegisteredWithAnotherUser(id, newData.phone);
+        if (checkPhoneRegisteredWithAnotherUser != 0) {
+            return res.status(200).send('Phone is registered');
+        }
+        else {
+            const user = yield model_users_1.Model_User.updateUser(id, newData);
+            return res.status(200).json(user);
+        }
     }
     catch (error) {
         return res.status(400).send(`API updateUser ${error}`);

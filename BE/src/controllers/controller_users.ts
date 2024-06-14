@@ -14,7 +14,7 @@ export class Controller_Users {
       return res.status(400).send(`API getUsers ${error}`);
     }
   }
-  
+
   // Requires get user info 
   public static getUserInfo = async (req: Request, res: Response) => {
     try {
@@ -24,7 +24,8 @@ export class Controller_Users {
       const decodedToken = jwt.decode(data.token);
       if (typeof decodedToken === 'object' && decodedToken !== null) {
         const user = await Model_User.checkUserForId(decodedToken.userId);
-        res.status(200).json({id: user.id, 
+        res.status(200).json({
+          id: user.id,
           name: user.name,
           address: user.address,
           phone: user.phone,
@@ -64,8 +65,13 @@ export class Controller_Users {
     try {
       const id = req.params.id;
       const newData = req.body;
-      const user = await Model_User.updateUser(id, newData);
-      return res.status(200).json(user);
+      const checkPhoneRegisteredWithAnotherUser = await Model_User.checkPhoneRegisteredWithAnotherUser(id, newData.phone);
+      if (checkPhoneRegisteredWithAnotherUser != 0) {
+        return res.status(200).send('Phone is registered');
+      } else {
+        const user = await Model_User.updateUser(id, newData);
+        return res.status(200).json(user);
+      }
     } catch (error) {
       return res.status(400).send(`API updateUser ${error}`);
     }
