@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 import { IoCaretForward } from "react-icons/io5";
 import { urlPages } from "../../utils/urlPage";
-import './order.css';
+import './orderHistory.css';
 
-const Order = () => {
+const OrderHistory = () => {
     return (
-        <div className="order-form">
+        <div className="order-history-form">
             <div className="container-center">
                 <div className="row">
-                    <div className="order-left">
+                    <div className="order-history-left">
                         <div className='title'>
                             Tài khoản
                         </div>
-                        <div className="order-list">
+                        <div className="order-history-list">
                             <ul>
                                 <li>
                                     <IoCaretForward />
@@ -22,20 +22,20 @@ const Order = () => {
                                 </li>
                                 <li>
                                     <IoCaretForward />
-                                    <Link to={''}>
-                                        Đơn mua
+                                    <Link to={`/${urlPages[13].path}`}>
+                                        Thay đổi mật khẩu
                                     </Link>
                                 </li>
                                 <li>
                                     <IoCaretForward />
-                                    <Link to={`/${urlPages[13].path}`}>
-                                        Danh sách địa chỉ
+                                    <Link to={`/${urlPages[12].path}`}>
+                                        Lịch sử mua hàng
                                     </Link>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div className="order-right">
+                    <div className="order-history-right">
                         ORDER PAGE
                     </div>
                 </div>
@@ -44,4 +44,4 @@ const Order = () => {
     )
 }
 
-export default Order;
+export default OrderHistory;
