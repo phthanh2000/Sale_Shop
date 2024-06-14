@@ -163,3 +163,22 @@ Model_User.checkUserForId = (id) => __awaiter(void 0, void 0, void 0, function* 
         client.release();
     }
 });
+// Function check phone is registered with another user
+Model_User.checkPhoneRegisteredWithAnotherUser = (id, phone) => __awaiter(void 0, void 0, void 0, function* () {
+    // Connect postgres database
+    const client = yield connection_1.pool.connect();
+    try {
+        // Data query
+        const queryOptions = `SELECT COUNT(*)
+                            FROM ${constants_1.CONST_TABLE_NAME.Users}
+                            WHERE ${constants_1.CONST_COLUMN_USERS.phone} = ${phone} 
+                            AND ${constants_1.CONST_COLUMN_USERS.id} != ${id}`;
+        // Perform data queries             
+        const result = yield client.query(queryOptions);
+        return result.rows[0].count;
+    }
+    finally {
+        // Release the connection
+        client.release();
+    }
+});
