@@ -5,8 +5,8 @@ import ForgetPassword from "../page/ForgetPassword/forgetPassword";
 import ResetPassword from "../page/ResetPassword/resetPassword";
 import Account from "../page/Account/account";
 import NotFound from "../page/NotFound";
-import Order from "../page/Order/order";
-import Address from "../page/Address/address";
+import ChangePassword from "../page/ChangePassword/changepassword";
+import OrderHistory from "../page/OrderHistory/orderHistory";
 
 // Url pages in website
 export const urlPages = [
@@ -82,16 +82,16 @@ export const urlPages = [
         component: <Account/>
     },
 
-    // User order (12)
+    // User order history(12)
     { 
-        path: 'account/order',
-        component: <Order/>
+        path: 'account/order-history',
+        component: <OrderHistory/>
     },
 
-    // User address (13)
+    // User change password (13)
     { 
-        path: 'account/address-list',
-        component: <Address/>
+        path: 'account/change-password',
+        component: <ChangePassword/>
     },
 
     // Not found URL page
