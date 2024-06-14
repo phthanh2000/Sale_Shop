@@ -151,4 +151,23 @@ export class Model_User {
       client.release();
     }
   }
+
+  // Function check phone is registered with another user
+  public static checkPhoneRegisteredWithAnotherUser = async (id: any, phone: number) => {
+    // Connect postgres database
+    const client = await pool.connect();
+    try {
+      // Data query
+      const queryOptions = `SELECT COUNT(*)
+                            FROM ${CONST_TABLE_NAME.Users}
+                            WHERE ${CONST_COLUMN_USERS.phone} = ${phone} 
+                            AND ${CONST_COLUMN_USERS.id} != ${id}`;
+      // Perform data queries             
+      const result = await client.query(queryOptions);
+      return result.rows[0].count;
+    } finally {
+      // Release the connection
+      client.release();
+    }
+  }
 }
