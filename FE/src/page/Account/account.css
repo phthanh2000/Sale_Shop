@@ -7,6 +7,14 @@
     flex-wrap: wrap;
 }
 
+.show {
+    visibility: visible;
+}
+
+.hide {
+    visibility: hidden;
+}
+
 /* Account left */
 .account-left {
     flex: 0 0 25%;
@@ -23,36 +31,113 @@
     font-size: 20px;
 }
 
-.account-left .account-list li{
+.account-left .account-list li {
     height: 20px;
     list-style: none;
     padding: 8px 0;
 }
 
-.account-left .account-list li:first-child{
+.account-left .account-list li:first-child {
     font-size: 22px;
 }
 
-.account-left .account-list li:first-child a{
+.account-left .account-list li:first-child a {
     font-weight: 600;
 }
 
-.account-left .account-list li:hover{
+.account-left .account-list li:hover {
     font-size: 22px;
 }
 
-.account-left .account-list li svg{
+.account-left .account-list li svg {
     height: 15px;
 }
 
-.account-left .account-list li a{
+.account-left .account-list li a {
     text-decoration: none;
     color: #000000;
 }
 
+.account-line {
+    background-color: #000000;
+    width: 5px;
+}
 
 /* Account right */
 .account-right {
-    flex: 0 0 75%;
-    max-width: 75%;
+    flex: 0 0 73%;
+    max-width: 73%;
+}
+
+.account-right .account-right-top {
+    font-weight: 700;
+    font-size: 25px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.account-right .account-right-top svg {
+    height: 16px;
+}
+
+.account-right .account-right-center {
+    display: flex;
+}
+
+.account-right .account-right-center .title {
+    width: 25%;
+    margin-left: 15%;
+    font-weight: 700;
+}
+
+.account-right .account-right-center .title p {
+    padding: 0 10px;
+    margin-top: 3px;
+    margin-bottom: 24px;
+}
+
+.account-right .account-right-center .input {
+    width: 80%;
+}
+
+.account-right .account-right-center .input input {
+    color: #000000;
+    width: 85%;
+    height: 25px;
+    padding: 0 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #8e9eab;
+}
+
+.account-right .account-right-center .input .warning {
+    border-color: #cc3300;
+}
+
+.account-right .account-message {
+    margin-left: 16.6%;
+    color: #cc3300;
+    font-size: 13px;
+    height: 13px;
+}
+
+.account-right .account-right-bottom {
+    text-align: right;
+    margin: 5px 50px 0 0;
+}
+
+.account-right .account-right-bottom button {
+    cursor: pointer;
+    height: 30px;
+    width: 150px;
+    color: #000000;
+    border: 2px solid #000000;
+    background: linear-gradient(-170deg, #eef2f3, #8e9eab);
+    border-radius: 5px;
+}
+
+.account-right .account-right-bottom button:hover {
+    background: #fffa37;
+    color: #000000;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
