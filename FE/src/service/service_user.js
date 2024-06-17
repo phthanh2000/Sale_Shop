@@ -36,6 +36,17 @@ export class Service_User {
         }
     }
 
+    // HTTP edit password user
+    static UpdatePasswordUser = async (token, id, newValue) => {
+        const endpoint = '/users/editPasswordUser';
+        try {
+            const data = await Service_Base.MethodPut(endpoint, token, id, newValue);
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // HTTP delele user
     static DeleteUser = async (token, id) => {
         const endpoint = '/users/deleteUser';
