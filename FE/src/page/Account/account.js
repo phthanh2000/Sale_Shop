@@ -157,16 +157,16 @@ const Account = () => {
                         <div className="account-right-center">
                             <div className="title">
                                 <p className="name">
-                                    Tên người dùng:
+                                    Tên người dùng: <strong style={{color: "#cc3300"}}>*</strong>
                                 </p>
                                 <p className="address">
-                                    Địa chỉ:
+                                    Địa chỉ: <strong style={{color: "#cc3300"}}>*</strong> 
                                 </p>
                                 <p className="phone">
-                                    Số diện thoại:
+                                    Số diện thoại: <strong style={{color: "#cc3300"}}>*</strong> 
                                 </p>
                                 <p className="email">
-                                    Thư điện tử:
+                                    Thư điện tử: <strong style={{color: "#cc3300"}}>*</strong>
                                 </p>
                             </div>
                             <div className="input">
