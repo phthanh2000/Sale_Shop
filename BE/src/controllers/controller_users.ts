@@ -79,27 +79,31 @@ export class Controller_Users {
 
   // Requires update password user
   public static updatePassswordUser = async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const data = req.body;
-    const userInfoForId = await Model_User.checkUserForId(id);
-    // Password decryption
-    const encryptedStringOfPresentPassword = userInfoForId.pass;
-    const secretKey = 'your_secret_key';
-    const decryptedBytes = CryptoJS.AES.decrypt(encryptedStringOfPresentPassword, secretKey);
-    const decryptedStringOfPresentPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
-    // Check password in password input form same present password of user or not
-    if (decryptedStringOfPresentPassword === data.password) {
-      // Password encryption
-      const ciphertext = data.newPassword;
+    try {
+      const id = req.params.id;
+      const data = req.body;
+      const userInfoForId = await Model_User.checkUserForId(id);
+      // Password decryption
+      const encryptedStringOfPresentPassword = userInfoForId.pass;
       const secretKey = 'your_secret_key';
-      const encryptedString = CryptoJS.AES.encrypt(ciphertext, secretKey).toString();
-      const newData = {
-        pass: encryptedString
+      const decryptedBytes = CryptoJS.AES.decrypt(encryptedStringOfPresentPassword, secretKey);
+      const decryptedStringOfPresentPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      // Check password in password input form same present password of user or not
+      if (decryptedStringOfPresentPassword === data.password) {
+        // Password encryption
+        const ciphertext = data.newPassword;
+        const secretKey = 'your_secret_key';
+        const encryptedString = CryptoJS.AES.encrypt(ciphertext, secretKey).toString();
+        const newData = {
+          pass: encryptedString
+        }
+        const user = await Model_User.updateUser(id, newData);
+        return res.status(200).json(user);
+      } else {
+        res.status(200).send("Current password is incorrect");
       }
-      const user = await Model_User.updateUser(id, newData);
-      return res.status(200).json(user);
-    } else {
-      res.status(200).send("Current password is incorrect");
+    } catch (error) {
+      return res.status(400).send(`API updatePassswordUser ${error}`);
     }
   }
 
