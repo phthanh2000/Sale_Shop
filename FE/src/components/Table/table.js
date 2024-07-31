@@ -14,7 +14,7 @@ import "./table.css";
 // Document: https://tanstack.com/table/v8/docs/framework/react/examples/basic
 const Table = (props) => {
     // Data will display in table 
-    const data = useState(() => [...props.defaultData]);
+    const [data, setData] = useState(() => [...props.defaultData]);
     // Display columns in table 
     const columns = props.columns;
     // Value get from search input to display result in table (https://tanstack.com/table/v8/docs/framework/react/examples/filters-fuzzy)
@@ -115,12 +115,12 @@ const Table = (props) => {
                 <div className="button">
                     <button className="return-to-first-page-btn"
                         onClick={() => table.setPageIndex(0)}
-                        disabled={!table.getCanPreviousPage()}>
+                        disabled={!table.getCanPreviousPage()} >
                         {'<<'}
                     </button>
                     <button className="return-to-first-page-btn"
                         onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}>
+                        disabled={!table.getCanPreviousPage()} >
                         {'<'}
                     </button>
                     <button className="return-to-next-page-btn"
@@ -130,7 +130,7 @@ const Table = (props) => {
                     </button>
                     <button className="return-to-last-page-btn"
                         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                        disabled={!table.getCanNextPage()}>
+                        disabled={!table.getCanNextPage()} >
                         {'>>'}
                     </button>
                     <span className="go-to-page">
