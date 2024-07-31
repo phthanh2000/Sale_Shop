@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useRef } from 'react';
 
 // Document: https://tanstack.com/table/v8/docs/framework/react/examples/row-selection
 // Component display checkbox in table 
-const IndeterminateCheckbox =   (
+const IndeterminateCheckbox = forwardRef (
   ({ indeterminate, ...rest }, ref) => {
     const defaultRef = useRef();
     const resolvedRef = ref || defaultRef;
