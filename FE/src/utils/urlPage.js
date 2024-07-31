@@ -7,6 +7,9 @@ import Account from "../page/Account/account";
 import NotFound from "../page/NotFound";
 import ChangePassword from "../page/ChangePassword/changepassword";
 import OrderHistory from "../page/OrderHistory/orderHistory";
+import ListUsers from "../page/Manage/ListUsers/listUsers";
+// import ListProducts from "../page/Manage/ListProducts/listProducts";
+// import ListOrders from "../page/Manage/ListOrders/listOrders";
 
 // Url pages in website
 export const urlPages = [
@@ -61,38 +64,59 @@ export const urlPages = [
     // Sign up (8)
     {
         path: 'register',
-        component: <Register/>
+        component: <Register />
     },
 
     // Forget password (9)
     {
         path: 'forget-password',
-        component: <ForgetPassword/>
+        component: <ForgetPassword />
     },
 
     // Reset password (10)
     {
         path: 'reset-password/:token',
-        component: <ResetPassword/>
+        component: <ResetPassword />
     },
 
     // User information (11)
-    { 
+    {
         path: 'account',
-        component: <Account/>
+        component: <Account />
     },
 
     // User order history(12)
-    { 
+    {
         path: 'account/order-history',
-        component: <OrderHistory/>
+        component: <OrderHistory />
     },
 
     // User change password (13)
-    { 
+    {
         path: 'account/change-password',
-        component: <ChangePassword/>
+        component: <ChangePassword />
     },
+
+    // Manage user list (14)
+    {
+        // path: 'account/manage-user-list',
+        path: 'manage-user-list',
+        component: <ListUsers />
+    },
+
+    // // Manage product list (15)
+    // {
+    //     // path: 'account/manage-product-list',
+    //     path: 'manage-product-list',
+    //     component: <ListProducts />
+    // },
+
+    // // Manage order list (16)
+    // {
+    //     // path: 'account/manage-order-list',
+    //     path: 'manage-order-list',
+    //     component: <ListOrders />
+    // },
 
     // Not found URL page
     {
