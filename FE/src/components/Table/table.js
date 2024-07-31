@@ -42,9 +42,6 @@ const Table = (props) => {
 
     return (
         <>
-            <div className="title">
-                <h2>{props.title}</h2>
-            </div>
             <div className="search">
                 <SearchField placeholder="Nhập từ khóa tìm kiếm"
                     value={globalFilter ?? ''}
