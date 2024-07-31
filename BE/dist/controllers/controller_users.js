@@ -122,28 +122,33 @@ Controller_Users.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, fu
 });
 // Requires update password user
 Controller_Users.updatePassswordUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    const data = req.body;
-    const userInfoForId = yield model_users_1.Model_User.checkUserForId(id);
-    // Password decryption
-    const encryptedStringOfPresentPassword = userInfoForId.pass;
-    const secretKey = 'your_secret_key';
-    const decryptedBytes = crypto_js_1.default.AES.decrypt(encryptedStringOfPresentPassword, secretKey);
-    const decryptedStringOfPresentPassword = decryptedBytes.toString(crypto_js_1.default.enc.Utf8);
-    // Check password in password input form same present password of user or not
-    if (decryptedStringOfPresentPassword === data.password) {
-        // Password encryption
-        const ciphertext = data.newPassword;
+    try {
+        const id = req.params.id;
+        const data = req.body;
+        const userInfoForId = yield model_users_1.Model_User.checkUserForId(id);
+        // Password decryption
+        const encryptedStringOfPresentPassword = userInfoForId.pass;
         const secretKey = 'your_secret_key';
-        const encryptedString = crypto_js_1.default.AES.encrypt(ciphertext, secretKey).toString();
-        const newData = {
-            pass: encryptedString
-        };
-        const user = yield model_users_1.Model_User.updateUser(id, newData);
-        return res.status(200).json(user);
+        const decryptedBytes = crypto_js_1.default.AES.decrypt(encryptedStringOfPresentPassword, secretKey);
+        const decryptedStringOfPresentPassword = decryptedBytes.toString(crypto_js_1.default.enc.Utf8);
+        // Check password in password input form same present password of user or not
+        if (decryptedStringOfPresentPassword === data.password) {
+            // Password encryption
+            const ciphertext = data.newPassword;
+            const secretKey = 'your_secret_key';
+            const encryptedString = crypto_js_1.default.AES.encrypt(ciphertext, secretKey).toString();
+            const newData = {
+                pass: encryptedString
+            };
+            const user = yield model_users_1.Model_User.updateUser(id, newData);
+            return res.status(200).json(user);
+        }
+        else {
+            res.status(200).send("Current password is incorrect");
+        }
     }
-    else {
-        res.status(200).send("Current password is incorrect");
+    catch (error) {
+        return res.status(400).send(`API updatePassswordUser ${error}`);
     }
 });
 // Requires delete user
