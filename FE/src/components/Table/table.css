@@ -1,0 +1,197 @@
+/* Header */
+.title {
+    width: 300px;
+    position: relative;
+    top: 10px;
+}
+
+.search {
+    text-align: end;
+}
+
+.search .react-search-field {
+    border: none !important;
+    height: 25px !important;
+}
+
+.search .react-search-field-input {
+    height: 25px !important;
+    border: 1px solid #000000 !important;
+    border-radius: 5px;
+    width: 250px;
+}
+
+.search .react-search-field-button {
+    border: none !important;
+    height: 25px !important;
+}
+
+.search .react-search-field-button svg {
+    fill: #000000;
+}
+
+.control {
+    height: 32px;
+    padding-bottom: 10px;
+}
+
+.control .add,
+.update,
+.delete {
+    margin-right: 5px;
+    width: 100px;
+    height: 30px;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.control .add {
+    background-color: #00ff40;
+}
+
+.control .update {
+    background-color: #00bfff;
+}
+
+.control .delete {
+    background-color: #ff0040;
+}
+
+.control .add:hover,
+.update:hover,
+.delete:hover {
+    background: #fffa37;
+    color: #000000;
+}
+
+/* Middle */
+.container-table {
+    width: 100%;
+    height: 310px;
+    overflow-x: auto;
+}
+
+table {
+    width: 1100px;
+    height: 310px;
+    border-collapse: collapse;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #ffffff;
+}
+
+thead tr th:first-child {
+    position: sticky;
+    left: 0;
+    background-color: #ffffff;
+
+}
+
+thead tr th:first-child input {
+    position: relative;
+    top: 1px;
+    left: -21px;
+}
+
+thead tr th div {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+
+thead tr th div svg {
+    width: 20px;
+    height: 11px;
+}
+
+thead tr th:first-child div {
+    width: 100%;
+    height: 100%;
+}
+
+tbody tr td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 0;
+    background-color: #ffffff;
+}
+
+tbody tr td {
+    border-bottom: 1px solid;
+}
+
+tbody tr td p {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+}
+
+tbody tr td:first-child div {
+    border-right: 1px solid;
+}
+
+thead tr th div,
+tbody tr td p {
+    border-right: 1px solid;
+}
+
+thead tr th:first-child div,
+tbody tr td:first-child div {
+    border-left: 1px solid;
+}
+
+/* Footer */
+.paging {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 5px;
+}
+
+.button {
+    flex: 0 0 50%;
+    text-align: end;
+}
+
+.page {
+    flex: 0 0 50%;
+    display: flex;
+}
+
+.present-page {
+    display: flex;
+}
+
+.button button {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.button button:hover {
+    border: 2px solid;
+    font-weight: bold;
+}
+
+.number-page-input {
+    width: 100px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.select-number-page {
+    height: 24px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
