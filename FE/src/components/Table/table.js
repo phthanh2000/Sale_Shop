@@ -17,6 +17,8 @@ const Table = (props) => {
     const data = useState(() => [...props.defaultData]);
     // Display columns in table 
     const columns = props.columns;
+    // Value get from search input to display result in table (https://tanstack.com/table/v8/docs/framework/react/examples/filters-fuzzy)
+    const [globalFilter, setGlobalFilter] = useState('');
     // Generate table with supported values
     const table = useReactTable({
         data,
@@ -35,8 +37,6 @@ const Table = (props) => {
         onGlobalFilterChange: setGlobalFilter,
         getFilteredRowModel: getFilteredRowModel(),
     });
-    // Value get from search input to display result in table (https://tanstack.com/table/v8/docs/framework/react/examples/filters-fuzzy)
-    const [globalFilter, setGlobalFilter] = useState('');
     // Rows selected by the user when clicking the checkbox, add or delete button
     const selectedRows = table.getSelectedRowModel().rows;
 
