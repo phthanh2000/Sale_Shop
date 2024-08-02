@@ -48,7 +48,7 @@
     margin-left: 10px;
     border-radius: 5px;
     cursor: pointer;
-    color: #ffffff;
+    color: #000000;
     font-weight: 600;
 }
 
@@ -58,5 +58,5 @@
 
 .popup-error-form .button .close-button:hover{
     color: #000000;
-    background: #ff9966;
+    background: #fffa37;
 }
