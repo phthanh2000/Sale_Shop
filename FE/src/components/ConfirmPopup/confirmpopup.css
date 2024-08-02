@@ -1,0 +1,69 @@
+.react-responsive-modal-modal {
+    width: 350px;
+    border-radius: 10px;
+}
+
+.react-responsive-modal-closeButton {
+    display: none;
+}
+
+.popup-confirm-form .close-icon {
+    float: right;
+    font-size: 25px;
+    color: #000000;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.popup-confirm-form .close-icon:hover {
+    color: #cc3300;
+}
+
+.popup-confirm-form .content {
+    display: flex;
+    align-items: center;
+}
+
+.popup-confirm-form .content .delete-icon svg {
+    width: 50px;
+    height: 46px;
+    color: #000000;
+}
+
+.popup-confirm-form .content .message {
+    padding-left: 5px;
+    font-size: 15px;
+    color: black;
+    word-break: break-all;
+}
+
+.popup-confirm-form .button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.popup-confirm-form .button .cancel-button,
+.button .ok-button {
+    width: 100px;
+    height: 30px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #000000;
+    font-weight: 600;
+}
+
+.popup-confirm-form .button .cancel-button {
+    background: #cc3300;
+}
+
+
+.popup-confirm-form .button .ok-button {
+    background: #00ff40;
+}
+
+.popup-confirm-form .button .cancel-button:hover,
+.button .ok-button:hover {
+    color: #000000;
+    background: #fffa37;
+}
