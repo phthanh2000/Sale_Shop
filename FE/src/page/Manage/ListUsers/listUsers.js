@@ -5,7 +5,7 @@ import { MdEdit, MdDeleteOutline } from "react-icons/md";
 import { Service_User } from '../../../service/service_user';
 import Overlay from '../../../components/Overlay/overlay';
 import ErrorPopup from '../../../components/ErrorPopup/errorpopup';
-import ConfirmPopup from '../../../components/ConfirmPopup/confirmpopup';
+import DeletePopup from '../../../components/DeletePopup/deletepopup';
 import Table from '../../../components/Table/table';
 import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox/indeterminatecheckbox';
 import "./listUsers.css";
@@ -40,11 +40,11 @@ const ListUsers = () => {
           <MdEdit className="edit-btn" />
           <MdDeleteOutline className="delete-btn"
             onClick={() => {
-              setIsShowConfirmPopup({
+              setisShowDeletePopup({
                 show: true,
                 message: `Bạn muốn xóa người dùng`,
                 delete: false,
-                user: row.original
+                item: row.original
               })
             }} />
         </div>
@@ -61,6 +61,11 @@ const ListUsers = () => {
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
+    columnHelper.accessor('email', {
+      header: () => 'Email',
+      cell: info => <p>{info.getValue()}</p>,
+      footer: info => info.column.id,
+    }),
     columnHelper.accessor('address', {
       header: () => 'Address',
       cell: info => <p>{info.getValue()}</p>,
@@ -71,18 +76,13 @@ const ListUsers = () => {
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('pass', {
-      header: () => 'Password',
-      cell: info => <p>{info.getValue()}</p>,
-      footer: info => info.column.id,
-    }),
-    columnHelper.accessor('email', {
-      header: () => 'Email',
-      cell: info => <p>{info.getValue()}</p>,
-      footer: info => info.column.id,
-    }),
     columnHelper.accessor('roleid', {
       header: () => 'Role',
+      cell: info => <p>{info.getValue()}</p>,
+      footer: info => info.column.id,
+    }),
+    columnHelper.accessor('pass', {
+      header: () => 'Password',
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
@@ -94,13 +94,15 @@ const ListUsers = () => {
     show: false,
     message: ''
   });
-  // Hide/ Show confirm popup when click delete button
-  const [isShowConfirmPopup, setIsShowConfirmPopup] = useState({
+  // Hide/ Show delete popup when click delete button
+  const [isShowDeletePopup, setisShowDeletePopup] = useState({
     show: false,
     message: '',
     delete: false,
-    user: null,
+    item: null,
   });
+  // Row to delete in table
+  const [isRowToDeleteInTable, setIsRowToDeleteInTable] = useState(null);
 
   useEffect(() => {
     // Async/ await
@@ -123,25 +125,20 @@ const ListUsers = () => {
     fetchData();
   }, []);
 
+  // useEffect handle when delete popup is pressed the ok button
   useEffect(() => {
     // Async/ await
     async function fetchData() {
       try {
-        if (isShowConfirmPopup.delete) {
+        if (isShowDeletePopup.delete) {
           // Show overlay when waiting loading data
           setIsShowOverlay(true);
           // Delete user selected
-          const deleteUser = await Service_User.DeleteUser('', isShowConfirmPopup.user.id);
+          const deleteUser = await Service_User.DeleteUser('', isShowDeletePopup.item.id);
           if (deleteUser) {
-            setIsShowConfirmPopup({
-              show: false,
-              message: '',
-              delete: false,
-              user: null,
-            });
+            // Set delete row in table
+            setIsRowToDeleteInTable(isShowDeletePopup.item.id);
           };
-          // const newDefaultData = defaultData.filter((data) => data.id !== isShowConfirmPopup.user.id);
-          // setDefaultData(newDefaultData);
           // Hide overlay after loaded data 
           setIsShowOverlay(false);
         };
@@ -153,7 +150,7 @@ const ListUsers = () => {
       }
     }
     fetchData();
-  }, [isShowConfirmPopup.delete]);
+  }, [isShowDeletePopup.delete]);
 
   return (
     <div className="manage-user-list" style={{ paddingBottom: "10px" }}>
@@ -162,15 +159,26 @@ const ListUsers = () => {
           <h2>Quản lý tài khoản</h2>
         </div>
         {defaultData.length !== 0 ?
-          <Table defaultData={defaultData} columns={columns} />
+          <Table defaultData={defaultData}
+            columns={columns}
+            isRowToDeleteInTable={isRowToDeleteInTable}
+            isRowToDeleteInTableComplete={(e) => {
+              setIsRowToDeleteInTable(e);
+              setisShowDeletePopup({
+                show: false,
+                message: '',
+                delete: false,
+                item: null,
+              });
+            }} />
           :
           <div className="no-data">Không có dữ liệu để hiển thị.</div>}
       </div>
       {isShowOverlay && <Overlay />}
       <ErrorPopup open={isShowErrorPopup} close={(e) => setIsShowErrorPopup(e)} />
-      <ConfirmPopup open={isShowConfirmPopup}
-        close={(e) => setIsShowConfirmPopup(e)}
-        ok={(e) => { setIsShowConfirmPopup(e) }}></ConfirmPopup>
+      <DeletePopup open={isShowDeletePopup}
+        close={(e) => setisShowDeletePopup(e)}
+        ok={(e) => { setisShowDeletePopup(e) }} />
     </div>
   )
 };
