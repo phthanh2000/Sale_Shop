@@ -2,9 +2,9 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { IoIosClose } from "react-icons/io";
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
-import './confirmpopup.css';
+import './deletepopup.css';
 
-const ConfirmPopup = (props) => {
+const DeletePopup = (props) => {
     return (
         <Modal
             open={props.open.show}
@@ -17,7 +17,7 @@ const ConfirmPopup = (props) => {
                             show: !props.open.show,
                             message: '',
                             delete: props.open.delete,
-                            user: null
+                            item: null
                         })
                     }} />
                 <div className="content">
@@ -26,8 +26,8 @@ const ConfirmPopup = (props) => {
                     </div>
                     <div className="message">
                         <p>{props.open.message}</p>
-                        <p>{props.open.user ? `${props.open.user.name}` : ''}</p>
-                        <p>{props.open.user ? `( ID: ${props.open.user.id} )` : ''}</p>
+                        <p>{props.open.item ? `${props.open.item.name}` : ''}</p>
+                        <p>{props.open.item ? `( ID: ${props.open.item.id} )` : ''}</p>
                     </div>
                 </div>
                 <div className="button">
@@ -37,7 +37,7 @@ const ConfirmPopup = (props) => {
                                 show: !props.open.show,
                                 message: '',
                                 delete: props.open.delete,
-                                user: null
+                                item: null
                             })
                         }}>
                         Hủy bỏ
@@ -48,7 +48,7 @@ const ConfirmPopup = (props) => {
                                 show: !props.open.show,
                                 message: '',
                                 delete: !props.open.delete,
-                                user: props.open.user
+                                item: props.open.item
                             })
                         }}>
                         Đồng ý
@@ -59,4 +59,4 @@ const ConfirmPopup = (props) => {
     )
 }
 
-export default ConfirmPopup;
+export default DeletePopup;
