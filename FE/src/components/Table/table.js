@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchField from "react-search-field";
 import { MdOutlineArrowUpward, MdOutlineArrowDownward } from "react-icons/md";
 import {
@@ -39,6 +39,15 @@ const Table = (props) => {
     });
     // Rows selected by the user when clicking the checkbox, add or delete button
     const selectedRows = table.getSelectedRowModel().rows;
+
+    // useEffect handle when delete row in table
+    useEffect(() => {
+        if (props.isRowToDeleteInTable) {
+            setData(data.filter(item => item.id !== props.isRowToDeleteInTable));
+            // Delete rows table is completed
+            props.isRowToDeleteInTableComplete(null);
+        };
+    }, [props.isRowToDeleteInTable]);
 
     return (
         <>
