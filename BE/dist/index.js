@@ -8,6 +8,7 @@ const body_parser_1 = require("body-parser");
 const cors_1 = __importDefault(require("cors"));
 const routes_users_1 = __importDefault(require("./routes/routes_users"));
 const routes_databases_1 = __importDefault(require("./routes/routes_databases"));
+const routes_roles_1 = __importDefault(require("./routes/routes_roles"));
 // Using express
 const app = (0, express_1.default)();
 // Port is used
@@ -19,6 +20,7 @@ app.use((0, cors_1.default)());
 // Middleware for route routing
 app.use('/users', routes_users_1.default);
 app.use('/databases', routes_databases_1.default);
+app.use('/roles', routes_roles_1.default);
 // Start an HTTP server and start listening for incoming requests from the specified port
 // app.listen(port, [callback]);
 app.listen(PORT, () => {
