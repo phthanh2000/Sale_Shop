@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { createColumnHelper } from '@tanstack/react-table'
 import { MdEdit, MdDeleteOutline } from "react-icons/md";
 import { Service_User } from '../../../service/service_user';
+import { Service_Role } from '../../../service/service_role';
 import Overlay from '../../../components/Overlay/overlay';
 import ErrorPopup from '../../../components/ErrorPopup/errorpopup';
 import DeletePopup from '../../../components/DeletePopup/deletepopup';
@@ -77,10 +78,10 @@ const ListUsers = () => {
     }),
     columnHelper.accessor('phone', {
       header: () => 'Số điện thoại',
-      cell: info => <p>{info.getValue()}</p>,
+      cell: info => <p>0{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('roleid', {
+    columnHelper.accessor('role', {
       header: () => 'Quyền',
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
@@ -118,7 +119,19 @@ const ListUsers = () => {
         setIsShowOverlay(true);
         // Get users list
         const users = await Service_User.GetUser();
-        setDefaultData(users);
+         // Get roles list
+        const roles = await Service_Role.GetRole();
+        // Mapping users with roles list
+        const dataUsers = users.map(user => {
+          const role = roles.find(r => r.id === user.roleid);
+          // Return new data list
+          return {
+            ...user,
+            role: role.name,
+          };
+        });
+        // Set data into table
+        setDefaultData(dataUsers);
         // Hide overlay after loaded data 
         setIsShowOverlay(false);
       } catch (error) {
