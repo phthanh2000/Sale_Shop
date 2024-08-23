@@ -39,10 +39,14 @@ const ListUsers = () => {
               onChange: row.getToggleSelectedHandler(),
             }}
           />
-          <MdEdit className="edit-btn" 
-          onClick={() => {
-            setIsShowAddEditForm(true);
-          }}/>
+          <MdEdit className="edit-btn"
+            onClick={() => {
+              setIsShowAddEditForm({
+                show: true,
+                change: false,
+                item: row.original
+              });
+            }} />
           <MdDeleteOutline className="delete-btn"
             onClick={() => {
               setisShowDeletePopup({
@@ -107,7 +111,11 @@ const ListUsers = () => {
     item: null,
   });
   // Hide/ Show edit/add form when click add or edit button
-  const [isShowAddEditForm, setIsShowAddEditForm] = useState(false); 
+  const [isShowAddEditForm, setIsShowAddEditForm] = useState({
+    show: false,
+    change: false,
+    item: null,
+  });
   // Row to delete in table
   const [isRowToDeleteInTable, setIsRowToDeleteInTable] = useState(null);
 
@@ -119,7 +127,7 @@ const ListUsers = () => {
         setIsShowOverlay(true);
         // Get users list
         const users = await Service_User.GetUser();
-         // Get roles list
+        // Get roles list
         const roles = await Service_Role.GetRole();
         // Mapping users with roles list
         const dataUsers = users.map(user => {
@@ -198,7 +206,7 @@ const ListUsers = () => {
       <DeletePopup open={isShowDeletePopup}
         close={(e) => setisShowDeletePopup(e)}
         ok={(e) => { setisShowDeletePopup(e) }} />
-      <AddEditUser open={isShowAddEditForm} close={(e) => {setIsShowAddEditForm(e)}}></AddEditUser>
+      <AddEditUser open={isShowAddEditForm} close={(e) => { setIsShowAddEditForm(e) }}></AddEditUser>
     </div>
   )
 };
