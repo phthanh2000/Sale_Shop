@@ -18,13 +18,14 @@ const AddEditUser = (props) => {
         }
     };
     return (
-        <Modal open={false}
+        <Modal open={props.open}
             onClose={() => { }}
             center
             className='add-edit-user-modal'>
             <div className='add-edit-user-header'>
                 <h2>Thay đổi thông tin</h2>
-                <IoIosClose className="close-icon"></IoIosClose>
+                <IoIosClose className="close-icon"
+                    onClick={() => { props.close(false) }} />
             </div>
             <div className='add-edit-user-center'>
                 <p className='name'>Họ và tên:</p>
@@ -81,7 +82,10 @@ const AddEditUser = (props) => {
                 </select>
             </div>
             <div className='add-edit-user-footer'>
-                <button className='cancel'>Hủy bỏ</button>
+                <button className='cancel'
+                    onClick={() => { props.close(false) }}>
+                    Hủy bỏ
+                </button>
                 <button className='ok'>Thêm</button>
             </div>
         </Modal>
