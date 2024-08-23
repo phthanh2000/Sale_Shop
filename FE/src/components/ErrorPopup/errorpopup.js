@@ -9,7 +9,8 @@ const ErrorPopup = (props) => {
         <Modal
             open={props.open.show}
             onClose={() => { }}
-            center>
+            center
+            modalId="error-popup-modal">
             <div className="popup-error-form">
                 <IoIosClose className="close-icon"
                     onClick={() => {

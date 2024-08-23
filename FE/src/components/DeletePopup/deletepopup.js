@@ -9,7 +9,8 @@ const DeletePopup = (props) => {
         <Modal
             open={props.open.show}
             onClose={() => { }}
-            center>
+            center
+            modalId='delete-popup-modal'>
             <div className="popup-confirm-form">
                 <IoIosClose className="close-icon"
                     onClick={() => {

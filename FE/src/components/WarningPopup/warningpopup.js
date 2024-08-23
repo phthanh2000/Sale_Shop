@@ -9,7 +9,8 @@ const WarningPopup = (props) => {
         <Modal
             open={props.open.show}
             onClose={() => { }}
-            center>
+            center
+            modalId="warning-popup-modal">
             <div className="popup-warning-form">
                 <IoIosClose className="close-icon"
                     onClick={() => props.close({
