@@ -8,6 +8,7 @@ import ErrorPopup from '../../../components/ErrorPopup/errorpopup';
 import DeletePopup from '../../../components/DeletePopup/deletepopup';
 import Table from '../../../components/Table/table';
 import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox/indeterminatecheckbox';
+import AddEditUser from '../../../components/AddEditUser/addedituser';
 import "./listUsers.css";
 
 const ListUsers = () => {
@@ -57,32 +58,32 @@ const ListUsers = () => {
       footer: info => info.column.id,
     }),
     columnHelper.accessor('name', {
-      header: () => 'Name',
+      header: () => 'Họ và tên',
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
     columnHelper.accessor('email', {
-      header: () => 'Email',
+      header: () => 'Thư điện tử',
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
     columnHelper.accessor('address', {
-      header: () => 'Address',
+      header: () => 'Địa chỉ',
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
     columnHelper.accessor('phone', {
-      header: () => 'Phone',
+      header: () => 'Số điện thoại',
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
     columnHelper.accessor('roleid', {
-      header: () => 'Role',
+      header: () => 'Quyền',
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
     columnHelper.accessor('pass', {
-      header: () => 'Password',
+      header: () => 'Mật khẩu',
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
