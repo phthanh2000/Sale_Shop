@@ -1,0 +1,88 @@
+.react-responsive-modal-modal {
+    width: 350px;
+    height: 555px;
+    overflow-x: auto;
+    position: absolute;
+    top: -19px;
+    right: -17px;
+    border-radius: 0 !important;
+}
+
+.add-edit-user-header {
+    display: flex;
+}
+
+.add-edit-user-header .close-icon {
+    text-align: end;
+    position: absolute;
+    right: 10px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.add-edit-user-center {
+    padding: 15px 0;
+}
+
+.add-edit-user-center p {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.add-edit-user-center input {
+    width: 95%;
+    height: 25px;
+    padding: 0 10px;
+    margin: 7px 0px;
+    border-radius: 5px;
+    border: 1px solid #8e9eab;
+}
+
+.add-edit-user-center .form-pass, .form-re-pass {
+    position: relative;
+}
+
+.add-edit-user-center .form-pass svg, .form-re-pass svg {
+    position: absolute;
+    top: 30px;
+    right: 7px;
+    cursor: pointer;;
+}
+
+.add-edit-user-center select {
+    height: 25px;
+    padding: 0 10px;
+    margin: 7px 0px;
+    border-radius: 5px;
+    border: 1px solid #8e9eab;
+}
+
+.add-edit-user-footer .cancel {
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    right: 120px;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #ff0040;
+}
+
+.add-edit-user-footer .ok {
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #00ff40;
+}
+
+.add-edit-user-footer .cancel:hover,
+.ok:hover {
+    background: #fffa37;
+    color: #000000;
+}
