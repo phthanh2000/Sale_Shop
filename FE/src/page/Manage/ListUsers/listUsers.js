@@ -38,7 +38,10 @@ const ListUsers = () => {
               onChange: row.getToggleSelectedHandler(),
             }}
           />
-          <MdEdit className="edit-btn" />
+          <MdEdit className="edit-btn" 
+          onClick={() => {
+            setIsShowAddEditForm(true);
+          }}/>
           <MdDeleteOutline className="delete-btn"
             onClick={() => {
               setisShowDeletePopup({
@@ -102,6 +105,8 @@ const ListUsers = () => {
     delete: false,
     item: null,
   });
+  // Hide/ Show edit/add form when click add or edit button
+  const [isShowAddEditForm, setIsShowAddEditForm] = useState(false); 
   // Row to delete in table
   const [isRowToDeleteInTable, setIsRowToDeleteInTable] = useState(null);
 
@@ -180,6 +185,7 @@ const ListUsers = () => {
       <DeletePopup open={isShowDeletePopup}
         close={(e) => setisShowDeletePopup(e)}
         ok={(e) => { setisShowDeletePopup(e) }} />
+      <AddEditUser open={isShowAddEditForm} close={(e) => {setIsShowAddEditForm(e)}}></AddEditUser>
     </div>
   )
 };
