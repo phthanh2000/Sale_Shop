@@ -117,6 +117,14 @@ const Account = () => {
         }
     }
 
+    // On click scroll to top
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
     return (
         <div className="account-form">
             <div className="container-center">
@@ -129,19 +137,19 @@ const Account = () => {
                             <ul>
                                 <li>
                                     <IoCaretForward />
-                                    <Link to={''}>
+                                    <Link to={''} onClick={() => {scrollToTop()}}>
                                         Thông tin cá nhân
                                     </Link>
                                 </li>
                                 <li>
                                     <IoCaretForward />
-                                    <Link to={`/${urlPages[13].path}`}>
+                                    <Link to={`/${urlPages[13].path}`} onClick={() => {scrollToTop()}}>
                                         Thay đổi mật khẩu
                                     </Link>
                                 </li>
                                 <li>
                                     <IoCaretForward />
-                                    <Link to={`/${urlPages[12].path}`}>
+                                    <Link to={`/${urlPages[12].path}`} onClick={() => {scrollToTop()}}>
                                         Lịch sử mua hàng
                                     </Link>
                                 </li>
@@ -157,16 +165,16 @@ const Account = () => {
                         <div className="account-right-center">
                             <div className="title">
                                 <p className="name">
-                                    Tên người dùng: <strong style={{color: "#cc3300"}}>*</strong>
+                                    Tên người dùng: <strong style={{ color: "#cc3300" }}>*</strong>
                                 </p>
                                 <p className="address">
-                                    Địa chỉ: <strong style={{color: "#cc3300"}}>*</strong> 
+                                    Địa chỉ: <strong style={{ color: "#cc3300" }}>*</strong>
                                 </p>
                                 <p className="phone">
-                                    Số diện thoại: <strong style={{color: "#cc3300"}}>*</strong> 
+                                    Số diện thoại: <strong style={{ color: "#cc3300" }}>*</strong>
                                 </p>
                                 <p className="email">
-                                    Thư điện tử: <strong style={{color: "#cc3300"}}>*</strong>
+                                    Thư điện tử: <strong style={{ color: "#cc3300" }}>*</strong>
                                 </p>
                             </div>
                             <div className="input">

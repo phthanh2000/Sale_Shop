@@ -170,11 +170,13 @@ const Header = () => {
     }
 
     // On click scroll to top
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+    const scrollToTop = (scroll) => {
+        if (!scroll) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
     };
 
     // On click log out 
@@ -215,7 +217,7 @@ const Header = () => {
                     <div className="header-top-right">
                         <ul className="cart-user">
                             <li className="li">
-                                <Link to={""}>
+                                <Link to={""} onClick={() => { scrollToTop() }}>
                                     <div className="cart">
                                         <FaCartShopping className="cart-icon" />
                                         <span>9</span>
@@ -234,7 +236,7 @@ const Header = () => {
                                         </Link>
                                         <ul className="user-dropdown ">
                                             <li>
-                                                <Link to={urlPages[11].path}>
+                                                <Link to={urlPages[11].path} onClick={() => { scrollToTop() }}>
                                                     <div>
                                                         <FaHouseUser className="icon" />
                                                         <div className="text">Tài khoản</div>
@@ -253,7 +255,7 @@ const Header = () => {
                                     </>
                                     :
                                     <>
-                                        <Link className="user" to={urlPages[5].path} onClick={scrollToTop}>
+                                        <Link className="user" to={urlPages[5].path} onClick={() => { scrollToTop() }}>
                                             <FaUserLarge className="user-icon" />
                                             <p className="overflow">
                                                 Đăng nhập
@@ -305,7 +307,8 @@ const Header = () => {
                             {
                                 Menu?.map((menu, menuKey) => (
                                     <li key={menuKey}>
-                                        <Link to={menu?.path}>
+                                        <Link to={menu?.path}
+                                            onClick={() => { scrollToTop(menu.child) }}>
                                             {menu?.name}
                                             {menu.child ? <RiArrowDropDownLine className="dropdown-icon" /> : ''}
                                         </Link>
