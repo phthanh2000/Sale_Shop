@@ -49,6 +49,19 @@ const Table = (props) => {
         };
     }, [props.isRowToDeleteInTable]);
 
+    useEffect(() => {
+        if (props.isRowToUpdateInTable) {
+            const updatedRow = props.isRowToUpdateInTable;
+            setData(data.map(item => item.id === props.isRowToUpdateInTable.id ? updatedRow : item));
+            // Update rows table is completed
+            props.isRowToUpdateInTableComplete({
+                show: false,
+                event: null,
+                item: null
+            });
+        }
+    }, [props.isRowToUpdateInTable]);
+
     return (
         <>
             <div className="search">

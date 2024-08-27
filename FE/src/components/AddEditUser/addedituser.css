@@ -8,8 +8,24 @@
     border-radius: 0 !important;
 }
 
+.show {
+    visibility: visible;
+}
+
+.hidden {
+    visibility: hidden;
+    display: block;
+}
+
 .add-edit-user-header {
     display: flex;
+    justify-content: center;
+}
+
+.add-edit-user-header .icon-edit {
+    position: relative;
+    top: 6px;
+    margin-left: 5px;
 }
 
 .add-edit-user-header .close-icon {
@@ -21,7 +37,7 @@
 }
 
 .add-edit-user-center {
-    padding: 15px 0;
+    padding-top: 10px;
 }
 
 .add-edit-user-center p {
@@ -29,32 +45,50 @@
     font-weight: 600;
 }
 
+.add-edit-user-center .warning {
+    color: #cc3300;
+    font-size: 13px;
+    height: 13px;
+    margin: 1px 0 3px 0;
+}
+
+.add-edit-user-center strong {
+    color: rgb(204, 51, 0);
+}
+
 .add-edit-user-center input {
     width: 95%;
     height: 25px;
     padding: 0 10px;
-    margin: 7px 0px;
+    margin-top: 3px;
     border-radius: 5px;
     border: 1px solid #8e9eab;
 }
 
-.add-edit-user-center .form-pass, .form-re-pass {
+.add-edit-user-center .form-pass,
+.form-re-pass {
     position: relative;
 }
 
-.add-edit-user-center .form-pass svg, .form-re-pass svg {
+.add-edit-user-center .form-pass svg,
+.form-re-pass svg {
     position: absolute;
-    top: 30px;
+    top: 26px;
     right: 7px;
-    cursor: pointer;;
+    cursor: pointer;
 }
 
 .add-edit-user-center select {
     height: 25px;
     padding: 0 10px;
-    margin: 7px 0px;
+    margin-top: 3px;
     border-radius: 5px;
     border: 1px solid #8e9eab;
+}
+
+.add-edit-user-footer {
+    height: 30px;
+    margin-bottom: 10px;
 }
 
 .add-edit-user-footer .cancel {
@@ -79,6 +113,10 @@
     font-size: 15px;
     cursor: pointer;
     background-color: #00ff40;
+}
+
+.add-edit-user-footer .ok img{
+    height: 27px;
 }
 
 .add-edit-user-footer .cancel:hover,

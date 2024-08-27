@@ -44,12 +44,13 @@ const ListUsers = () => {
               setIsShowAddEditForm({
                 show: true,
                 change: false,
+                event: 'edit',
                 item: row.original
               });
             }} />
           <MdDeleteOutline className="delete-btn"
             onClick={() => {
-              setisShowDeletePopup({
+              setIsShowDeletePopup({
                 show: true,
                 message: `Bạn muốn xóa người dùng`,
                 delete: false,
@@ -104,7 +105,7 @@ const ListUsers = () => {
     message: ''
   });
   // Hide/ Show delete popup when click delete button
-  const [isShowDeletePopup, setisShowDeletePopup] = useState({
+  const [isShowDeletePopup, setIsShowDeletePopup] = useState({
     show: false,
     message: '',
     delete: false,
@@ -113,11 +114,14 @@ const ListUsers = () => {
   // Hide/ Show edit/add form when click add or edit button
   const [isShowAddEditForm, setIsShowAddEditForm] = useState({
     show: false,
-    change: false,
+    event: null,
     item: null,
   });
   // Row to delete in table
   const [isRowToDeleteInTable, setIsRowToDeleteInTable] = useState(null);
+
+  // Row to update in table
+  const [isRowToUpdateInTable, setIsRowToUpdateInTable] = useState(null);
 
   useEffect(() => {
     // Async/ await
@@ -191,22 +195,26 @@ const ListUsers = () => {
             isRowToDeleteInTable={isRowToDeleteInTable}
             isRowToDeleteInTableComplete={(e) => {
               setIsRowToDeleteInTable(e);
-              setisShowDeletePopup({
+              setIsShowDeletePopup({
                 show: false,
                 message: '',
                 delete: false,
                 item: null,
               });
-            }} />
+            }}
+            isRowToUpdateInTable={isRowToUpdateInTable}
+            isRowToUpdateInTableComplete = {(e) => {setIsShowAddEditForm(e)}} />
           :
           <div className="no-data">Không có dữ liệu để hiển thị.</div>}
       </div>
       {isShowOverlay && <Overlay />}
       <ErrorPopup open={isShowErrorPopup} close={(e) => setIsShowErrorPopup(e)} />
       <DeletePopup open={isShowDeletePopup}
-        close={(e) => setisShowDeletePopup(e)}
-        ok={(e) => { setisShowDeletePopup(e) }} />
-      <AddEditUser open={isShowAddEditForm} close={(e) => { setIsShowAddEditForm(e) }}></AddEditUser>
+        close={(e) => setIsShowDeletePopup(e)}
+        ok={(e) => { setIsShowDeletePopup(e) }} />
+      <AddEditUser open={isShowAddEditForm}
+        close={(e) => { setIsShowAddEditForm(e) }}
+        ok={(e) => { setIsRowToUpdateInTable(e) }}></AddEditUser>
     </div>
   )
 };
