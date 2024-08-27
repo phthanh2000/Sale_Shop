@@ -59,7 +59,7 @@ export class Model_User {
     const client = await pool.connect();
     try {
       // New data
-      const { name, email, address, phone, pass, resetpass } = user;
+      const { name, email, address, phone, pass, resetpass, roleid } = user;
       // User id
       const id = valueId;
       // new Date
@@ -83,6 +83,9 @@ export class Model_User {
       }
       if (resetpass !== undefined) {
         queryOptions += `${CONST_COLUMN_USERS.resetpass}= ${resetpass}, `
+      }
+      if (roleid !== undefined) {
+        queryOptions += `${CONST_COLUMN_USERS.roleid} = ${roleid},`
       }
       queryOptions += `${CONST_COLUMN_USERS.updatedat}= '${newDate}' WHERE ${CONST_COLUMN_USERS.id}= ${id} RETURNING *`;
 
@@ -163,6 +166,25 @@ export class Model_User {
                             WHERE ${CONST_COLUMN_USERS.phone} = ${phone} 
                             AND ${CONST_COLUMN_USERS.id} != ${id}`;
       // Perform data queries             
+      const result = await client.query(queryOptions);
+      return result.rows[0].count;
+    } finally {
+      // Release the connection
+      client.release();
+    }
+  }
+
+  // Function check email exists with another user
+  public static checkEmailExistsWithAnthorUser = async (id: any, email: any) => {
+    // Connect postgres database
+    const client = await pool.connect();
+    try {
+      // Data query
+      const queryOptions = `SELECT COUNT(*)
+                            FROM ${Model_User.tableName}
+                            WHERE ${CONST_COLUMN_USERS.email} = '${email}'
+                            AND ${CONST_COLUMN_USERS.id} != ${id}`;
+      // Perform data queries
       const result = await client.query(queryOptions);
       return result.rows[0].count;
     } finally {

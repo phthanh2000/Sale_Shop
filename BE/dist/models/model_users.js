@@ -71,7 +71,7 @@ Model_User.updateUser = (valueId, user) => __awaiter(void 0, void 0, void 0, fun
     const client = yield connection_1.pool.connect();
     try {
         // New data
-        const { name, email, address, phone, pass, resetpass } = user;
+        const { name, email, address, phone, pass, resetpass, roleid } = user;
         // User id
         const id = valueId;
         // new Date
@@ -95,6 +95,9 @@ Model_User.updateUser = (valueId, user) => __awaiter(void 0, void 0, void 0, fun
         }
         if (resetpass !== undefined) {
             queryOptions += `${constants_1.CONST_COLUMN_USERS.resetpass}= ${resetpass}, `;
+        }
+        if (roleid !== undefined) {
+            queryOptions += `${constants_1.CONST_COLUMN_USERS.roleid} = ${roleid},`;
         }
         queryOptions += `${constants_1.CONST_COLUMN_USERS.updatedat}= '${newDate}' WHERE ${constants_1.CONST_COLUMN_USERS.id}= ${id} RETURNING *`;
         // Perform data queries
@@ -174,6 +177,25 @@ Model_User.checkPhoneRegisteredWithAnotherUser = (id, phone) => __awaiter(void 0
                             WHERE ${constants_1.CONST_COLUMN_USERS.phone} = ${phone} 
                             AND ${constants_1.CONST_COLUMN_USERS.id} != ${id}`;
         // Perform data queries             
+        const result = yield client.query(queryOptions);
+        return result.rows[0].count;
+    }
+    finally {
+        // Release the connection
+        client.release();
+    }
+});
+// Function check email exists with another user
+Model_User.checkEmailExistsWithAnthorUser = (id, email) => __awaiter(void 0, void 0, void 0, function* () {
+    // Connect postgres database
+    const client = yield connection_1.pool.connect();
+    try {
+        // Data query
+        const queryOptions = `SELECT COUNT(*)
+                            FROM ${_a.tableName}
+                            WHERE ${constants_1.CONST_COLUMN_USERS.email} = '${email}'
+                            AND ${constants_1.CONST_COLUMN_USERS.id} != ${id}`;
+        // Perform data queries
         const result = yield client.query(queryOptions);
         return result.rows[0].count;
     }
