@@ -43,7 +43,6 @@ const ListUsers = () => {
             onClick={() => {
               setIsShowAddEditForm({
                 show: true,
-                change: false,
                 event: 'edit',
                 item: row.original
               });
