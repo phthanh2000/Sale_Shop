@@ -69,8 +69,18 @@ export class Controller_Users {
       if (checkPhoneRegisteredWithAnotherUser != 0) {
         return res.status(200).send('Phone is registered');
       } else {
-        const user = await Model_User.updateUser(id, newData);
-        return res.status(200).json(user);
+        const checkEmailRegisterWithAnotheUser = await Model_User.checkEmailExistsWithAnthorUser(id, newData.email);
+        if (checkEmailRegisterWithAnotheUser != 0) {
+          return res.status(200).send('Email is used');
+        } else {
+          // Password encryption
+          const ciphertext = newData.pass;
+          const secretKey = 'your_secret_key';
+          const encryptedString = CryptoJS.AES.encrypt(ciphertext, secretKey).toString();
+          newData.pass = encryptedString;
+          const user = await Model_User.updateUser(id, newData);
+          return res.status(200).json(user);
+        }
       }
     } catch (error) {
       return res.status(400).send(`API updateUser ${error}`);

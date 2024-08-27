@@ -112,8 +112,19 @@ Controller_Users.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, fu
             return res.status(200).send('Phone is registered');
         }
         else {
-            const user = yield model_users_1.Model_User.updateUser(id, newData);
-            return res.status(200).json(user);
+            const checkEmailRegisterWithAnotheUser = yield model_users_1.Model_User.checkEmailExistsWithAnthorUser(id, newData.email);
+            if (checkEmailRegisterWithAnotheUser != 0) {
+                return res.status(200).send('Email is used');
+            }
+            else {
+                // Password encryption
+                const ciphertext = newData.pass;
+                const secretKey = 'your_secret_key';
+                const encryptedString = crypto_js_1.default.AES.encrypt(ciphertext, secretKey).toString();
+                newData.pass = encryptedString;
+                const user = yield model_users_1.Model_User.updateUser(id, newData);
+                return res.status(200).json(user);
+            }
         }
     }
     catch (error) {
