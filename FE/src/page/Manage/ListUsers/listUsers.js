@@ -82,7 +82,7 @@ const ListUsers = () => {
     }),
     columnHelper.accessor('phone', {
       header: () => 'Số điện thoại',
-      cell: info => <p>0{info.getValue()}</p>,
+      cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
     columnHelper.accessor('role', {

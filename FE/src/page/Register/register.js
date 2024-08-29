@@ -59,7 +59,7 @@ const Register = () => {
         message: ''
     });
 
-    useEffect   (() => {
+    useEffect(() => {
         // Get token value to check whether you are logged in or not 
         const userToken = localStorage.getItem('TokenUser');
         if (userToken) {
@@ -96,7 +96,7 @@ const Register = () => {
         }
         // Check for a string with 10 digits with regular expression
         const phoneRegex = /^\d{10}$/;
-        if (!phoneRegex.test(phone)  || phone.length < 10) {
+        if (!phoneRegex.test(phone) || phone.length < 10) {
             setPhoneMessage('Số điện thoại không đúng định dạng (chỉ gồm số và có 10 số)');
         }
         if (password === '') {

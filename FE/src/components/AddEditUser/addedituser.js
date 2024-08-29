@@ -54,6 +54,42 @@ const AddEditUser = (props) => {
     const [passMessage, setPassMessage] = useState('');
     // Display message when error re-pass input
     const [rePassMessage, setRePassMessage] = useState('');
+
+    useEffect(() => {
+        // Async/ await
+        async function fetchData() {
+            try {
+                // Show overlay when waiting loading data
+                setIsShowOverlay(true);
+                // Get roles list
+                const roles = await Service_Role.GetRole();
+                setRoleOption(roles);
+                // If event is click button edit item then fill value into form
+                if (props.open.event === 'edit') {
+                    setId(props.open.item.id);
+                    setName(props.open.item.name);
+                    setEmail(props.open.item.email);
+                    setAddress(props.open.item.address);
+                    setPhone(props.open.item.phone);
+                    // Decrypt password
+                    const bytes = cryptoJS.AES.decrypt(props.open.item.pass, secretKey);
+                    const decryptedData = bytes.toString(cryptoJS.enc.Utf8);
+                    setPass(decryptedData);
+                    setRePass(decryptedData);
+                    setRole(props.open.item.roleid);
+                }
+                // Hide overlay after loaded data 
+                setIsShowOverlay(false);
+            } catch (error) {
+                setIsShowErrorPopup({
+                    show: true,
+                    message: error
+                });
+            }
+        };
+        fetchData();
+    }, [props.open.event]);
+
     // Event on click eye icon to password display 
     const onClickIconEyeToPasswordDislay = (name) => {
         if (name === 'pass') {
@@ -174,41 +210,6 @@ const AddEditUser = (props) => {
         setIsShowRePassword(false);
     }
 
-    useEffect(() => {
-        // Async/ await
-        async function fetchData() {
-            try {
-                // Show overlay when waiting loading data
-                setIsShowOverlay(true);
-                // Get roles list
-                const roles = await Service_Role.GetRole();
-                setRoleOption(roles);
-                // If event is click button edit item then fill value into form
-                if (props.open.event === 'edit') {
-                    setId(props.open.item.id);
-                    setName(props.open.item.name);
-                    setEmail(props.open.item.email);
-                    setAddress(props.open.item.address);
-                    setPhone(`0${props.open.item.phone}`);
-                    // Decrypt password
-                    const bytes = cryptoJS.AES.decrypt(props.open.item.pass, secretKey);
-                    const decryptedData = bytes.toString(cryptoJS.enc.Utf8);
-                    setPass(decryptedData);
-                    setRePass(decryptedData);
-                    setRole(props.open.item.roleid);
-                }
-                // Hide overlay after loaded data 
-                setIsShowOverlay(false);
-            } catch (error) {
-                setIsShowErrorPopup({
-                    show: true,
-                    message: error
-                });
-            }
-        };
-        fetchData();
-    }, [props.open.event]);
-
     return (
         <>
             <Modal open={props.open.show}
@@ -265,6 +266,7 @@ const AddEditUser = (props) => {
                         name="phone"
                         placeholder="Nhập số điện thoại"
                         maxLength={10}
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         onClick={() => setPhoneMessage('')}

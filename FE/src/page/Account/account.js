@@ -59,7 +59,7 @@ const Account = () => {
                     setId(userInfo.id);
                     setName(userInfo.name);
                     setAddress(userInfo.address ? userInfo.address : '');
-                    setPhone(`0${userInfo.phone}`);
+                    setPhone(userInfo.phone);
                     setEmail(userInfo.email);
                 }
                 // Hide overlay after loaded data 
@@ -137,19 +137,19 @@ const Account = () => {
                             <ul>
                                 <li>
                                     <IoCaretForward />
-                                    <Link to={''} onClick={() => {scrollToTop()}}>
+                                    <Link to={''} onClick={() => { scrollToTop() }}>
                                         Thông tin cá nhân
                                     </Link>
                                 </li>
                                 <li>
                                     <IoCaretForward />
-                                    <Link to={`/${urlPages[13].path}`} onClick={() => {scrollToTop()}}>
+                                    <Link to={`/${urlPages[13].path}`} onClick={() => { scrollToTop() }}>
                                         Thay đổi mật khẩu
                                     </Link>
                                 </li>
                                 <li>
                                     <IoCaretForward />
-                                    <Link to={`/${urlPages[12].path}`} onClick={() => {scrollToTop()}}>
+                                    <Link to={`/${urlPages[12].path}`} onClick={() => { scrollToTop() }}>
                                         Lịch sử mua hàng
                                     </Link>
                                 </li>

@@ -7,11 +7,11 @@
     flex-wrap: wrap;
 }
 
-.show {
+.account-form.show {
     visibility: visible;
 }
 
-.hide {
+.account-form .hide {
     visibility: hidden;
 }
 
