@@ -51,8 +51,7 @@ const Table = (props) => {
 
     useEffect(() => {
         if (props.isRowToUpdateInTable) {
-            const updatedRow = props.isRowToUpdateInTable;
-            setData(data.map(item => item.id === props.isRowToUpdateInTable.id ? updatedRow : item));
+            setData(data.map(item => item.id === props.isRowToUpdateInTable.id ? props.isRowToUpdateInTable : item));
             // Update rows table is completed
             props.isRowToUpdateInTableComplete({
                 show: false,

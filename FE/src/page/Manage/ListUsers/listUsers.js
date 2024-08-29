@@ -85,7 +85,7 @@ const ListUsers = () => {
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('role', {
+    columnHelper.accessor('rolename', {
       header: () => 'Quyền',
       cell: info => <p>{info.getValue()}</p>,
       footer: info => info.column.id,
@@ -138,7 +138,7 @@ const ListUsers = () => {
           // Return new data list
           return {
             ...user,
-            role: role.name,
+            rolename: role.name,
           };
         });
         // Set data into table
