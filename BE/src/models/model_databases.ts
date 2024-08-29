@@ -59,7 +59,7 @@ export class Model_Database {
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "address" VARCHAR,
-                "phone" INT NOT NULL,
+                "phone" VARCHAR(10) NOT NULL,
                 "pass" VARCHAR NOT NULL,
                 "email" VARCHAR(100) NOT NULL UNIQUE,
                 "resetpass" BOOLEAN,
@@ -113,15 +113,18 @@ export class Model_Database {
     };
 
     // Function to delete a table
+    /* Delete tables in the following order:
+    1. The table is using a foreign key from another table.
+    2. The table is using a primary key as a foreign key for another table. */
     public static deleteTable = async () => {
         const client = await pool.connect();
         try {
             client.query(`
         DROP TABLE "Tokens";
         DROP TABLE "Images";
+        DROP TABLE "OrderDetails";
         DROP TABLE "Products";
         DROP TABLE "Categories";
-        DROP TABLE "OrderDetails";
         DROP TABLE "Orders";
         DROP TABLE "Users";
         DROP TABLE "Roles";

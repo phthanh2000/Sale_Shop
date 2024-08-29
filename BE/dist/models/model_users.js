@@ -55,7 +55,7 @@ Model_User.createUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
                             ${constants_1.CONST_COLUMN_USERS.createdat},
                             ${constants_1.CONST_COLUMN_USERS.updatedat},
                             ${constants_1.CONST_COLUMN_USERS.roleid}
-                          ) VALUES ( '${name}', '${email}', ${phone}, '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
+                          ) VALUES ( '${name}', '${email}', '${phone}', '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
         // Perform data queries
         const result = yield client.query(queryOptions);
         return result.rows[0];
@@ -88,7 +88,7 @@ Model_User.updateUser = (valueId, user) => __awaiter(void 0, void 0, void 0, fun
             queryOptions += `${constants_1.CONST_COLUMN_USERS.address}= '${address}', `;
         }
         if (phone !== undefined) {
-            queryOptions += `${constants_1.CONST_COLUMN_USERS.phone}= ${phone}, `;
+            queryOptions += `${constants_1.CONST_COLUMN_USERS.phone}= '${phone}', `;
         }
         if (pass !== undefined) {
             queryOptions += `${constants_1.CONST_COLUMN_USERS.pass}= '${pass}', `;
@@ -174,7 +174,7 @@ Model_User.checkPhoneRegisteredWithAnotherUser = (id, phone) => __awaiter(void 0
         // Data query
         const queryOptions = `SELECT COUNT(*)
                             FROM ${constants_1.CONST_TABLE_NAME.Users}
-                            WHERE ${constants_1.CONST_COLUMN_USERS.phone} = ${phone} 
+                            WHERE ${constants_1.CONST_COLUMN_USERS.phone} = '${phone}' 
                             AND ${constants_1.CONST_COLUMN_USERS.id} != ${id}`;
         // Perform data queries             
         const result = yield client.query(queryOptions);

@@ -43,7 +43,7 @@ export class Model_User {
                             ${CONST_COLUMN_USERS.createdat},
                             ${CONST_COLUMN_USERS.updatedat},
                             ${CONST_COLUMN_USERS.roleid}
-                          ) VALUES ( '${name}', '${email}', ${phone}, '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
+                          ) VALUES ( '${name}', '${email}', '${phone}', '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
       // Perform data queries
       const result = await client.query(queryOptions);
       return result.rows[0];
@@ -76,7 +76,7 @@ export class Model_User {
         queryOptions += `${CONST_COLUMN_USERS.address}= '${address}', `
       }
       if (phone !== undefined) {
-        queryOptions += `${CONST_COLUMN_USERS.phone}= ${phone}, `
+        queryOptions += `${CONST_COLUMN_USERS.phone}= '${phone}', `
       }
       if (pass !== undefined) {
         queryOptions += `${CONST_COLUMN_USERS.pass}= '${pass}', `
@@ -163,7 +163,7 @@ export class Model_User {
       // Data query
       const queryOptions = `SELECT COUNT(*)
                             FROM ${CONST_TABLE_NAME.Users}
-                            WHERE ${CONST_COLUMN_USERS.phone} = ${phone} 
+                            WHERE ${CONST_COLUMN_USERS.phone} = '${phone}' 
                             AND ${CONST_COLUMN_USERS.id} != ${id}`;
       // Perform data queries             
       const result = await client.query(queryOptions);

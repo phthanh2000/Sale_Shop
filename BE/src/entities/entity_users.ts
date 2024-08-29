@@ -5,7 +5,7 @@ export interface Entity_Users extends Entity_Base {
     name?: string;
     email?: string;
     address?: string;
-    phone?: number;
+    phone?: string;
     pass?: string;
     resetpass?: boolean;
     roleid?: string;

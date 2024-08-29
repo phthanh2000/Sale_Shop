@@ -73,7 +73,7 @@ Model_Database.createTable = () => __awaiter(void 0, void 0, void 0, function* (
                 "id" BIGSERIAL PRIMARY KEY,
                 "name" VARCHAR(100) NOT NULL,
                 "address" VARCHAR,
-                "phone" INT NOT NULL,
+                "phone" VARCHAR(10) NOT NULL,
                 "pass" VARCHAR NOT NULL,
                 "email" VARCHAR(100) NOT NULL UNIQUE,
                 "resetpass" BOOLEAN,
@@ -127,15 +127,18 @@ Model_Database.insertDefaultValueForTable = () => __awaiter(void 0, void 0, void
     }
 });
 // Function to delete a table
+/* Delete tables in the following order:
+1. The table is using a foreign key from another table.
+2. The table is using a primary key as a foreign key for another table. */
 Model_Database.deleteTable = () => __awaiter(void 0, void 0, void 0, function* () {
     const client = yield connection_1.pool.connect();
     try {
         client.query(`
         DROP TABLE "Tokens";
         DROP TABLE "Images";
+        DROP TABLE "OrderDetails";
         DROP TABLE "Products";
         DROP TABLE "Categories";
-        DROP TABLE "OrderDetails";
         DROP TABLE "Orders";
         DROP TABLE "Users";
         DROP TABLE "Roles";
