@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Modal } from 'react-responsive-modal';
 import { Service_Role } from "../../service/service_role";
 import { Service_User } from "../../service/service_user";
@@ -11,6 +11,50 @@ import Spinner from "../../assets/spinner.gif"
 import './addedituser.css';
 
 const AddEditUser = (props) => {
+    const reducer = (state, action) => {
+        switch (action.type) {
+            case ('id'):
+                return props.open.item.id;
+            case ('name'):
+                if(action.value) {
+                    return action.value;
+                }
+                return props.open.item.name;
+            case ('email'):
+                if(action.value) {
+                    return action.value;
+                }
+                return props.open.item.email;
+            case ('address'):
+                if(action.value) {
+                    return action.value;
+                }
+                return props.open.item.address;
+            case ('phone'):
+                if(action.value) {
+                    return action.value;
+                }
+                return props.open.item.phone;
+            case ('pass'):
+            case ('repass'):
+                if(action.value) {
+                    return action.value;
+                }
+                // Decrypt password
+                const bytes = cryptoJS.AES.decrypt(props.open.item.pass, secretKey);
+                const decryptedData = bytes.toString(cryptoJS.enc.Utf8);
+                return decryptedData;
+            case ('roleid'):
+                if(action.value) {
+                    return Number(action.value);
+                }
+                return props.open.item.roleid;
+            case (''):
+                return '';
+            default:
+                throw new Error();
+        }
+    }
     // Crypto AES
     const cryptoJS = require("crypto-js");
     // Secret key
@@ -27,21 +71,21 @@ const AddEditUser = (props) => {
         message: ''
     });
     // Value input id
-    const [id, setId] = useState('');
+    const [id, setId] = useReducer(reducer, '');
     // Value input name
-    const [name, setName] = useState('');
+    const [name, setName] = useReducer(reducer, '');
     // Value input email
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useReducer(reducer, '');;
     // Value input address
-    const [address, setAddress] = useState('');
+    const [address, setAddress] = useReducer(reducer, '');
     // Value input phone
-    const [phone, setPhone] = useState('');
+    const [phone, setPhone] = useReducer(reducer, '');
     // Value input pass
-    const [pass, setPass] = useState('');
+    const [pass, setPass] = useReducer(reducer, '');
     // Value input re-pass
-    const [rePass, setRePass] = useState('');
-    // Value role present
-    const [role, setRole] = useState('');
+    const [rePass, setRePass] = useReducer(reducer, '');
+    // Value roleid present
+    const [roleId, setRoleId] = useReducer(reducer, '');
     // Option of select role
     const [roleOption, setRoleOption] = useState([]);
     // Display message when error name input
@@ -66,17 +110,14 @@ const AddEditUser = (props) => {
                 setRoleOption(roles);
                 // If event is click button edit item then fill value into form
                 if (props.open.event === 'edit') {
-                    setId(props.open.item.id);
-                    setName(props.open.item.name);
-                    setEmail(props.open.item.email);
-                    setAddress(props.open.item.address);
-                    setPhone(props.open.item.phone);
-                    // Decrypt password
-                    const bytes = cryptoJS.AES.decrypt(props.open.item.pass, secretKey);
-                    const decryptedData = bytes.toString(cryptoJS.enc.Utf8);
-                    setPass(decryptedData);
-                    setRePass(decryptedData);
-                    setRole(props.open.item.roleid);
+                    setId({ type: 'id' });
+                    setName({ type: 'name' });
+                    setEmail({ type: 'email' });
+                    setAddress({ type: 'address' });
+                    setPhone({ type: 'phone' });
+                    setPass({ type: 'pass' });
+                    setRePass({ type: 'repass' });
+                    setRoleId({ type: 'roleid' });
                 }
                 // Hide overlay after loaded data 
                 setIsShowOverlay(false);
@@ -139,7 +180,7 @@ const AddEditUser = (props) => {
                     address: address ? address : '',
                     phone: phone,
                     pass: pass,
-                    roleid: role
+                    roleid: roleId
                 };
                 const result = await Service_User.UpdateUser('', id, dataUpdate);
                 if (result === 'Email is used') {
@@ -147,17 +188,20 @@ const AddEditUser = (props) => {
                 } else if (result === 'Phone is registered') {
                     setPhoneMessage('Số điện thoại đã được đăng ký');
                 } else {
+                    // Add role name in object
+                    const role = roleOption.find(r => r.id === result.roleid);
+                    result.rolename = role.name;
                     // Handle ok form
                     props.ok(result);
                     // Set values in form to back default is empty
-                    setId('');
-                    setName('');
-                    setEmail('');
-                    setAddress('');
-                    setPhone('');
-                    setPass('');
-                    setRePass('');
-                    setRole('');
+                    setId({ type: '' });
+                    setName({ type: '' });
+                    setEmail({ type: '' });
+                    setAddress({ type: '' });
+                    setPhone({ type: '' });
+                    setPass({ type: '' });
+                    setRePass({ type: '' });
+                    setRoleId({ type: '' });
                     setNameMessage('');
                     setEmailMessage('');
                     setPhoneMessage('');
@@ -192,14 +236,14 @@ const AddEditUser = (props) => {
             item: null
         });
         // Set values in form to back default is empty
-        setId('');
-        setName('');
-        setEmail('');
-        setAddress('');
-        setPhone('');
-        setPass('');
-        setRePass('');
-        setRole('');
+        setId({ type: '' });
+        setName({ type: '' });
+        setEmail({ type: '' });
+        setAddress({ type: '' });
+        setPhone({ type: '' });
+        setPass({ type: '' });
+        setRePass({ type: '' });
+        setRoleId({ type: '' });
         setNameMessage('');
         setEmailMessage('');
         setPhoneMessage('');
@@ -236,7 +280,7 @@ const AddEditUser = (props) => {
                         placeholder="Nhập tên người dùng"
                         maxLength={100}
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setName({type: 'name', value: e.target.value})}
                         onClick={() => setNameMessage('')}
                         onKeyDown={(e) => { onKeyEnter(e) }}
                         className='input-name' />
@@ -247,7 +291,7 @@ const AddEditUser = (props) => {
                         placeholder="Nhập email"
                         maxLength={50}
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setEmail({type: 'email', value: e.target.value})}
                         onClick={() => setEmailMessage('')}
                         onKeyDown={(e) => { onKeyEnter(e) }}
                         className='input-email' />
@@ -257,7 +301,7 @@ const AddEditUser = (props) => {
                         name="address"
                         placeholder="Nhập địa chỉ"
                         value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        onChange={(e) => setAddress({type: 'address', value: e.target.value})}
                         onKeyDown={(e) => { onKeyEnter(e) }}
                         className='input-address' />
                     <div className="warning"></div>
@@ -268,7 +312,7 @@ const AddEditUser = (props) => {
                         maxLength={10}
                         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        onChange={(e) => setPhone({type: 'phone', value: e.target.value})}
                         onClick={() => setPhoneMessage('')}
                         onKeyDown={(e) => { onKeyEnter(e) }}
                         className='input-phone' />
@@ -280,7 +324,7 @@ const AddEditUser = (props) => {
                             placeholder="Nhập mật khẩu"
                             maxLength={50}
                             value={pass}
-                            onChange={(e) => setPass(e.target.value)}
+                            onChange={(e) => setPass({type: 'pass', value: e.target.value})}
                             onClick={() => setPassMessage('')}
                             onKeyDown={(e) => { onKeyEnter(e) }}
                             className='input-password' />
@@ -298,7 +342,7 @@ const AddEditUser = (props) => {
                             placeholder="Nhập lại mật khẩu"
                             maxLength={50}
                             value={rePass}
-                            onChange={(e) => setRePass(e.target.value)}
+                            onChange={(e) => setRePass({type: 'repass', value: e.target.value})}
                             onClick={() => setRePassMessage('')}
                             onKeyDown={(e) => { onKeyEnter(e) }}
                             className='input-password' />
@@ -310,7 +354,8 @@ const AddEditUser = (props) => {
                     </div>
                     <div className={rePassMessage ? "warning visible" : "warning hidden"}>{rePassMessage}</div>
                     <p className='role'>Quyền: <strong>*</strong></p>
-                    <select className='select-role' value={role} onChange={(e) => setRole(e.target.value)}>
+                    <select className='select-role' value={roleId} 
+                    onChange={(e) => setRoleId({type: 'roleid', value: e.target.value})}>
                         {roleOption.map((role) => (
                             <option value={role.id}>{role.name}</option>
                         ))}
