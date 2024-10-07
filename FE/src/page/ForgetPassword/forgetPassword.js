@@ -31,7 +31,7 @@ const ForgetPassword = () => {
     useEffect(() => {
         // Get token value to check whether you are logged in or not 
         const userToken = localStorage.getItem('TokenUser');
-        if (!userToken) {
+        if (userToken) {
             // If user logged will return home page
             navigate(`/${urlPages[0].path}`);
             window.location.reload();
