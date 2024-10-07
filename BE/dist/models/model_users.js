@@ -129,6 +129,24 @@ Model_User.deleteUser = (valueId) => __awaiter(void 0, void 0, void 0, function*
         client.release();
     }
 });
+// Function to delete multiple users 
+Model_User.deleteMultipleUsers = (valueids) => __awaiter(void 0, void 0, void 0, function* () {
+    const client = yield connection_1.pool.connect();
+    try {
+        // List id of multiple users
+        const ids = valueids;
+        // Data query
+        const queryOptions = `DELETE FROM ${_a.tableName}
+                            WHERE ${constants_1.CONST_COLUMN_USERS.id} IN (${ids}) RETURNING *`;
+        // Perform data queries
+        const result = yield client.query(queryOptions);
+        return result.rows;
+    }
+    finally {
+        // Release the connection
+        client.release();
+    }
+});
 // Function check email exists
 Model_User.checkEmailExists = (user) => __awaiter(void 0, void 0, void 0, function* () {
     // Connect postgres database

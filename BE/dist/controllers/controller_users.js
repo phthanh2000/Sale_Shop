@@ -179,6 +179,17 @@ Controller_Users.deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, fu
         return res.status(400).send(`API deleteUser ${error}`);
     }
 });
+// Requires delete multiple users
+Controller_Users.deleteMultipleUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const ids = req.body;
+        const users = yield model_users_1.Model_User.deleteMultipleUsers(ids);
+        return res.status(200).json(users);
+    }
+    catch (error) {
+        return res.status(400).send(`API deleteMultipleUsers ${error}`);
+    }
+});
 // Requires user login
 Controller_Users.userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

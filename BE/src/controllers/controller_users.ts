@@ -133,6 +133,17 @@ export class Controller_Users {
     }
   }
 
+  // Requires delete multiple users
+  public static deleteMultipleUsers = async (req: Request, res: Response) => {
+    try {
+      const ids = req.body;
+      const users = await Model_User.deleteMultipleUsers(ids);
+      return res.status(200).json(users);
+    } catch (error) {
+      return res.status(400).send(`API deleteMultipleUsers ${error}`);
+    }
+  }
+
   // Requires user login
   public static userLogin = async (req: Request, res: Response) => {
     try {

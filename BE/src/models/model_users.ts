@@ -118,6 +118,24 @@ export class Model_User {
     }
   };
 
+  // Function to delete multiple users 
+  public static deleteMultipleUsers = async (valueids: any) => {
+    const client = await pool.connect();
+    try {
+      // List id of multiple users
+      const ids = valueids;
+      // Data query
+      const queryOptions = `DELETE FROM ${Model_User.tableName}
+                            WHERE ${CONST_COLUMN_USERS.id} IN (${ids}) RETURNING *`;
+      // Perform data queries
+      const result = await client.query(queryOptions);
+      return result.rows;
+    } finally {
+      // Release the connection
+      client.release();
+    }
+  }
+
   // Function check email exists
   public static checkEmailExists = async (user: Entity_Users) => {
     // Connect postgres database
