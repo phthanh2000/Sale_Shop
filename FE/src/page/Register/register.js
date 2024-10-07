@@ -108,13 +108,14 @@ const Register = () => {
         if (password !== '' && reEnterPassword !== '' && password !== reEnterPassword) {
             setReEnterPasswordMessage('Mật khẩu không khớp');
         }
-        if (name !== '' && email !== '' && emailRegex.test(email) && phone !== '' && phoneRegex.test(phone) && password !== '' && reEnterPassword !== '') {
+        if (name !== '' && email !== '' && emailRegex.test(email) && phone !== '' && phoneRegex.test(phone) && password !== '' && reEnterPassword !== '' && password === reEnterPassword) {
             // Login API create user
             try {
                 setIsShowOverlay(true);
                 const dataRegister = {
                     name: name,
                     email: email,
+                    address: '',
                     phone: phone,
                     pass: password,
                     roleid: 2
@@ -122,8 +123,14 @@ const Register = () => {
                 const result = await Service_User.RegisterUser('', dataRegister);
                 if (result === 'Email is used') {
                     setEmailMessage('Email đã được đăng ký');
+                } else if(result === 'Phone is registered') {
+                   setPhoneMessage('Số điện thoại đã được đăng ký');
                 } else {
                     setIsSubmitRegister(!isSubmitRegister);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             } catch (error) {
                 setIsShowErrorPopup({
