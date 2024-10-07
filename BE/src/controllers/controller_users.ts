@@ -43,17 +43,22 @@ export class Controller_Users {
   public static createUser = async (req: Request, res: Response) => {
     try {
       const data = req.body;
-      const checkEmailIsRegister = await Model_User.checkEmailExists(data);
-      if (typeof (checkEmailIsRegister) === 'undefined') {
-        // Password encryption
-        const ciphertext = data.pass;
-        const secretKey = 'your_secret_key';
-        const encryptedString = CryptoJS.AES.encrypt(ciphertext, secretKey).toString();
-        data.pass = encryptedString;
-        const user = await Model_User.createUser(data);
-        return res.status(200).json(user);
-      } else {
-        return res.status(200).send('Email is used');
+        const checkEmailIsRegister = await Model_User.checkEmailExists(data);
+        if (typeof (checkEmailIsRegister) === 'undefined') {
+          const checkPhoneRegiter = await Model_User.checkPhoneExists(data);
+          if (typeof (checkPhoneRegiter) === 'undefined') {
+            // Password encryption
+            const ciphertext = data.pass;
+            const secretKey = 'your_secret_key';
+            const encryptedString = CryptoJS.AES.encrypt(ciphertext, secretKey).toString();
+            data.pass = encryptedString;
+            const user = await Model_User.createUser(data);
+            return res.status(200).json(user);
+          } else {
+            return res.status(200).send('Phone is registered');
+          }
+        } else {
+          return res.status(200).send('Email is used');
       }
     } catch (error) {
       return res.status(400).send(`API createUser ${error}`);

@@ -41,7 +41,7 @@ Model_User.createUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
     const client = yield connection_1.pool.connect();
     try {
         // Data
-        const { name, email, phone, pass, roleid } = user;
+        const { name, email, address, phone, pass, roleid } = user;
         // new Date
         const newDate = new Date().toISOString();
         // Data query
@@ -49,13 +49,14 @@ Model_User.createUser = (user) => __awaiter(void 0, void 0, void 0, function* ()
                           (
                             ${constants_1.CONST_COLUMN_USERS.name}, 
                             ${constants_1.CONST_COLUMN_USERS.email},
+                            ${constants_1.CONST_COLUMN_USERS.address},
                             ${constants_1.CONST_COLUMN_USERS.phone}, 
                             ${constants_1.CONST_COLUMN_USERS.pass},
                             ${constants_1.CONST_COLUMN_USERS.resetpass},
                             ${constants_1.CONST_COLUMN_USERS.createdat},
                             ${constants_1.CONST_COLUMN_USERS.updatedat},
                             ${constants_1.CONST_COLUMN_USERS.roleid}
-                          ) VALUES ( '${name}', '${email}', '${phone}', '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
+                          ) VALUES ( '${name}', '${email}','${address}', '${phone}', '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
         // Perform data queries
         const result = yield client.query(queryOptions);
         return result.rows[0];
@@ -139,6 +140,26 @@ Model_User.checkEmailExists = (user) => __awaiter(void 0, void 0, void 0, functi
         const queryOptions = `SELECT *
                             FROM ${_a.tableName}
                             WHERE ${constants_1.CONST_COLUMN_USERS.email} = '${email}'`;
+        // Perform data queries
+        const result = yield client.query(queryOptions);
+        return result.rows[0];
+    }
+    finally {
+        // Release the connection
+        client.release();
+    }
+});
+// Function check phone exists
+Model_User.checkPhoneExists = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    // Connect postgres database 
+    const client = yield connection_1.pool.connect();
+    try {
+        // Phone
+        const { phone } = user;
+        // Data query
+        const queryOptions = `SELECT *
+                            FROM ${_a.tableName}
+                            WHERE ${constants_1.CONST_COLUMN_USERS.phone} = '${phone}'`;
         // Perform data queries
         const result = yield client.query(queryOptions);
         return result.rows[0];

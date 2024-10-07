@@ -86,13 +86,19 @@ Controller_Users.createUser = (req, res) => __awaiter(void 0, void 0, void 0, fu
         const data = req.body;
         const checkEmailIsRegister = yield model_users_1.Model_User.checkEmailExists(data);
         if (typeof (checkEmailIsRegister) === 'undefined') {
-            // Password encryption
-            const ciphertext = data.pass;
-            const secretKey = 'your_secret_key';
-            const encryptedString = crypto_js_1.default.AES.encrypt(ciphertext, secretKey).toString();
-            data.pass = encryptedString;
-            const user = yield model_users_1.Model_User.createUser(data);
-            return res.status(200).json(user);
+            const checkPhoneRegiter = yield model_users_1.Model_User.checkPhoneExists(data);
+            if (typeof (checkPhoneRegiter) === 'undefined') {
+                // Password encryption
+                const ciphertext = data.pass;
+                const secretKey = 'your_secret_key';
+                const encryptedString = crypto_js_1.default.AES.encrypt(ciphertext, secretKey).toString();
+                data.pass = encryptedString;
+                const user = yield model_users_1.Model_User.createUser(data);
+                return res.status(200).json(user);
+            }
+            else {
+                return res.status(200).send('Phone is registered');
+            }
         }
         else {
             return res.status(200).send('Email is used');

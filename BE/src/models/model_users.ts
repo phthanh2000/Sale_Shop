@@ -29,7 +29,7 @@ export class Model_User {
     const client = await pool.connect();
     try {
       // Data
-      const { name, email, phone, pass, roleid } = user;
+      const { name, email, address, phone, pass, roleid } = user;
       // new Date
       const newDate = new Date().toISOString();
       // Data query
@@ -37,13 +37,14 @@ export class Model_User {
                           (
                             ${CONST_COLUMN_USERS.name}, 
                             ${CONST_COLUMN_USERS.email},
+                            ${CONST_COLUMN_USERS.address},
                             ${CONST_COLUMN_USERS.phone}, 
                             ${CONST_COLUMN_USERS.pass},
                             ${CONST_COLUMN_USERS.resetpass},
                             ${CONST_COLUMN_USERS.createdat},
                             ${CONST_COLUMN_USERS.updatedat},
                             ${CONST_COLUMN_USERS.roleid}
-                          ) VALUES ( '${name}', '${email}', '${phone}', '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
+                          ) VALUES ( '${name}', '${email}','${address}', '${phone}', '${pass}', ${false}, '${newDate}', '${newDate}', ${roleid} ) RETURNING *`;
       // Perform data queries
       const result = await client.query(queryOptions);
       return result.rows[0];
@@ -128,6 +129,26 @@ export class Model_User {
       const queryOptions = `SELECT *
                             FROM ${Model_User.tableName}
                             WHERE ${CONST_COLUMN_USERS.email} = '${email}'`
+      // Perform data queries
+      const result = await client.query(queryOptions);
+      return result.rows[0];
+    } finally {
+      // Release the connection
+      client.release();
+    }
+  }
+
+  // Function check phone exists
+  public static checkPhoneExists = async (user: Entity_Users) => {
+    // Connect postgres database 
+    const client = await pool.connect();
+    try {
+      // Phone
+      const { phone } = user;
+      // Data query
+      const queryOptions = `SELECT *
+                            FROM ${Model_User.tableName}
+                            WHERE ${CONST_COLUMN_USERS.phone} = '${phone}'`
       // Perform data queries
       const result = await client.query(queryOptions);
       return result.rows[0];
