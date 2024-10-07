@@ -14,43 +14,71 @@ const AddEditUser = (props) => {
     const reducer = (state, action) => {
         switch (action.type) {
             case ('id'):
-                return props.open.item.id;
+                return props.open.item ? props.open.item.id : '';
             case ('name'):
-                if(action.value) {
+                if (action.value) {
                     return action.value;
+                } else {
+                    if (typeof (action.value) === 'string') {
+                        return '';
+                    } else {
+                        return props.open.item ? props.open.item.name : '';
+                    }
                 }
-                return props.open.item.name;
             case ('email'):
-                if(action.value) {
+                if (action.value) {
                     return action.value;
+                } else {
+                    if (typeof (action.value) === 'string') {
+                        return '';
+                    } else {
+                        return props.open.item ? props.open.item.email : '';
+                    }
                 }
-                return props.open.item.email;
             case ('address'):
-                if(action.value) {
+                if (action.value) {
                     return action.value;
+                } else {
+                    if (typeof (action.value) === 'string') {
+                        return '';
+                    } else {
+                        return props.open.item ? props.open.item.address : '';
+                    }
                 }
-                return props.open.item.address;
             case ('phone'):
-                if(action.value) {
+                if (action.value) {
                     return action.value;
+                } else {
+                    if (typeof (action.value) === 'string') {
+                        return '';
+                    } else {
+                        return props.open.item ? props.open.item.phone : '';
+                    }
                 }
-                return props.open.item.phone;
             case ('pass'):
             case ('repass'):
-                if(action.value) {
+                if (action.value) {
                     return action.value;
                 }
-                // Decrypt password
-                const bytes = cryptoJS.AES.decrypt(props.open.item.pass, secretKey);
-                const decryptedData = bytes.toString(cryptoJS.enc.Utf8);
-                return decryptedData;
+                else {
+                    if (typeof (action.value) === 'string') {
+                        return '';
+                    } else {
+                        if (props.open.item) {
+                            // Decrypt password
+                            const bytes = cryptoJS.AES.decrypt(props.open.item.pass, secretKey);
+                            const decryptedData = bytes.toString(cryptoJS.enc.Utf8);
+                            return decryptedData;
+                        } else {
+                            return '';
+                        }
+                    }
+                }
             case ('roleid'):
-                if(action.value) {
+                if (action.value) {
                     return Number(action.value);
                 }
-                return props.open.item.roleid;
-            case (''):
-                return '';
+                return props.open.item ? props.open.item.roleid : 1;
             default:
                 throw new Error();
         }
@@ -111,14 +139,14 @@ const AddEditUser = (props) => {
                 // If event is click button edit item then fill value into form
                 if (props.open.event === 'edit') {
                     setId({ type: 'id' });
-                    setName({ type: 'name' });
-                    setEmail({ type: 'email' });
-                    setAddress({ type: 'address' });
-                    setPhone({ type: 'phone' });
-                    setPass({ type: 'pass' });
-                    setRePass({ type: 'repass' });
-                    setRoleId({ type: 'roleid' });
                 }
+                setName({ type: 'name' });
+                setEmail({ type: 'email' });
+                setAddress({ type: 'address' });
+                setPhone({ type: 'phone' });
+                setPass({ type: 'pass' });
+                setRePass({ type: 'repass' });
+                setRoleId({ type: 'roleid' });
                 // Hide overlay after loaded data 
                 setIsShowOverlay(false);
             } catch (error) {
@@ -129,7 +157,7 @@ const AddEditUser = (props) => {
             }
         };
         fetchData();
-    }, [props.open.event]);
+    }, [props.open.show]);
 
     // Event on click eye icon to password display 
     const onClickIconEyeToPasswordDislay = (name) => {
@@ -182,7 +210,7 @@ const AddEditUser = (props) => {
                     pass: pass,
                     roleid: roleId
                 };
-                const result = await Service_User.UpdateUser('', id, dataUpdate);
+                const result = props.open.event === 'edit' ? await Service_User.UpdateUser('', id, dataUpdate) : await Service_User.RegisterUser('', dataUpdate);
                 if (result === 'Email is used') {
                     setEmailMessage('Email đã được đăng ký');
                 } else if (result === 'Phone is registered') {
@@ -192,16 +220,8 @@ const AddEditUser = (props) => {
                     const role = roleOption.find(r => r.id === result.roleid);
                     result.rolename = role.name;
                     // Handle ok form
-                    props.ok(result);
+                    props.ok({ event: props.open.event, result: result });
                     // Set values in form to back default is empty
-                    setId({ type: '' });
-                    setName({ type: '' });
-                    setEmail({ type: '' });
-                    setAddress({ type: '' });
-                    setPhone({ type: '' });
-                    setPass({ type: '' });
-                    setRePass({ type: '' });
-                    setRoleId({ type: '' });
                     setNameMessage('');
                     setEmailMessage('');
                     setPhoneMessage('');
@@ -232,18 +252,10 @@ const AddEditUser = (props) => {
         // Handle close form
         props.close({
             show: false,
-            event: null,
+            event: props.open.event === 'edit' ? 'edit' : 'add',
             item: null
         });
         // Set values in form to back default is empty
-        setId({ type: '' });
-        setName({ type: '' });
-        setEmail({ type: '' });
-        setAddress({ type: '' });
-        setPhone({ type: '' });
-        setPass({ type: '' });
-        setRePass({ type: '' });
-        setRoleId({ type: '' });
         setNameMessage('');
         setEmailMessage('');
         setPhoneMessage('');
@@ -267,12 +279,13 @@ const AddEditUser = (props) => {
                         onClick={() => onCloseForm()} />
                 </div>
                 <div className='add-edit-user-center'>
-                    <p className='name'>ID:</p>
+                    <p className='name' style={props.open.event === 'edit' ? {} : { display: 'none' }}>ID:</p>
                     <input type="text"
                         name="id"
                         value={id}
                         className='input-id'
-                        disabled={true} />
+                        disabled={true}
+                        style={props.open.event === 'edit' ? {} : { display: 'none' }} />
                     <div className="warning"></div>
                     <p className='name'>Tên người dùng: <strong>*</strong></p>
                     <input type="text"
@@ -280,7 +293,7 @@ const AddEditUser = (props) => {
                         placeholder="Nhập tên người dùng"
                         maxLength={100}
                         value={name}
-                        onChange={(e) => setName({type: 'name', value: e.target.value})}
+                        onChange={(e) => setName({ type: 'name', value: e.target.value })}
                         onClick={() => setNameMessage('')}
                         onKeyDown={(e) => { onKeyEnter(e) }}
                         className='input-name' />
@@ -291,7 +304,7 @@ const AddEditUser = (props) => {
                         placeholder="Nhập email"
                         maxLength={50}
                         value={email}
-                        onChange={(e) => setEmail({type: 'email', value: e.target.value})}
+                        onChange={(e) => setEmail({ type: 'email', value: e.target.value })}
                         onClick={() => setEmailMessage('')}
                         onKeyDown={(e) => { onKeyEnter(e) }}
                         className='input-email' />
@@ -301,7 +314,7 @@ const AddEditUser = (props) => {
                         name="address"
                         placeholder="Nhập địa chỉ"
                         value={address}
-                        onChange={(e) => setAddress({type: 'address', value: e.target.value})}
+                        onChange={(e) => setAddress({ type: 'address', value: e.target.value })}
                         onKeyDown={(e) => { onKeyEnter(e) }}
                         className='input-address' />
                     <div className="warning"></div>
@@ -312,7 +325,7 @@ const AddEditUser = (props) => {
                         maxLength={10}
                         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                         value={phone}
-                        onChange={(e) => setPhone({type: 'phone', value: e.target.value})}
+                        onChange={(e) => setPhone({ type: 'phone', value: e.target.value })}
                         onClick={() => setPhoneMessage('')}
                         onKeyDown={(e) => { onKeyEnter(e) }}
                         className='input-phone' />
@@ -324,7 +337,7 @@ const AddEditUser = (props) => {
                             placeholder="Nhập mật khẩu"
                             maxLength={50}
                             value={pass}
-                            onChange={(e) => setPass({type: 'pass', value: e.target.value})}
+                            onChange={(e) => setPass({ type: 'pass', value: e.target.value })}
                             onClick={() => setPassMessage('')}
                             onKeyDown={(e) => { onKeyEnter(e) }}
                             className='input-password' />
@@ -342,7 +355,7 @@ const AddEditUser = (props) => {
                             placeholder="Nhập lại mật khẩu"
                             maxLength={50}
                             value={rePass}
-                            onChange={(e) => setRePass({type: 'repass', value: e.target.value})}
+                            onChange={(e) => setRePass({ type: 'repass', value: e.target.value })}
                             onClick={() => setRePassMessage('')}
                             onKeyDown={(e) => { onKeyEnter(e) }}
                             className='input-password' />
@@ -354,8 +367,8 @@ const AddEditUser = (props) => {
                     </div>
                     <div className={rePassMessage ? "warning visible" : "warning hidden"}>{rePassMessage}</div>
                     <p className='role'>Quyền: <strong>*</strong></p>
-                    <select className='select-role' value={roleId} 
-                    onChange={(e) => setRoleId({type: 'roleid', value: e.target.value})}>
+                    <select className='select-role' value={roleId}
+                        onChange={(e) => setRoleId({ type: 'roleid', value: e.target.value })}>
                         {roleOption.map((role) => (
                             <option value={role.id}>{role.name}</option>
                         ))}

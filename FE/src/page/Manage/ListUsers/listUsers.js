@@ -11,6 +11,7 @@ import Table from '../../../components/Table/table';
 import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox/indeterminatecheckbox';
 import AddEditUser from '../../../components/AddEditUser/addedituser';
 import "./listUsers.css";
+import Notification from '../../../components/Notification/notification';
 
 const ListUsers = () => {
   // Data
@@ -118,9 +119,13 @@ const ListUsers = () => {
   });
   // Row to delete in table
   const [isRowToDeleteInTable, setIsRowToDeleteInTable] = useState(null);
-
-  // Row to update in table
-  const [isRowToUpdateInTable, setIsRowToUpdateInTable] = useState(null);
+  // Row to add or update in table
+  const [isRowToAddOrUpdateInTable, setIsRowToAddOrUpdateInTable] = useState(null);
+  // Notificaiton display
+  const [isVisibleNotification, setIsVisibleNotification] = useState({
+    visible: false,
+    event: null,
+  });
 
   useEffect(() => {
     // Async/ await
@@ -201,8 +206,9 @@ const ListUsers = () => {
                 item: null,
               });
             }}
-            isRowToUpdateInTable={isRowToUpdateInTable}
-            isRowToUpdateInTableComplete = {(e) => {setIsShowAddEditForm(e)}} />
+            isRowToAddOrUpdateInTable={isRowToAddOrUpdateInTable}
+            isRowToAddOrUpdateInTableComplete={(e) => { setIsShowAddEditForm(e) }}
+            onClickAddButton={(e) => { setIsShowAddEditForm(e) }} />
           :
           <div className="no-data">Không có dữ liệu để hiển thị.</div>}
       </div>
@@ -210,10 +216,23 @@ const ListUsers = () => {
       <ErrorPopup open={isShowErrorPopup} close={(e) => setIsShowErrorPopup(e)} />
       <DeletePopup open={isShowDeletePopup}
         close={(e) => setIsShowDeletePopup(e)}
-        ok={(e) => { setIsShowDeletePopup(e) }} />
+        ok={(e) => {
+          setIsShowDeletePopup(e); setIsVisibleNotification(
+            {
+              visible: true,
+              event: 'delete'
+            }
+          )
+        }} />
       <AddEditUser open={isShowAddEditForm}
         close={(e) => { setIsShowAddEditForm(e) }}
-        ok={(e) => { setIsRowToUpdateInTable(e) }}></AddEditUser>
+        ok={(e) => {
+          setIsRowToAddOrUpdateInTable(e); setIsVisibleNotification({
+            visible: true,
+            event: e.event
+          })
+        }}></AddEditUser>
+      <Notification show={isVisibleNotification} hide={(e) => { setIsVisibleNotification(e) }}></Notification>
     </div>
   )
 };

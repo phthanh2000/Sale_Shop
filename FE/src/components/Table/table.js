@@ -50,16 +50,28 @@ const Table = (props) => {
     }, [props.isRowToDeleteInTable]);
 
     useEffect(() => {
-        if (props.isRowToUpdateInTable) {
-            setData(data.map(item => item.id === props.isRowToUpdateInTable.id ? props.isRowToUpdateInTable : item));
+        if (props.isRowToAddOrUpdateInTable) {
+            if (props.isRowToAddOrUpdateInTable.event === 'edit') {
+                setData(data.map(item => item.id === props.isRowToAddOrUpdateInTable.result.id ? props.isRowToAddOrUpdateInTable.result : item));
+            } else {
+                setData([props.isRowToAddOrUpdateInTable.result, ...data]);
+            }
             // Update rows table is completed
-            props.isRowToUpdateInTableComplete({
+            props.isRowToAddOrUpdateInTableComplete({
                 show: false,
                 event: null,
                 item: null
             });
         }
-    }, [props.isRowToUpdateInTable]);
+    }, [props.isRowToAddOrUpdateInTable]);
+    // Event on click add button
+    const onClickAddBtn = () => {
+        props.onClickAddButton({
+            show: true,
+            event: 'add',
+            item: null
+        });
+    }
 
     return (
         <>
@@ -69,7 +81,11 @@ const Table = (props) => {
                     onChange={value => setGlobalFilter(String(value))} />
             </div>
             <div className="control">
-                <button className="add" type="button">Thêm</button>
+                <button className="add"
+                    type="button"
+                    onClick={() => { onClickAddBtn() }}>
+                    Thêm
+                </button>
                 <button className="delete" type="button">Xóa</button>
             </div>
             <div className="container-table">
