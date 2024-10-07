@@ -48,6 +48,13 @@ const Login = () => {
         }
     }, []);
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
     // Event on click eye icon to password display 
     const onClickIconEyeToPasswordDislay = () => {
         setIsShowPassword(!isShowPassword);
@@ -56,6 +63,7 @@ const Login = () => {
     // Event on click forget password link
     const onClickForgetPasswordLink = () => {
         navigate(`/${urlPages[9].path}`);
+        scrollToTop();
     }
 
     // Event on click login button
@@ -99,6 +107,7 @@ const Login = () => {
     // Event on click register button
     const onClickRegisterButton = () => {
         navigate(`/${urlPages[8].path}`);
+        scrollToTop();
     }
 
     // Event on enter input form
