@@ -164,6 +164,7 @@
 
 .header-top-right .cart-user .li:hover .user-dropdown {
     display: block;
+    top: 90px;
 }
 
 .header-top-right .cart-user .li .user-dropdown {
