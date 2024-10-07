@@ -1,0 +1,31 @@
+.notification {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  height: 35px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  color: #155724;
+  background-color: #00ff40;
+  border: 1px solid #c3e6cb;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+.notification p {
+  padding: 10px 40px;
+}
+
+.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s;
+}
+
+.fade-in {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0s;
+}
