@@ -58,6 +58,17 @@ export class Service_User {
         }
     }
 
+    // HTTP delete multiple users
+    static DeleteMultipleUser = async (token, ids) => {
+        const endpoint = '/users/deleteMultipleUsers';
+        try {
+            const data = await Service_Base.MethodPost(endpoint, token, ids);
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // HTTP login user
     static UserLogin = async (data) => {
         const endpoint = '/users/login';

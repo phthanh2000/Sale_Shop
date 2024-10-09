@@ -43,7 +43,13 @@ const Table = (props) => {
     // useEffect handle when delete row in table
     useEffect(() => {
         if (props.isRowToDeleteInTable) {
-            setData(data.filter(item => item.id !== props.isRowToDeleteInTable));
+            if (Object.getPrototypeOf(props.isRowToDeleteInTable).constructor.name === 'Object') {
+                setData(data.filter(item => item.id !== props.isRowToDeleteInTable));
+            } else {
+                setData(data.filter(item => !props.isRowToDeleteInTable.includes(item.id)));
+            }
+            // Reset the state selection status in the table
+            table.resetRowSelection();
             // Delete rows table is completed
             props.isRowToDeleteInTableComplete(null);
         };
@@ -72,6 +78,15 @@ const Table = (props) => {
             item: null
         });
     }
+    // Event on click delete button
+    const onClickDeleteBtn = () => {
+        props.onClickDeleteButton({
+            show: true,
+            message: 'Bạn muốn xóa các người dùng đã chọn',
+            delete: false,
+            item: selectedRows.map(item => item.original.id),
+        })
+    }
 
     return (
         <>
@@ -86,7 +101,12 @@ const Table = (props) => {
                     onClick={() => { onClickAddBtn() }}>
                     Thêm
                 </button>
-                <button className="delete" type="button">Xóa</button>
+                <button className="delete"
+                    type="button"
+                    onClick={() => { onClickDeleteBtn() }}
+                    disabled={selectedRows.length === 0 ? true : false} >
+                    Xóa
+                </button>
             </div>
             <div className="container-table">
                 <table className="table">

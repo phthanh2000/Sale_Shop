@@ -168,14 +168,28 @@ const ListUsers = () => {
         if (isShowDeletePopup.delete) {
           // Show overlay when waiting loading data
           setIsShowOverlay(true);
-          // Delete user selected
-          const deleteUser = await Service_User.DeleteUser('', isShowDeletePopup.item.id);
-          if (deleteUser) {
-            // Set delete row in table
-            setIsRowToDeleteInTable(isShowDeletePopup.item.id);
-          };
+          if (Object.getPrototypeOf(isShowDeletePopup.item).constructor.name === 'Object') {
+            // Delete user selected
+            const deleteUser = await Service_User.DeleteUser('', isShowDeletePopup.item.id);
+            if (deleteUser) {
+              // Set delete row in table
+              setIsRowToDeleteInTable(isShowDeletePopup.item.id);
+            };
+          } else {
+            // Delete multiple users selected
+            const deleteMultipleUsers = await Service_User.DeleteMultipleUser('', isShowDeletePopup.item);
+            if (deleteMultipleUsers) {
+              // Set delete rows in table
+              setIsRowToDeleteInTable(isShowDeletePopup.item);
+            };
+          }
           // Hide overlay after loaded data 
           setIsShowOverlay(false);
+          // Display notification delete successful
+          setIsVisibleNotification({
+            visible: true,
+            event: 'delete'
+          })
         };
       } catch (error) {
         setIsShowErrorPopup({
@@ -208,7 +222,8 @@ const ListUsers = () => {
             }}
             isRowToAddOrUpdateInTable={isRowToAddOrUpdateInTable}
             isRowToAddOrUpdateInTableComplete={(e) => { setIsShowAddEditForm(e) }}
-            onClickAddButton={(e) => { setIsShowAddEditForm(e) }} />
+            onClickAddButton={(e) => { setIsShowAddEditForm(e) }}
+            onClickDeleteButton={(e) => { setIsShowDeletePopup(e) }} />
           :
           <div className="no-data">Không có dữ liệu để hiển thị.</div>}
       </div>
@@ -216,14 +231,7 @@ const ListUsers = () => {
       <ErrorPopup open={isShowErrorPopup} close={(e) => setIsShowErrorPopup(e)} />
       <DeletePopup open={isShowDeletePopup}
         close={(e) => setIsShowDeletePopup(e)}
-        ok={(e) => {
-          setIsShowDeletePopup(e); setIsVisibleNotification(
-            {
-              visible: true,
-              event: 'delete'
-            }
-          )
-        }} />
+        ok={(e) => { setIsShowDeletePopup(e); }} />
       <AddEditUser open={isShowAddEditForm}
         close={(e) => { setIsShowAddEditForm(e) }}
         ok={(e) => {

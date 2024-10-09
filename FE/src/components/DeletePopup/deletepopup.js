@@ -27,8 +27,14 @@ const DeletePopup = (props) => {
                     </div>
                     <div className="message">
                         <p>{props.open.message}</p>
-                        <p>{props.open.item ? `${props.open.item.name}` : ''}</p>
-                        <p>{props.open.item ? `( ID: ${props.open.item.id} )` : ''}</p>
+                        {props.open.item && Object.getPrototypeOf(props.open.item).constructor.name === 'Object' ?
+                            <>
+                                <p>{props.open.item ? `${props.open.item.name}` : ''}</p>
+                                <p>{props.open.item ? `( ID: ${props.open.item.id} )` : ''}</p></>
+                            :
+                            <></>
+                        }
+
                     </div>
                 </div>
                 <div className="button">
