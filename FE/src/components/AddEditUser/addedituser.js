@@ -197,7 +197,7 @@ const AddEditUser = (props) => {
         if (pass !== '' && rePass !== '' && pass !== rePass) {
             setRePassMessage('Mật khẩu không khớp');
         }
-        if (name !== '' && email !== '' && emailRegex.test(email) && phone !== '' && phoneRegex.test(phone) && pass !== '' && rePass !== '') {
+        if (name !== '' && email !== '' && emailRegex.test(email) && phone !== '' && phoneRegex.test(phone) && pass !== '' && rePass !== '' && pass === rePass) {
             // Login API create user
             try {
                 // Show overlay when waiting loading data
